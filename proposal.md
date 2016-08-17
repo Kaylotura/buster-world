@@ -2,7 +2,7 @@
 
 **Buster World** is a web application that allows players to take on the role of an enthusiastic explorer-hero, seeking to pop the demoralizing bubbles that are tormenting the world in  a location-based augmented reality game. Some major inspirations for this game are Ingress, Pokemon Go, and [Buster Bros](https://www.youtube.com/watch?v=ulfIohdFv08).
 
-Upon starting up Buster World the player sees a start screen, where they can press the start button to begin. Once they’ve begun, they will need to enter a unique name of 1 - 20 characters which will be used to record their score. Their screen will then render a map in real time based on their GPS location, with a Buster Character icon centered at their location.  They may spin the character icon to point in different directions by implementing commands from a control pad-button displayed. They can also fire grapples at nearby bubbles in attempt to pop them. There will be several large bouncing bubbles that display on screen that will bounce around the character’s local area. Buildings will be hard objects that the character will be able to fire grapples to create a line of chain between themself and the bubble. The chain pops bubbles into smaller faster bubbles, but is disrupted by bubbles and buildings. There will also be randomly generated food items and grapple power-ups that will aid the player in racking up a high score.
+Upon starting up Buster World the player sees a start screen, where they can press the start button to begin. Once they’ve begun, they will need to enter a unique name of 1 - 20 characters which will be used to record their score. Their screen will then render a map in real time based on their GPS location, with a Buster Character icon centered at their location.  They may rotate the character icon to face in different directions by implementing commands from a control pad-button displayed. They can also fire grapples at nearby bubbles in attempt to pop them. There will be several large bouncing bubbles that display on screen that will bounce around the character’s local area. Character will be able to launch grappling hooks with a tailing chain that pops bubbles into smaller faster bubbles, but is disrupted by bubbles. For each bubble popped, the character's score increases. 
 
 ## Specific Functionality
 
@@ -14,13 +14,6 @@ When the start button is pressed, the Name Page will appear, with a field to ent
 
 ### Game Page
 Here the player sees the map, bubbles, and icon. The player uses this screen to play the game. In the center of the screen is their icon from which they may tap to fire their grapple hooks. In the left hand corner there will be two rotational arrows, one clockwise, the other counterclockwise, used to rotate their central icon so that they may fire at bubbles in any direction. In the bottom right corner of the the page there will be a Menu butto that links to the Scores Page. In the top right corner of the page there will be a Resolve Meter in the top right corner displaying three shields with hearts, each colored shield indicates a point of resolve (see below). The game page will also display the bouncing bubbles, buildings, and player's actual location as a top down map (similar to goolge maps or ingress).
-
-
-<!-- ### Grapple Menu (Future Project)
-Here the player has four buttons to change their grapple based on what they've picked up. If they've picked up nothing, they'll only have the standard grapple option. Each displayed grapple (Standard, Twin, Hook, Laser) is a link back to the Game Page, where the player will proceed to use that device. There will also be a Game Button that leads back to the Game Page without using a Grapple, a Food Button that links to the Food Menu, and a Scores button that leads to the Score Menu. -->m
-
-<!-- ### Food Menu (Future Project)
-Here the player has four buttons to eat various foods that they've picked up. If they've picked up nothing, there will be no food displayed. Each food button (Kale, Radish, Apple, Banana) is a link back to the Game Page where the player gains the benefit of the food for a limited duration. There will also be a Game Button that links back to the Game Page without using a Food, a Grapple Button that links to the Grapple Menu and a Scores Button that links to the Scores Menu. -->
 
 ### Scores Menu
 Here the player can scroll through all the scores logged in the game for the past 7 days. They will be listed vertically starting with the highest score first and descending order from there. By each score will be the player's name (as entered in the Name page) who earned that particular score. At the top of the page there will be a Game Button that links back to the Game Page.
@@ -86,13 +79,12 @@ Players Scores will be stored and searched using Django Models in a database.
 
 Potentially useful libraries include [pygame](http://www.pygame.org/hifi.html), [Sound Manager 2](http://www.schillmania.com/projects/soundmanager2/), [CraftyJS](http://craftyjs.com/), and [Stage.js](http://piqnt.com/stage.js/). 
 
-## Schedule
-
-
-
+## Schedule (34 days)
 * Geolocational Game Page - Medium - 2 days
 * Bubble Class - Easy - 1/2 day
+* Bubble Sprites - Medium - 2 days
 * Character Class - Easy - 1/2 day
+* Character Sprite - Easy 1/2 day
 * Bubble Generator Module - Medium - 2 days
 * *Super minimal game experience (Character on screen & Bubbles Appear Randomly Static)*
 * Bubble Animation JS - Hard - 3 days
@@ -108,9 +100,12 @@ Potentially useful libraries include [pygame](http://www.pygame.org/hifi.html), 
 * Rotation Character Action JS- Medium - 2 days
 * Chain Class - Medium - 2 days
 * Chain Animation - Hard - 3 days
+* Chain Sprite - Easy 1/2 day
 * Chain Hit Box - Easy - 1 day
 * Chain Bubble Interaction - Medium - 2 days
-
+* *Game Experience sans fleshing out*
+* Assign Bubbles value - Easy - 1/2 day
+* Database - Hard? - 5 days
 
 
 
@@ -119,6 +114,7 @@ Potentially useful libraries include [pygame](http://www.pygame.org/hifi.html), 
 
 
 ##Future Goals
+* Buildings as Objects that chains stick to and Bubbles bounch off of.
 * Music (Midi Music) 
 * Sound Effects
 * Four upgrade grapples [Includes new menue and Upgrade drops]
