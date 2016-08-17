@@ -1,25 +1,23 @@
 # Proposal: Buster World
 
-**Buster World** is a web application that allows players to take on the role of an enthusiastic explorer, seeking to pop the demoralizing bubbles that are tormenting the world.
+**Buster World** is a web application that allows players to take on the role of an enthusiastic explorer-hero, seeking to pop the demoralizing bubbles that are tormenting the world in  a location-based augmented reality game. Some major inspirations for this game are Ingress, Pokemon Go, and [Buster Bros](https://www.youtube.com/watch?v=ulfIohdFv08).
 
 Upon starting up Buster World the player sees a start screen, where they can press the start button to begin. Once they’ve begun, they will need to enter a unique name of 1 - 20 characters which will be used to record their score. Their screen will then render a map in real time based on their GPS location, with a Buster Character icon centered at their location.  They may spin the character icon to point in different directions by implementing commands from a control pad-button displayed. They can also fire grapples at nearby bubbles in attempt to pop them. There will be several large bouncing bubbles that display on screen that will bounce around the character’s local area. Buildings will be hard objects that the character will be able to fire grapples to create a line of chain between themself and the bubble. The chain pops bubbles into smaller faster bubbles, but is disrupted by bubbles and buildings. There will also be randomly generated food items and grapple power-ups that will aid the player in racking up a high score.
-
-
-Ideally I’m seeking to recreate [Buster Bros](https://www.youtube.com/watch?v=ulfIohdFv08) as a location-based augmented reality game, in the same vein as Ingress and Pokemon Go.
 
 ## Specific Functionality
 
 ### Start Page
-The start page will have a button that will link to the name page which leads to the game page, and will list the top 5 scores in a vertical list underneath the start button.
+The start page will have a button that will link to the name page which leads to the game page, and will list the top 5 scores and the name of the character who earned them in a vertical list underneath the start button. The start button links to the Name Page.
 
 ### Name Page
-When the start button (link) is pressed, the Name Page will appear, with a field to enter any given name. The name is used to track the player as a unique individual and to record their score for the Start Page and the Score Page. Once a Name is entered, and the go button is pushed, the player is linked to the Game page.
+When the start button is pressed, the Name Page will appear, with a field to enter any given name. The name is used to track the player as a unique individual and to record their score for the Start Page and the Score Menu. Once a Name is entered and the go button is pushed, the player is linked to the Game page.
 
 ### Game Page
-Here the player sees the map, bubbles, and icon. The uses this screen to play the game. In the center of the screen is their icon from which they may tap to fire their grapple hooks. On the page there will be a Menu button, a display of their current Grapple, two turn buttons, and a life meter in the top right corner. The menu button links to the Scores Menu.
+Here the player sees the map, bubbles, and icon. The player uses this screen to play the game. In the center of the screen is their icon from which they may tap to fire their grapple hooks. In the left hand corner there will be two rotational arrows, one clockwise, the other counterclockwise, used to rotate their central icon so that they may fire at bubbles in any direction. In the bottom right corner of the the page there will be a Menu butto that links to the Scores Page. In the top right corner of the page there will be a Resolve Meter in the top right corner displaying three shields with hearts, each colored shield indicates a point of resolve (see below). The game page will also display the bouncing bubbles, buildings, and player's actual location as a top down map (similar to goolge maps or ingress).
+
 
 <!-- ### Grapple Menu (Future Project)
-Here the player has four buttons to change their grapple based on what they've picked up. If they've picked up nothing, they'll only have the standard grapple option. Each displayed grapple (Standard, Twin, Hook, Laser) is a link back to the Game Page, where the player will proceed to use that device. There will also be a Game Button that leads back to the Game Page without using a Grapple, a Food Button that links to the Food Menu, and a Scores button that leads to the Score Menu. -->
+Here the player has four buttons to change their grapple based on what they've picked up. If they've picked up nothing, they'll only have the standard grapple option. Each displayed grapple (Standard, Twin, Hook, Laser) is a link back to the Game Page, where the player will proceed to use that device. There will also be a Game Button that leads back to the Game Page without using a Grapple, a Food Button that links to the Food Menu, and a Scores button that leads to the Score Menu. -->m
 
 <!-- ### Food Menu (Future Project)
 Here the player has four buttons to eat various foods that they've picked up. If they've picked up nothing, there will be no food displayed. Each food button (Kale, Radish, Apple, Banana) is a link back to the Game Page where the player gains the benefit of the food for a limited duration. There will also be a Game Button that links back to the Game Page without using a Food, a Grapple Button that links to the Grapple Menu and a Scores Button that links to the Scores Menu. -->
@@ -76,15 +74,69 @@ A long trailing chain launched from the character that pops bubbles and sticks t
 
 ## Technical Components
 
+Much of the game is going to take place in Python, whereas JavaScript will do much of the rendering through JQuery.
+
+The objects of the game will largely be save and interact as Python classes; this would include Character, Buildings, Bubbles, and Chains. Most of the game engine will be hosted in Python modules as well, including the random creation of Bubbles; how Bubbles, Characters, Chains, and Buildings interact; the limit on using one chain at a time; and ending the game when the player gets to 0 resolve.
+
+Through the use of Javascript will be used to render the game, largely through JQuery, the Google Maps API, and the Geolocations API. I will also be using the BlockJS framework to structure Strike Boxes in order to initiate the interactions between Bubbles, Characters, Chains, and Buildings. I anticipate being able to animate the game using Javascript and Jquerey alone, but if I run into any stumbling blocks I can turn to some of the useful libraries listed below.
+
+I also anticipate much of the HTML and CSS to be relatively minimal, but rendered in realtime through Jquery and DOM Manipulation.
+
+Players Scores will be stored and searched using Django Models in a database.
+
+Potentially useful libraries include [pygame](http://www.pygame.org/hifi.html), [Sound Manager 2](http://www.schillmania.com/projects/soundmanager2/), [CraftyJS](http://craftyjs.com/), and [Stage.js](http://piqnt.com/stage.js/). 
+
+## Schedule
+
+
+
+* Geolocational Game Page - Medium - 2 days
+* Bubble Class - Easy - 1/2 day
+* Character Class - Easy - 1/2 day
+* Bubble Generator Module - Medium - 2 days
+* *Super minimal game experience (Character on screen & Bubbles Appear Randomly Static)*
+* Bubble Animation JS - Hard - 3 days
+* Bubble Hit Box JS- Easy - 1 day
+* Character Hit Box JS- Easy - 1 day
+* Bubble & Character Interaction Module - Medium - 2 days
+* Resolve Level & Game Over Function/Module - Easy - 1/2 day
+* Display Resolve Meter JS- Easy - 1 day
+* *Minmial game experience (Character can dodge around moving bubbles)*
+* Name Page JS- Easy - 1/2 Day
+* Display Name JS- Easy - 1/2 Day
+* Rotation Buttons Module JS- Easy - 1 day
+* Rotation Character Action JS- Medium - 2 days
+* Chain Class - Medium - 2 days
+* Chain Animation - Hard - 3 days
+* Chain Hit Box - Easy - 1 day
+* Chain Bubble Interaction - Medium - 2 days
+
+
+
+
+
 
 
 
 ##Future Goals
-Customizable Avatar as Character Icon
-Multiplayer Options
-Four upgrade grapples (Standard, Double, Hook, Laser)
-Four upgrade foods (Apple [Dynamite], Kale [+1 Resolve], Radish [Shield], Banana [Time Stop])
-Add Distractions to game such as Pointy Snail, Swooping Hawk, Flying Owl.
-Messaging Function
-Music (Midi Music)
-Sound Effects
+* Music (Midi Music) 
+* Sound Effects
+* Four upgrade grapples [Includes new menue and Upgrade drops]
+  * Standard
+  * Double (can shoot 1 grapple while a grapple is already shot)
+  * Hook (Pops 2 bubbles instead of 1)
+  * Laser (Shorter 'chain' but can fire up to 5 chains)
+* Four upgrade foods [Includes new menue and Upgrade drops]
+  * Apple (Pops all bubbles on screen down to smallest size)
+  * Kale (+1 Resolve, not limited to 3)
+  * Radish (Immune to next 2 Bubble hits)
+  * Banana (Reduces Speed of all bubles to 0 for 3 seconds)
+* Distractions (Different type of bubbles or targets that grapples can interact with)
+  * Pointy Snail (If chain interacts with Pointy Snail, Pointy snail comes to Icon, and reduces Resolve)
+  * Swooping Hawk (Quickly flies around popping bubbles but offering no points to the player)
+  * Flying Owl (Flies through screen. Disperses chain like bubble, but offers no points
+* Customizable Avatar as Character Icon [3 options]
+* Customizable Avatar as Character Icon [Upload Image]
+* Multiplayer Options [Renders other players, game consistent]
+* Messaging Function (Contact other players
+
