@@ -61,11 +61,13 @@ A long trailing chain launched from the character that pops bubbles.
 
 ## Technical Components
 
-Much of the game is going to take place in Python, whereas JavaScript will do much of the rendering through JQuery.
+Much of the game is going to take place in JavaScript, with the rendering handled with JQuery. 
 
-The objects of the game will largely interact as Python classes; this would include Character, Bubbles, and Chains. Most of the game engine will be hosted in Python modules as well, including the random creation of Bubbles; how Bubbles, Characters, and Chains all interact; the limit on using one chain at a time; and ending the game when the player gets to 0 resolve.
+The objects of the game will largely interact through JavaScript structures; this would include Character, Bubbles, and Chains. Most of the game engine and logic will be hosted in JavaScript modules as well, including the random creation of Bubbles; how Bubbles, Characters, and Chains all interact; the limit on using one chain at a time; and ending the game when the player gets to 0 resolve.
 
-Through the use of Javascript will be used to render the game, largely through JQuery, the Google Maps API, and the Geolocations API. I will also be using the BlockJS framework to structure Strike Boxes in order to initiate the interactions between Bubbles, Characters, Chains, and Buildings. I anticipate being able to animate the game using Javascript and Jquerey alone, but if I run into any stumbling blocks I can turn to some of the useful libraries listed below.
+Python will store character scores and be used to manipulate the data-base of high scores.
+
+The rendering will largely be handled through JQuery, the Google Maps API, and the Geolocations API. I will also be using the BlockJS framework to structure Strike Boxes in order to initiate the interactions between Bubbles, Characters, Chains, and Buildings. I anticipate being able to animate the game using Javascript and Jquerey alone, but if I run into any stumbling blocks I can turn to some of the useful libraries listed below.
 
 I also anticipate much of the HTML and CSS to be relatively minimal, but rendered in realtime through Jquery and DOM Manipulation.
 
@@ -123,6 +125,7 @@ Potentially useful libraries include [pygame](http://www.pygame.org/hifi.html), 
 * Customizable Avatar as Character Icon [3 options]
 * Customizable Avatar as Character Icon [Upload Image]
 * User Log In
+* Globally consistent game.
 * Multiplayer Options [Renders other players, game consistent]
 * Messaging Function (Contact other players)
 * Music based on time of day.
