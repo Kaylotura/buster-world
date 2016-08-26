@@ -2,7 +2,7 @@
 
 **Buster World** is a web application that allows players to take on the role of an enthusiastic explorer-hero, seeking to pop the demoralizing bubbles that are tormenting the world in  a location-based augmented reality game. Some major inspirations for this game are Ingress, Pokemon Go, and [Buster Bros](https://www.youtube.com/watch?v=ulfIohdFv08).
 
-Upon starting up Buster World the player sees a start screen, where they can press the start button to begin. Once they’ve begun, they will need to enter a unique name of 1 - 20 characters which will be used to record their score. Their screen will then render a map in real time based on their GPS location, with a character icon centered at their location.  They may rotate the character icon to face in different directions by implementing commands from a control pad-button displayed. They can also launch grapples at nearby bubbles in attempt to pop them. There will be several large bouncing bubbles that display on screen that will bounce around the character’s local area. Character will be able to launch grappling hooks with a tailing chain that pops bubbles into smaller faster bubbles, but is disrupted by bubbles. For each bubble popped, the character's score increases. 
+Upon starting up Buster World the player sees a start screen, where they can press the start button to begin. Once they’ve begun, they will need to enter a unique name of 1 - 20 characters which will be used to record their score. Their screen will then render a map in real time based on their GPS location, with a character icon centered at their location.  They may rotate the character icon to face in different directions by implementing commands from a control pad-button displayed. They can also launch grapples at nearby bubbles in attempt to pop them. There will be several large bouncing bubbles that display on screen that will bounce around the character’s local area. Character will be able to launch grappling hooks with a tailing chain that pops bubbles into smaller faster bubbles, but is disrupted by bubbles. For each bubble popped, the character's score increases.
 
 ## Specific Functionality
 
@@ -17,7 +17,6 @@ Here the player sees the map, bubbles, and character icon. The player uses this 
 
 ### Scores Menu
 Here the player can scroll through all the scores logged in the game for the past 7 days. They will be listed vertically starting with the highest score first and descending order from there. By each score will be the name of the  player (as entered in the Name page) who earned that particular score. At the top of the page there will be a Game Button that links back to the Game Page.
-
 
 ### Game Over Page
 A page displaying that the game is over, and showing the player's score as well as a Play Again button, that leads to another game from the Game Page.
@@ -42,7 +41,6 @@ The visual background and setting of the game.
 * Bubble Icons
 * Character Icons
 
-
 ### Bubbles
 Large round bubbles that bounce around the world setting and lower the player's resolve on contact.
 * Icon (An image representing the bubble to be rendered on World screen)
@@ -50,7 +48,7 @@ Large round bubbles that bounce around the world setting and lower the player's 
 * Hit Points (Ranges from 5 to 0. Each strike of a chain reduces this by one and reduces the size of the bubble, but spawns an identical bubble, and increases the speed of both bubbles.)
 * Strike Box (Defines the full space of the Bubble, if the bubble's strike box interacts with the player' Hit Box the player loses a resolve, and the bubble bounces away. If a bubble's strike box interacts with another bubble's strike box both bubbles bounce away. This is based on Hit Points)
 * Speed (How quickly the bubble moves across the screen, based on Hit Points)
-* Value (How much the bubble is worth if poped)
+* Value (How much the bubble is worth if popped)
 
 ### Chain
 A long trailing chain launched from the character that pops bubbles.
@@ -59,24 +57,27 @@ A long trailing chain launched from the character that pops bubbles.
 * Length (How long the chain is)
 * Strike Box (Defines the full space of the chain. If the chain's strike box interacts with a bubble's strike box it pops the bubble, spawning two smaller faster bubbles and increases the character's score. This also removes the chain from play.)
 
+### Final Score
+While each character has a running tally of what their score is, when the character loses their final resolve, that score is to be saved within the database, so that it may be compared to other scores, and rendered as part of the Scores Menu and the Game page, this will allow the player to see who has reached the prized high score.
+
 ## Technical Components
 
-Much of the game is going to take place in JavaScript, with the rendering handled with JQuery. 
+Much of the game is going to take place in JavaScript, with the rendering handled with JQuery.
 
 The objects of the game will largely interact through JavaScript structures; this would include Character, Bubbles, and Chains. Most of the game engine and logic will be hosted in JavaScript modules as well, including the random creation of Bubbles; how Bubbles, Characters, and Chains all interact; the limit on using one chain at a time; and ending the game when the player gets to 0 resolve.
 
-Python will store character scores and be used to manipulate the data-base of high scores.
+Python will store character scores and be used to manipulate the data-base of character scores and the high scores amoung them.
 
-The rendering will largely be handled through JQuery, the Google Maps API, and the Geolocations API. I will also be using the BlockJS framework to structure Strike Boxes in order to initiate the interactions between Bubbles, Characters, Chains, and Buildings. I anticipate being able to animate the game using Javascript and Jquerey alone, but if I run into any stumbling blocks I can turn to some of the useful libraries listed below.
-
-I also anticipate much of the HTML and CSS to be relatively minimal, but rendered in realtime through Jquery and DOM Manipulation.
-
+I anticipate much of the HTML and CSS to be relatively minimal, with much of the game being rendered through Canvas and the PhaserJS libraries. I am not yet certain if I will be able to manipulate the Geolocations and GoogleMaps view into the Canvas for this, but I intend to look into work arounds to get this to funtion.
 Players Scores will be stored and searched using Django Models in a database.
+I also expect to be using the PhaserJS library to initiate the interactions between Bubbles, Characters, and Chains.
 
-Potentially useful libraries include [pygame](http://www.pygame.org/hifi.html), [Sound Manager 2](http://www.schillmania.com/projects/soundmanager2/), [CraftyJS](http://craftyjs.com/), and [Stage.js](http://piqnt.com/stage.js/). 
+As for testing, I am interested in using MochaJS, as it seems to have promises as part of its basic packaging.
 
-## Schedule (34 days)
-* Geolocational Game Page - Medium - 2 days
+Potentially useful libraries include [pygame](http://www.pygame.org/hifi.html), [Gulp](http://gulpjs.com/), [melonJS](http://melonjs.org/), [CreateJS](http://createjs.com/), [Sound Manager 2](http://www.schillmania.com/projects/soundmanager2/), [CraftyJS](http://craftyjs.com/), and [Stage.js](http://piqnt.com/stage.js/).
+
+## Schedule (35 days)
+* Basic Game Page - Easy - 1 days
 * Bubble Class - Easy - 1/2 day
 * Bubble Sprites - Medium - 2 days
 * Character Class - Easy - 1/2 day
@@ -90,6 +91,7 @@ Potentially useful libraries include [pygame](http://www.pygame.org/hifi.html), 
 * Resolve Level & Game Over Function/Module - Easy - 1/2 day
 * Display Resolve Meter JS- Easy - 1 day
 * *Minmial game experience (Character can dodge around moving bubbles)*
+* Gelocational Game page - Medium - 2 days
 * Name Page JS- Easy - 1/2 Day
 * Display Name JS- Easy - 1/2 Day
 * Rotation Buttons Module JS- Easy - 1 day
@@ -99,25 +101,26 @@ Potentially useful libraries include [pygame](http://www.pygame.org/hifi.html), 
 * Chain Sprite - Easy - 1/2 day
 * Chain Hit Box - Easy - 1 day
 * Chain Bubble Interaction - Medium - 2 days
-* Score Menue - Easy - 1/2 day
+* Score Menu - Easy - 1/2 day
 * *Game Experience sans fleshing out*
 * Assign Bubbles value - Easy - 1/2 day
 * Database - Hard? - 5 days
 
 ##Future Goals
-* Buildings as Objects that chains stick to and Bubbles bounch off of.
-* Music (Midi Music) 
+* Global Pause/Character invulnerability on Menu open...
+* Buildings as Objects that chains stick to and Bubbles bounce off of.
+* Music (Midi Music)
 * Sound Effects
-* Four upgrade grapples [Includes new menue and Upgrade drops]
+* Four upgrade grapples [Includes new menu and Upgrade drops]
   * Standard
   * Double (can shoot 1 grapple while a grapple is already shot)
   * Hook (Pops 2 bubbles instead of 1)
   * Laser (Shorter 'chain' but can fire up to 5 chains)
-* Four upgrade foods [Includes new menue and Upgrade drops]
+* Four upgrade foods [Includes new menu and Upgrade drops]
   * Apple (Pops all bubbles on screen down to smallest size)
   * Kale (+1 Resolve, not limited to 3)
   * Radish (Immune to next 2 Bubble hits)
-  * Banana (Reduces Speed of all bubles to 0 for 3 seconds)
+  * Banana (Reduces Speed of all bubbles to 0 for 3 seconds)
 * Distractions (Different type of bubbles or targets that grapples can interact with)
   * Pointy Snail (If chain interacts with Pointy Snail, Pointy snail comes to Icon, and reduces Resolve)
   * Swooping Hawk (Quickly flies around popping bubbles but offering no points to the player)
@@ -126,6 +129,6 @@ Potentially useful libraries include [pygame](http://www.pygame.org/hifi.html), 
 * Customizable Avatar as Character Icon [Upload Image]
 * User Log In
 * Globally consistent game.
-* Multiplayer Options [Renders other players, game consistent]
+* Multi-player Options [Renders other players, game consistent]
 * Messaging Function (Contact other players)
 * Music based on time of day.
