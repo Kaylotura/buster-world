@@ -11,11 +11,17 @@ venv
 # Django Default DB
 db.sqlite3
 
+# Django Staged Static Files
+staticfiles
+
+# Django User-uploaded Files
+mediafiles
+
 # macOS
 .DS_Store
 
+# Secrets
+.env
+
 # keys
 .key.js
-
-# junk files
-*.txt
