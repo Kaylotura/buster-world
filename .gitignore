@@ -25,3 +25,6 @@ mediafiles
 
 # keys
 .key.js
+
+# Ignore ME!
+.gitignore
