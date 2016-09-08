@@ -5,6 +5,20 @@
     <title>Win Buster!</title>
   </head>
   <body>
-    <p>Everyscore everaaaaaahhh!</p>
+    <h2>Buster World High Scores!</h2>
+    <nav>
+      <a href="{% url 'start' %}">Home</a>
+    </nav>
+
+    <ol>
+      {% for player in top %}
+      <h3>
+        <li>{{ player.name }}, {{ player.score }}</li>
+      </h3>
+      {% endfor %}
+      {% for player in the_rest %}
+      <li> {{ player.name }}, {{ player.score }}</li>
+      {% endfor %}
+    </ol>
   </body>
 </html>

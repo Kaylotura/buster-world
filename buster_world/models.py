@@ -8,8 +8,8 @@ class PlayerStats(models.Model):
     Value type that represents a player's name, score, and time played for any given session of the game.
     """
     name = models.TextField()
-    score = models.TextField()
-    time = models.TextField()
+    score = models.IntegerField()
+    time = models.IntegerField()
 
     def __str__(self):
         return self.name + ' ' + self.score
