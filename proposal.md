@@ -82,9 +82,9 @@ As for testing, I am interested in using MochaJS, as it seems to have promises a
 
 Potentially useful libraries include [pygame](http://www.pygame.org/hifi.html), [Gulp](http://gulpjs.com/), [melonJS](http://melonjs.org/), [CreateJS](http://createjs.com/), [Sound Manager 2](http://www.schillmania.com/projects/soundmanager2/), [CraftyJS](http://craftyjs.com/), and [Stage.js](http://piqnt.com/stage.js/).
 
-## Schedule (24 days)
+## Schedule (23 days)
 * Initiate Django Structure - Very Easy - 1 hour
-* Create Minimal Game that Generates Score & Time - Easy - 1 day
+* Create Minimal Game - Easy - 1 hour
 * Start Page - Easy - 1/2 day
 * High Score Page - Easy - 1/2 day
 * Blank Game Page - Easy - 1/2 day
