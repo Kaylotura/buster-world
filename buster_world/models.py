@@ -12,7 +12,7 @@ class PlayerStats(models.Model):
     time = models.IntegerField()
 
     def __str__(self):
-        return self.name + ' ' + self.score
+        return self.name + ' ' + str(self.score)
 
     def __repr__(self):
         return 'PlayerStats(name={!r}, score={!r}, time={!r})'.format(self.text, self.score, self.time)

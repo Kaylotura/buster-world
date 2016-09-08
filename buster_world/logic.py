@@ -31,8 +31,7 @@ def get_player_stats_by_score(player_stats=PLAYER_SCORES):
     >>> [member.name for member in group_by_score]
     ['link', 'kirby', 'mario']
     """
-    print (player_stats)
-    return player_stats.order_by('score')
+    return player_stats.order_by('score').reverse()
 
 
 def seperate_by_top_ten(any_list):
