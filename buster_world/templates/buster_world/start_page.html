@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+{% load staticfiles %}
   <head>
     <meta charset="UTF-8">
     <title>Start Buster!</title>
@@ -21,8 +22,9 @@
 
     </p>
     <button>Start!</button>
-    <form>
+    <form class="invisible">
       Player Name: <input type="text">
     </form>
   </body>
+<link rel="stylesheet" href="{% static 'buster_world/style.css' %}">
 </html>
