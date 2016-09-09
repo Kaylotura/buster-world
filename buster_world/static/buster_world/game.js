@@ -4,6 +4,7 @@ function preload() {
 
     game.load.image('bullet', chain_icon);
     game.load.image('enemyBullet', orb_icon);
+    game.load.image('invader', bubble_icon);
     game.load.image('ship', girl_icon);
     game.load.spritesheet('kaboom', 'assets/games/invaders/explode.png', 128, 128);
     game.load.image('starfield', map_icon);
