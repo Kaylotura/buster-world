@@ -8,7 +8,7 @@ window.onload = function() {
 
         function preload () {
 
-            game.load.image('logo', 'buster_world/phaser.png');
+            game.load.image('logo', 'assets/pics/ra_einstein.png');
 
         }
 
