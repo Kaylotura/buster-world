@@ -17,3 +17,6 @@ def render_high_scores(request):
     player_stats = logic.get_player_stats_by_score()
     template_arguements = logic.seperate_by_top_ten(player_stats)
     return render(request, 'buster_world/high_score_page.html', template_arguements)
+
+def return_score_sumbit(request):
+    pass

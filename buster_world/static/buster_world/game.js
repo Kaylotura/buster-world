@@ -305,7 +305,7 @@ function restart () {
 function saveScore() {
 var playerName = prompt("Please enter your name");
     if (playerName != null) {
-    
+
 
 
     }
