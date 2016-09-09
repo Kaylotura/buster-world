@@ -31,7 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'buster_world'
+    'buster_world',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

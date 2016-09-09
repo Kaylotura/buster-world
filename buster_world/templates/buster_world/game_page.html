@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load staticfiles %}
+<link rel="stylesheet" href="{% static 'buster_world/style.css' %}">
+  <head>
+    <meta charset="UTF-8">
+    <title>Play Buster!</title>
+  </head>
+  <body>
+    <h2>Buster World Play!</h2>
+    <nav>
+      <a href="{% url 'start' %}">Home</a>
+      <a href="{% url 'high_scores' %}">High Scores</a>
+    </nav>
+    <div>GAME GOES HERE</div>
+    <fieldset class="invisible">
+      <form>
+        <input id="player_name">
+        <input id="player_score">
+        <input id="player_time">
+      </form>
+    </fieldset>
+  </body>
+</html>
