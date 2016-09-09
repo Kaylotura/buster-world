@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html lang="en">
 {% load staticfiles %}
+<html lang="en">
 <link rel="stylesheet" href="{% static 'buster_world/style.css' %}">
   <head>
     <meta charset="UTF-8">
@@ -12,7 +12,6 @@
       <a href="{% url 'start' %}">Home</a>
       <a href="{% url 'high_scores' %}">High Scores</a>
     </nav>
-    <div>GAME GOES HERE</div>
     <fieldset class="invisible">
       <form>
         <input id="player_name">
@@ -21,4 +20,12 @@
       </form>
     </fieldset>
   </body>
+  <script src="//cdn.jsdelivr.net/phaser/2.5.0/phaser.min.js"></script>
+  <script src="{% static 'buster_world/game.js' %}"></script>
+ <script> var chain_icon = "{% static 'buster_world/sprites/chain.png' %}" </script>
+ <script> var bubble_icon = "{% static 'buster_world/sprites/bubble.png' %}" </script>
+ <script> var orb_icon = "{% static 'buster_world/sprites/orb.png' %}" </script>
+ <script> var girl_icon = "{% static 'buster_world/sprites/girl.png' %}" </script>
+ <script> var shield_icon = "{% static 'buster_world/sprites/shield.png' %}" </script>
+ <script> var map_icon = "{% static 'buster_world/sprites/map.png' %}" </script>
 </html>

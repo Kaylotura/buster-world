@@ -1,17 +1,13 @@
-use strict; 
-
 var game = new Phaser.Game(800, 600, Phaser.AUTO, 'phaser-example', { preload: preload, create: create, update: update, render: render });
 
 function preload() {
 
-    game.load.image('bullet', 'assets/games/invaders/bullet.png');
-    game.load.image('enemyBullet', 'assets/games/invaders/enemy-bullet.png');
-    game.load.spritesheet('invader', 'assets/games/invaders/invader32x32x4.png', 32, 32);
-    game.load.image('ship', 'assets/games/invaders/player.png');
-    game.load.spritesheet('kaboom', 'assets/games/invaders/explode.png', 128, 128);
-    game.load.image('starfield', 'assets/games/invaders/starfield.png');
-    game.load.image('background', 'assets/games/starstruck/background2.png');
-
+    game.load.image('bullet', chain_icon);
+    game.load.image('enemyBullet', orb_icon);
+    game.load.image('ship', girl_icon);
+    game.load.image('invader', bubble_icon);
+    game.load.image('starfield', map_icon);
+    game.load.image('shield', shield_icon);
 }
 
 var player;
@@ -20,9 +16,9 @@ var bullets;
 var bulletTime = 0;
 var cursors;
 var fireButton;
-var explosions;
 var starfield;
 var score = 0;
+var gameTime = 0;
 var scoreString = '';
 var scoreText;
 var lives;
@@ -76,7 +72,7 @@ function create() {
 
     //  Lives
     lives = game.add.group();
-    game.add.text(game.world.width - 100, 10, 'Lives : ', { font: '34px Arial', fill: '#fff' });
+    game.add.text(game.world.width - 130, 10, 'Resolve : ', { font: '34px Arial', fill: '#fff' });
 
     //  Text
     stateText = game.add.text(game.world.centerX,game.world.centerY,' ', { font: '84px Arial', fill: '#fff' });
@@ -85,16 +81,11 @@ function create() {
 
     for (var i = 0; i < 3; i++)
     {
-        var ship = lives.create(game.world.width - 100 + (30 * i), 60, 'ship');
+        var ship = lives.create(game.world.width - 100 + (30 * i), 60, 'shield');
         ship.anchor.setTo(0.5, 0.5);
-        ship.angle = 90;
-        ship.alpha = 0.4;
+//        ship.angle = 90;
+//        ship.alpha = 0.4;
     }
-
-    //  An explosion pool
-    explosions = game.add.group();
-    explosions.createMultiple(30, 'kaboom');
-    explosions.forEach(setupInvader, this);
 
     //  And some controls to play the game with
     cursors = game.input.keyboard.createCursorKeys();
@@ -142,9 +133,6 @@ function descend() {
 
 function update() {
 
-    //  Scroll the background
-    starfield.tilePosition.y += 2;
-
     if (player.alive)
     {
         //  Reset the player, then check for movement keys
@@ -173,6 +161,10 @@ function update() {
         //  Run collision
         game.physics.arcade.overlap(bullets, aliens, collisionHandler, null, this);
         game.physics.arcade.overlap(enemyBullets, player, enemyHitsPlayer, null, this);
+
+        // Keep Time
+        game.debug.text('Time: ' + this.game.time.totalElapsedSeconds(), 10, 60);
+
     }
 
 }
@@ -195,11 +187,6 @@ function collisionHandler (bullet, alien) {
     //  Increase the score
     score += 20;
     scoreText.text = scoreString + score;
-
-    //  And create an explosion :)
-    var explosion = explosions.getFirstExists(false);
-    explosion.reset(alien.body.x, alien.body.y);
-    explosion.play('kaboom', 30, false, true);
 
     if (aliens.countLiving() == 0)
     {
@@ -227,10 +214,6 @@ function enemyHitsPlayer (player,bullet) {
         live.kill();
     }
 
-    //  And create an explosion :)
-    var explosion = explosions.getFirstExists(false);
-    explosion.reset(player.body.x, player.body.y);
-    explosion.play('kaboom', 30, false, true);
 
     // When the player dies
     if (lives.countLiving() < 1)
