@@ -18,6 +18,7 @@ var cursors;
 var fireButton;
 var starfield;
 var score = 0;
+var gameTime = 0;
 var scoreString = '';
 var scoreText;
 var lives;
@@ -160,6 +161,10 @@ function update() {
         //  Run collision
         game.physics.arcade.overlap(bullets, aliens, collisionHandler, null, this);
         game.physics.arcade.overlap(enemyBullets, player, enemyHitsPlayer, null, this);
+
+        // Keep Time
+        game.debug.text('Time: ' + this.game.time.totalElapsedSeconds(), 10, 60);
+
     }
 
 }
