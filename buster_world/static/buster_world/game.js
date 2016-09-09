@@ -7,6 +7,7 @@ function preload() {
     game.load.image('ship', girl_icon);
     game.load.image('invader', bubble_icon);
     game.load.image('starfield', map_icon);
+    game.load.image('shield', shield_icon);
 }
 
 var player;
@@ -70,7 +71,7 @@ function create() {
 
     //  Lives
     lives = game.add.group();
-    game.add.text(game.world.width - 100, 10, 'Lives : ', { font: '34px Arial', fill: '#fff' });
+    game.add.text(game.world.width - 130, 10, 'Resolve : ', { font: '34px Arial', fill: '#fff' });
 
     //  Text
     stateText = game.add.text(game.world.centerX,game.world.centerY,' ', { font: '84px Arial', fill: '#fff' });
@@ -79,10 +80,10 @@ function create() {
 
     for (var i = 0; i < 3; i++)
     {
-        var ship = lives.create(game.world.width - 100 + (30 * i), 60, 'ship');
+        var ship = lives.create(game.world.width - 100 + (30 * i), 60, 'shield');
         ship.anchor.setTo(0.5, 0.5);
-        ship.angle = 90;
-        ship.alpha = 0.4;
+//        ship.angle = 90;
+//        ship.alpha = 0.4;
     }
 
     //  And some controls to play the game with
