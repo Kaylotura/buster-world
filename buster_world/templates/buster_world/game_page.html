@@ -12,7 +12,6 @@
       <a href="{% url 'start' %}">Home</a>
       <a href="{% url 'high_scores' %}">High Scores</a>
     </nav>
-    <div>GAME GOES HERE</div>
     <fieldset class="invisible">
       <form>
         <input id="player_name">
@@ -21,4 +20,6 @@
       </form>
     </fieldset>
   </body>
+  <script src="//cdn.jsdelivr.net/phaser/2.5.0/phaser.min.js"></script>
+  <script src="{% static 'buster_world/hello.js' %}"></script>
 </html>
