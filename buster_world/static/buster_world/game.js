@@ -2,14 +2,11 @@ var game = new Phaser.Game(800, 600, Phaser.AUTO, 'phaser-example', { preload: p
 
 function preload() {
 
-    game.load.image('bullet', 'assets/games/invaders/bullet.png');
-    game.load.image('enemyBullet', 'assets/games/invaders/enemy-bullet.png');
-    game.load.spritesheet('invader', 'assets/games/invaders/invader32x32x4.png', 32, 32);
-    game.load.image('ship', 'assets/games/invaders/player.png');
+    game.load.image('bullet', chain_icon);
+    game.load.image('enemyBullet', orb_icon);
+    game.load.image('ship', girl_icon);
     game.load.spritesheet('kaboom', 'assets/games/invaders/explode.png', 128, 128);
-    game.load.image('starfield', 'assets/games/invaders/starfield.png');
-    game.load.image('background', 'assets/games/starstruck/background2.png');
-
+    game.load.image('starfield', map_icon);
 }
 
 var player;
@@ -55,6 +52,7 @@ function create() {
     enemyBullets.setAll('anchor.y', 1);
     enemyBullets.setAll('outOfBoundsKill', true);
     enemyBullets.setAll('checkWorldBounds', true);
+
 
     //  The hero!
     player = game.add.sprite(400, 500, 'ship');
@@ -139,9 +137,6 @@ function descend() {
 }
 
 function update() {
-
-    //  Scroll the background
-    starfield.tilePosition.y += 2;
 
     if (player.alive)
     {
