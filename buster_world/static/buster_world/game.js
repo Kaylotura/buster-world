@@ -4,9 +4,8 @@ function preload() {
 
     game.load.image('bullet', chain_icon);
     game.load.image('enemyBullet', orb_icon);
-    game.load.image('invader', bubble_icon);
     game.load.image('ship', girl_icon);
-    game.load.spritesheet('kaboom', 'assets/games/invaders/explode.png', 128, 128);
+    game.load.image('invader', bubble_icon);
     game.load.image('starfield', map_icon);
 }
 
@@ -16,7 +15,6 @@ var bullets;
 var bulletTime = 0;
 var cursors;
 var fireButton;
-var explosions;
 var starfield;
 var score = 0;
 var scoreString = '';
@@ -54,7 +52,6 @@ function create() {
     enemyBullets.setAll('outOfBoundsKill', true);
     enemyBullets.setAll('checkWorldBounds', true);
 
-
     //  The hero!
     player = game.add.sprite(400, 500, 'ship');
     player.anchor.setTo(0.5, 0.5);
@@ -87,11 +84,6 @@ function create() {
         ship.angle = 90;
         ship.alpha = 0.4;
     }
-
-    //  An explosion pool
-    explosions = game.add.group();
-    explosions.createMultiple(30, 'kaboom');
-    explosions.forEach(setupInvader, this);
 
     //  And some controls to play the game with
     cursors = game.input.keyboard.createCursorKeys();
@@ -190,11 +182,6 @@ function collisionHandler (bullet, alien) {
     score += 20;
     scoreText.text = scoreString + score;
 
-    //  And create an explosion :)
-    var explosion = explosions.getFirstExists(false);
-    explosion.reset(alien.body.x, alien.body.y);
-    explosion.play('kaboom', 30, false, true);
-
     if (aliens.countLiving() == 0)
     {
         score += 1000;
@@ -221,10 +208,6 @@ function enemyHitsPlayer (player,bullet) {
         live.kill();
     }
 
-    //  And create an explosion :)
-    var explosion = explosions.getFirstExists(false);
-    explosion.reset(player.body.x, player.body.y);
-    explosion.play('kaboom', 30, false, true);
 
     // When the player dies
     if (lives.countLiving() < 1)
