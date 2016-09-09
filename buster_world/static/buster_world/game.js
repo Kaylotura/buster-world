@@ -1,4 +1,10 @@
-var game = new Phaser.Game(800, 600, Phaser.AUTO, 'phaser-example', { preload: preload, create: create, update: update, render: render });
+/** It should be noted that the names of many variables are unclear for the time being, when the game is better
+ * constructed
+ *
+ */
+
+
+var game = new Phaser.Game(800, 600, Phaser.AUTO, 'buster_world', { preload: preload, create: create, update: update, render: render });
 
 function preload() {
 
@@ -6,7 +12,7 @@ function preload() {
     game.load.image('enemyBullet', orb_icon);
     game.load.image('ship', girl_icon);
     game.load.image('invader', bubble_icon);
-    game.load.image('starfield', map_icon);
+    game.load.image('map', map_icon);
     game.load.image('shield', shield_icon);
 }
 
@@ -16,7 +22,7 @@ var bullets;
 var bulletTime = 0;
 var cursors;
 var fireButton;
-var starfield;
+var map;
 var score = 0;
 var gameTime = 0;
 var scoreString = '';
@@ -31,8 +37,8 @@ function create() {
 
     game.physics.startSystem(Phaser.Physics.ARCADE);
 
-    //  The scrolling starfield background
-    starfield = game.add.tileSprite(0, 0, 800, 600, 'starfield');
+    //  The map background
+    background = game.add.tileSprite(0, 0, 800, 600, 'map');
 
     //  Our bullet group
     bullets = game.add.group();
@@ -113,8 +119,6 @@ function createAliens () {
     //  All this does is basically start the invaders moving. Notice we're moving the Group they belong to, rather than the invaders directly.
     var tween = game.add.tween(aliens).to( { x: 200 }, 2000, Phaser.Easing.Linear.None, true, 0, 1000, true);
 
-    //  When the tween loops it calls descend
-    tween.onLoop.add(descend, this);
 }
 
 function setupInvader (invader) {
@@ -122,12 +126,6 @@ function setupInvader (invader) {
     invader.anchor.x = 0.5;
     invader.anchor.y = 0.5;
     invader.animations.add('kaboom');
-
-}
-
-function descend() {
-
-    aliens.y += 10;
 
 }
 
@@ -221,11 +219,11 @@ function enemyHitsPlayer (player,bullet) {
         player.kill();
         enemyBullets.callAll('kill');
 
-        stateText.text=" GAME OVER \n Click to restart";
+        stateText.text=" GAME OVER \n Click to Save Score";
         stateText.visible = true;
 
-        //the "click to restart" handler
-        game.input.onTap.addOnce(restart,this);
+        //the "click to save score" handler
+        game.input.onTap.addOnce(saveScore,this);
     }
 
 }
@@ -300,5 +298,17 @@ function restart () {
     player.revive();
     //hides the text
     stateText.visible = false;
+
+}
+
+
+function saveScore() {
+var playerName = prompt("Please enter your name");
+    if (playerName != null) {
+    
+
+
+    }
+
 
 }
