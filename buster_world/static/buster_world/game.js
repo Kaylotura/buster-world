@@ -311,11 +311,14 @@ function restart () {
  * text and uses jquery to unhide and populate the game-over form.
  */
 function gameOver (){
+    var time = this.game.time.totalElapsedSeconds()
     player.kill();
     enemyBullets.callAll('kill');
-    stateText.text=" GAME OVER \n Click to Save Score";
+    stateText.text='GAME OVER';
     stateText.visible = true;
     unhideField('.game_over');
+    $('#player_score').text(score);
+    $('#player_time').text(time);
 }
 
 
