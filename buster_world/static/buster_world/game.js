@@ -4,6 +4,7 @@
  * the use of ['use strict';] seems to break phaser.js, so for the time being I will not be using it. Perhaps it would
  * be wise to split this into different js docs?
  *
+ * Going to build a Google Map.
  */
 
 
