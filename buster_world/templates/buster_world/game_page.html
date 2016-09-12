@@ -24,15 +24,20 @@
       </form>
     </fieldset>
   </body>
+  <!--Loads Jquery-->
+  <script src="http://code.jquery.com/jquery-2.2.3.js"></script>
+  <!---->
   <!--Loads Map.js, Key.js, and Google API-->
   <script src="{% static 'buster_world/map.js' %}"></script>
   <script src="{% static 'buster_world/.key.js' %}"></script>
-  <script src="https://maps.googleapis.com/maps/api/js?key=" + Key + "callback=initMap" async defer></script>
+  <script src="https://maps.googleapis.com/maps/api/js?callback=initMap"
+          async defer></script>
+  <!---->
   <!--Loads Phaser, Jquery, Style.CSS, and Game.JS-->
   <script src="//cdn.jsdelivr.net/phaser/2.5.0/phaser.min.js"></script>
   <link rel="stylesheet" href="{% static 'buster_world/style.css' %}">
-  <script src="{% static 'buster_world/game.js' %}"></script>
-  <script src="http://code.jquery.com/jquery-2.2.3.js"></script>
+  <!--clipped game link, be sure to add it back in-->
+  <!---->
   <!--Loads Icons For Game-->
   <script> var chain_icon = "{% static 'buster_world/sprites/chain.png' %}" </script>
   <script> var bubble_icon = "{% static 'buster_world/sprites/bubble.png' %}" </script>
