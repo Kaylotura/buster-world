@@ -128,3 +128,4 @@ Potentially useful libraries include [pygame](http://www.pygame.org/hifi.html), 
 * Multi-player Options [Renders other players, game consistent]
 * Messaging Function (Contact other players)
 * Music based on time of day.
+* Some sort of JS function that allows a user to enter their own Google maps API Key?
