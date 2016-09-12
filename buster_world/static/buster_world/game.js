@@ -1,5 +1,8 @@
 /** It should be noted that the names of many variables are unclear for the time being, when the game is better
- * constructed
+ * constructed.
+ *
+ * the use of ['use strict';] seems to break phaser.js, so for the time being I will not be using it. Perhaps it would
+ * be wise to split this into different js docs?
  *
  */
 
@@ -302,10 +305,23 @@ function restart () {
 
 }
 
+
+/**
+ * When the game is lost, or quit, this function is called. It removes the player icon, and displays the "Game Over"
+ * text and uses jquery to unhide and populate the game-over form.
+ */
 function gameOver (){
     player.kill();
     enemyBullets.callAll('kill');
-
     stateText.text=" GAME OVER \n Click to Save Score";
     stateText.visible = true;
+    unhideField('.game_over');
+}
+
+
+/**
+ * Takes in a class as an argument and removes the invisble class from all elements that have the given input class.
+ */
+function unhideField(inputclass) {
+  $(inputclass).removeClass('invisible');
 }

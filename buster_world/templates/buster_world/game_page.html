@@ -8,22 +8,25 @@
   </head>
   <body>
     <h2 class="game">Buster World Play!</h2>
-    <h2 class="game_over">Buster World Play!</h2>
-    <nav>
+     <nav>
       <a href="{% url 'start' %}">Home</a>
       <a href="{% url 'high_scores' %}">High Scores</a>
     </nav>
-    <fieldset class="game_over">
+    <fieldset class="game_over invisible">
       <form>
-        <label>Name</label><input id="player_name">
-        <label>Score</label><div id="player_score"></div>
-        <label>Time</label><div id="player_time"></div>
+        <label>Name</label><input id="player_name"> <br>
+        <label>Score</label><p id="player_score">10</p>
+        <label>Time</label><p id="player_time">11</p>
       </form>
     </fieldset>
   </body>
-  <link rel="stylesheet" href="{% static 'buster_world/style.css' %}">
+
+  <!--Loads Phaser, Jquery, Style.CSS, and Game.JS-->
   <script src="//cdn.jsdelivr.net/phaser/2.5.0/phaser.min.js"></script>
+  <link rel="stylesheet" href="{% static 'buster_world/style.css' %}">
   <script src="{% static 'buster_world/game.js' %}"></script>
+  <script src="http://code.jquery.com/jquery-2.2.3.js"></script>
+  <!--Loads Icons For Game-->
   <script> var chain_icon = "{% static 'buster_world/sprites/chain.png' %}" </script>
   <script> var bubble_icon = "{% static 'buster_world/sprites/bubble.png' %}" </script>
   <script> var orb_icon = "{% static 'buster_world/sprites/orb.png' %}" </script>
