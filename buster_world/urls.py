@@ -21,6 +21,6 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^game/$', views.render_game, name='game'),
     url(r'^scores/high_scores/$', views.render_high_scores, name='high_scores'),
-    url(r'^scores/submit$', views.return_score_sumbit, name='score_submit'),
+    url(r'^scores/submit$', views.return_score_submit, name='score_submit'),
     url(r'^$', views.render_start, name='start')
 ]

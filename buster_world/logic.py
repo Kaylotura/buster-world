@@ -4,6 +4,7 @@ from . import models
 
 PLAYER_SCORES = models.PlayerStats.objects
 
+
 def create_and_save_new_player_stat(name, score, time):
     """Takes in a player's name, their score, and the time they played and creates and saves a new PlayerStats django
     class object.

@@ -12,11 +12,13 @@
       <a href="{% url 'start' %}">Home</a>
       <a href="{% url 'high_scores' %}">High Scores</a>
     </nav>
-    <fieldset class="game_over invisible">
-      <form>
-        <label>Name</label><input id="player_name"> <br>
-        <label>Score</label><p id="player_score"></p>
-        <label>Time</label><p id="player_time"></p>
+    <fieldset class="game_over invisible" >
+      <form method="post" action="{% url 'score_submit'%}">
+      {% csrf_token %}
+        <label>Name</label><input type="text" name="player_name"> <br>
+        <label>Score</label><input type="text" id="player_score" name="player_score" readonly>
+        <label>Time</label><input type="text" id="player_time" name="player_time" readonly>
+        <input type="submit">
       </form>
     </fieldset>
   </body>

@@ -311,14 +311,15 @@ function restart () {
  * text and uses jquery to unhide and populate the game-over form.
  */
 function gameOver (){
-    var time = this.game.time.totalElapsedSeconds()
+    var time = getPrettyTime()
     player.kill();
     enemyBullets.callAll('kill');
     stateText.text='GAME OVER';
     stateText.visible = true;
     unhideField('.game_over');
-    $('#player_score').text(score);
-    $('#player_time').text(time);
+    $('#player_score').val(score);
+    $('#player_time').val(time);
+
 }
 
 
@@ -327,4 +328,15 @@ function gameOver (){
  */
 function unhideField(inputclass) {
   $(inputclass).removeClass('invisible');
+}
+
+/**
+ * Returns the game time in 100th of seconds.
+ */
+function getPrettyTime() {
+    var time = this.game.time.totalElapsedSeconds()
+    var working_time = time * 10
+    var still_working_time = Math.floor(working_time)
+    var pretty_time = still_working_time / 10
+    return pretty_time
 }
