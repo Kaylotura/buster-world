@@ -7,25 +7,32 @@
     <title>Play Buster!</title>
   </head>
   <body>
-    <h2>Buster World Play!</h2>
-    <nav>
+    <h2 class="game">Buster World Play!</h2>
+     <nav>
       <a href="{% url 'start' %}">Home</a>
       <a href="{% url 'high_scores' %}">High Scores</a>
     </nav>
-    <fieldset class="invisible">
-      <form>
-        <input id="player_name">
-        <input id="player_score">
-        <input id="player_time">
+    <fieldset class="game_over invisible" >
+      <form method="post" action="{% url 'score_submit'%}">
+      {% csrf_token %}
+        <label>Name</label><input type="text" name="player_name"> <br>
+        <label>Score</label><input type="text" id="player_score" name="player_score" readonly>
+        <label>Time</label><input type="text" id="player_time" name="player_time" readonly>
+        <input type="submit">
       </form>
     </fieldset>
   </body>
+
+  <!--Loads Phaser, Jquery, Style.CSS, and Game.JS-->
   <script src="//cdn.jsdelivr.net/phaser/2.5.0/phaser.min.js"></script>
+  <link rel="stylesheet" href="{% static 'buster_world/style.css' %}">
   <script src="{% static 'buster_world/game.js' %}"></script>
- <script> var chain_icon = "{% static 'buster_world/sprites/chain.png' %}" </script>
- <script> var bubble_icon = "{% static 'buster_world/sprites/bubble.png' %}" </script>
- <script> var orb_icon = "{% static 'buster_world/sprites/orb.png' %}" </script>
- <script> var girl_icon = "{% static 'buster_world/sprites/girl.png' %}" </script>
- <script> var shield_icon = "{% static 'buster_world/sprites/shield.png' %}" </script>
- <script> var map_icon = "{% static 'buster_world/sprites/map.png' %}" </script>
+  <script src="http://code.jquery.com/jquery-2.2.3.js"></script>
+  <!--Loads Icons For Game-->
+  <script> var chain_icon = "{% static 'buster_world/sprites/chain.png' %}" </script>
+  <script> var bubble_icon = "{% static 'buster_world/sprites/bubble.png' %}" </script>
+  <script> var orb_icon = "{% static 'buster_world/sprites/orb.png' %}" </script>
+  <script> var girl_icon = "{% static 'buster_world/sprites/girl.png' %}" </script>
+  <script> var shield_icon = "{% static 'buster_world/sprites/shield.png' %}" </script>
+  <script> var map_icon = "{% static 'buster_world/sprites/map.png' %}" </script>
 </html>

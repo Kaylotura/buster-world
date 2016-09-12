@@ -9,7 +9,7 @@ class PlayerStats(models.Model):
     """
     name = models.TextField()
     score = models.IntegerField()
-    time = models.IntegerField()
+    time = models.FloatField()
 
     def __str__(self):
         return self.name + ' ' + str(self.score)

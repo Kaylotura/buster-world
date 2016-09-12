@@ -1,4 +1,13 @@
-var game = new Phaser.Game(800, 600, Phaser.AUTO, 'phaser-example', { preload: preload, create: create, update: update, render: render });
+/** It should be noted that the names of many variables are unclear for the time being, when the game is better
+ * constructed.
+ *
+ * the use of ['use strict';] seems to break phaser.js, so for the time being I will not be using it. Perhaps it would
+ * be wise to split this into different js docs?
+ *
+ */
+
+
+var game = new Phaser.Game(800, 600, Phaser.AUTO, 'buster_world', { preload: preload, create: create, update: update, render: render });
 
 function preload() {
 
@@ -6,7 +15,7 @@ function preload() {
     game.load.image('enemyBullet', orb_icon);
     game.load.image('ship', girl_icon);
     game.load.image('invader', bubble_icon);
-    game.load.image('starfield', map_icon);
+    game.load.image('map', map_icon);
     game.load.image('shield', shield_icon);
 }
 
@@ -16,7 +25,8 @@ var bullets;
 var bulletTime = 0;
 var cursors;
 var fireButton;
-var starfield;
+var quitButton;
+var map;
 var score = 0;
 var gameTime = 0;
 var scoreString = '';
@@ -31,8 +41,8 @@ function create() {
 
     game.physics.startSystem(Phaser.Physics.ARCADE);
 
-    //  The scrolling starfield background
-    starfield = game.add.tileSprite(0, 0, 800, 600, 'starfield');
+    //  The map background
+    background = game.add.tileSprite(0, 0, 800, 600, 'map');
 
     //  Our bullet group
     bullets = game.add.group();
@@ -90,6 +100,7 @@ function create() {
     //  And some controls to play the game with
     cursors = game.input.keyboard.createCursorKeys();
     fireButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+    quitButton = game.input.keyboard.addKey(Phaser.Keyboard.ONE);
 
 }
 
@@ -113,8 +124,6 @@ function createAliens () {
     //  All this does is basically start the invaders moving. Notice we're moving the Group they belong to, rather than the invaders directly.
     var tween = game.add.tween(aliens).to( { x: 200 }, 2000, Phaser.Easing.Linear.None, true, 0, 1000, true);
 
-    //  When the tween loops it calls descend
-    tween.onLoop.add(descend, this);
 }
 
 function setupInvader (invader) {
@@ -122,12 +131,6 @@ function setupInvader (invader) {
     invader.anchor.x = 0.5;
     invader.anchor.y = 0.5;
     invader.animations.add('kaboom');
-
-}
-
-function descend() {
-
-    aliens.y += 10;
 
 }
 
@@ -151,6 +154,12 @@ function update() {
         if (fireButton.isDown)
         {
             fireBullet();
+        }
+
+        //  Quiting?
+        if (quitButton.isDown)
+        {
+            gameOver();
         }
 
         if (game.time.now > firingTimer)
@@ -218,14 +227,7 @@ function enemyHitsPlayer (player,bullet) {
     // When the player dies
     if (lives.countLiving() < 1)
     {
-        player.kill();
-        enemyBullets.callAll('kill');
-
-        stateText.text=" GAME OVER \n Click to restart";
-        stateText.visible = true;
-
-        //the "click to restart" handler
-        game.input.onTap.addOnce(restart,this);
+        gameOver()
     }
 
 }
@@ -301,4 +303,40 @@ function restart () {
     //hides the text
     stateText.visible = false;
 
+}
+
+
+/**
+ * When the game is lost, or quit, this function is called. It removes the player icon, and displays the "Game Over"
+ * text and uses jquery to unhide and populate the game-over form.
+ */
+function gameOver (){
+    var time = getPrettyTime()
+    player.kill();
+    enemyBullets.callAll('kill');
+    stateText.text='GAME OVER';
+    stateText.visible = true;
+    unhideField('.game_over');
+    $('#player_score').val(score);
+    $('#player_time').val(time);
+
+}
+
+
+/**
+ * Takes in a class as an argument and removes the invisble class from all elements that have the given input class.
+ */
+function unhideField(inputclass) {
+  $(inputclass).removeClass('invisible');
+}
+
+/**
+ * Returns the game time in 100th of seconds.
+ */
+function getPrettyTime() {
+    var time = this.game.time.totalElapsedSeconds()
+    var working_time = time * 10
+    var still_working_time = Math.floor(working_time)
+    var pretty_time = still_working_time / 10
+    return pretty_time
 }
