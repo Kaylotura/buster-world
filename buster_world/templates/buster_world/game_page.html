@@ -7,25 +7,27 @@
     <title>Play Buster!</title>
   </head>
   <body>
-    <h2>Buster World Play!</h2>
+    <h2 class="game">Buster World Play!</h2>
+    <h2 class="game_over">Buster World Play!</h2>
     <nav>
       <a href="{% url 'start' %}">Home</a>
       <a href="{% url 'high_scores' %}">High Scores</a>
     </nav>
-    <fieldset class="invisible">
+    <fieldset class="game_over">
       <form>
-        <input id="player_name">
-        <input id="player_score">
-        <input id="player_time">
+        <label>Name</label><input id="player_name">
+        <label>Score</label><div id="player_score"></div>
+        <label>Time</label><div id="player_time"></div>
       </form>
     </fieldset>
   </body>
+  <link rel="stylesheet" href="{% static 'buster_world/style.css' %}">
   <script src="//cdn.jsdelivr.net/phaser/2.5.0/phaser.min.js"></script>
   <script src="{% static 'buster_world/game.js' %}"></script>
- <script> var chain_icon = "{% static 'buster_world/sprites/chain.png' %}" </script>
- <script> var bubble_icon = "{% static 'buster_world/sprites/bubble.png' %}" </script>
- <script> var orb_icon = "{% static 'buster_world/sprites/orb.png' %}" </script>
- <script> var girl_icon = "{% static 'buster_world/sprites/girl.png' %}" </script>
- <script> var shield_icon = "{% static 'buster_world/sprites/shield.png' %}" </script>
- <script> var map_icon = "{% static 'buster_world/sprites/map.png' %}" </script>
+  <script> var chain_icon = "{% static 'buster_world/sprites/chain.png' %}" </script>
+  <script> var bubble_icon = "{% static 'buster_world/sprites/bubble.png' %}" </script>
+  <script> var orb_icon = "{% static 'buster_world/sprites/orb.png' %}" </script>
+  <script> var girl_icon = "{% static 'buster_world/sprites/girl.png' %}" </script>
+  <script> var shield_icon = "{% static 'buster_world/sprites/shield.png' %}" </script>
+  <script> var map_icon = "{% static 'buster_world/sprites/map.png' %}" </script>
 </html>

@@ -299,15 +299,9 @@ function restart () {
     //hides the text
     stateText.visible = false;
 
-}
-
-
-function saveScore() {
+}function saveScore() {
 var playerName = prompt("Please enter your name");
     if (playerName != null) {
-
-
-
     }
 
 
