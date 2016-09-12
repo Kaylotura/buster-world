@@ -22,6 +22,7 @@ var bullets;
 var bulletTime = 0;
 var cursors;
 var fireButton;
+var quitButton;
 var map;
 var score = 0;
 var gameTime = 0;
@@ -96,6 +97,7 @@ function create() {
     //  And some controls to play the game with
     cursors = game.input.keyboard.createCursorKeys();
     fireButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+    quitButton = game.input.keyboard.addKey(Phaser.Keyboard.ONE);
 
 }
 
@@ -149,6 +151,12 @@ function update() {
         if (fireButton.isDown)
         {
             fireBullet();
+        }
+
+        //  Quiting?
+        if (quitButton.isDown)
+        {
+            gameOver();
         }
 
         if (game.time.now > firingTimer)
@@ -216,14 +224,7 @@ function enemyHitsPlayer (player,bullet) {
     // When the player dies
     if (lives.countLiving() < 1)
     {
-        player.kill();
-        enemyBullets.callAll('kill');
-
-        stateText.text=" GAME OVER \n Click to Save Score";
-        stateText.visible = true;
-
-        //the "click to save score" handler
-        game.input.onTap.addOnce(saveScore,this);
+        gameOver()
     }
 
 }
@@ -299,10 +300,12 @@ function restart () {
     //hides the text
     stateText.visible = false;
 
-}function saveScore() {
-var playerName = prompt("Please enter your name");
-    if (playerName != null) {
-    }
+}
 
+function gameOver (){
+    player.kill();
+    enemyBullets.callAll('kill');
 
+    stateText.text=" GAME OVER \n Click to Save Score";
+    stateText.visible = true;
 }
