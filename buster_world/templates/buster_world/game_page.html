@@ -13,7 +13,7 @@
       <a href="{% url 'start' %}">Home</a>
       <a href="{% url 'high_scores' %}">High Scores</a>
     </nav>
-    <div id="map"></div>
+    <div name='buster_world' id="map"></div>
     <fieldset class="game_over invisible" >
       <form method="post" action="{% url 'score_submit'%}">
       {% csrf_token %}
