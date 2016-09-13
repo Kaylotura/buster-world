@@ -341,3 +341,4 @@ function getPrettyTime() {
     var pretty_time = still_working_time / 10
     return pretty_time
 }
+
