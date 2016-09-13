@@ -15,7 +15,7 @@ USGSOverlay.prototype = new google.maps.OverlayView();
 
 function initMap() {
   var map = new google.maps.Map(document.getElementById('map'), {
-    zoom: 11,
+    zoom: 18,
     center: {lat: 62.323907, lng: -150.109291},
     mapTypeId: 'satellite'
   });
@@ -25,8 +25,7 @@ function initMap() {
       new google.maps.LatLng(62.400471, -150.005608));
 
   // The photograph is courtesy of the U.S. Geological Survey.
-  var srcImage = 'https://developers.google.com/maps/documentation/' +
-      'javascript/examples/full/images/talkeetna.png';
+  var srcImage = 'http://www.freeiconspng.com/uploads/bubbles-png-0.png';
 
   // The custom USGSOverlay object contains the USGS image,
   // the bounds of the image, and a reference to the map.

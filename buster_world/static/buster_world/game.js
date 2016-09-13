@@ -8,7 +8,7 @@
  */
 
 
-var game = new Phaser.Game(800, 600, Phaser.AUTO, 'buster_world', { preload: preload, create: create, update: update, render: render });
+var game = new Phaser.Game(800, 600, Phaser.AUTO, 'buster_world', { preload: preload, create: create, update: update, render: render }, true);
 
 function preload() {
 
@@ -16,7 +16,7 @@ function preload() {
     game.load.image('enemyBullet', orb_icon);
     game.load.image('ship', girl_icon);
     game.load.image('invader', bubble_icon);
-    game.load.image('map', map_icon);
+    game.load.image('invader', bubble_icon);
     game.load.image('shield', shield_icon);
 }
 
@@ -27,7 +27,6 @@ var bulletTime = 0;
 var cursors;
 var fireButton;
 var quitButton;
-var map;
 var score = 0;
 var gameTime = 0;
 var scoreString = '';
@@ -41,9 +40,6 @@ var livingEnemies = [];
 function create() {
 
     game.physics.startSystem(Phaser.Physics.ARCADE);
-
-    //  The map background
-    background = game.add.tileSprite(0, 0, 800, 600, 'map');
 
     //  Our bullet group
     bullets = game.add.group();
