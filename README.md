@@ -1,6 +1,8 @@
 #Buster World
 A bubble-busting location-based augmented reality game inspired Buster Bros., Pang, and Ingress. Players controll a character on a map based on their real-world location, and pop bubbles that bounce around over the map in effort to increase their highscore!
+
 Currently, Buster World is a work in progress. 
+
 For more information, see the [proposal](/proposal.md).
 
 ##Setup
