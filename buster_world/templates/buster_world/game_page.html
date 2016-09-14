@@ -4,6 +4,7 @@
 <link rel="stylesheet" href="{% static 'buster_world/style.css' %}">
   <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="initial-scale=1.0">
     <title>Play Buster!</title>
   </head>
   <body>
@@ -12,6 +13,8 @@
       <a href="{% url 'start' %}">Home</a>
       <a href="{% url 'high_scores' %}">High Scores</a>
     </nav>
+    <div id='map'></div>
+    <div id='game'></div>
     <fieldset class="game_over invisible" >
       <form method="post" action="{% url 'score_submit'%}">
       {% csrf_token %}
@@ -22,12 +25,18 @@
       </form>
     </fieldset>
   </body>
-
-  <!--Loads Phaser, Jquery, Style.CSS, and Game.JS-->
-  <script src="//cdn.jsdelivr.net/phaser/2.5.0/phaser.min.js"></script>
-  <link rel="stylesheet" href="{% static 'buster_world/style.css' %}">
-  <script src="{% static 'buster_world/game.js' %}"></script>
+  <!--Loads Jquery and Style.CSS-->
   <script src="http://code.jquery.com/jquery-2.2.3.js"></script>
+  <link rel="stylesheet" href="{% static 'buster_world/style.css' %}">
+  <!---->
+  <!--Loads Google API and Map.js-->
+  <script src="https://maps.googleapis.com/maps/api/js?key={{KEY}}"></script>
+  <script src="{% static 'buster_world/map.js' %}"></script>
+  <!---->
+  <!--Loads Phaser and Game.JS-->
+  <script src="//cdn.jsdelivr.net/phaser/2.5.0/phaser.min.js"></script>
+  <script src="{% static 'buster_world/game.js' %}"></script>
+  <!---->
   <!--Loads Icons For Game-->
   <script> var chain_icon = "{% static 'buster_world/sprites/chain.png' %}" </script>
   <script> var bubble_icon = "{% static 'buster_world/sprites/bubble.png' %}" </script>

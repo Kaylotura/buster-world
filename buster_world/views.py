@@ -3,6 +3,7 @@
 from django.shortcuts import render
 from . import logic
 from . import models
+from . import key
 
 def render_start(request):
     """Renders the Start Page."""
@@ -10,13 +11,16 @@ def render_start(request):
 
 def render_game(request):
     """Renders the Game Page."""
-    return render(request, 'buster_world/game_page.html')
+    template_arguments = {
+        'KEY': key.KEY
+    }
+    return render(request, 'buster_world/game_page.html', template_arguments)
 
 def render_high_scores(request):
     """Renders the High Score Page."""
     player_stats = logic.get_player_stats_by_score()
-    template_arguements = logic.seperate_by_top_ten(player_stats)
-    return render(request, 'buster_world/high_score_page.html', template_arguements)
+    template_arguments = logic.seperate_by_top_ten(player_stats)
+    return render(request, 'buster_world/high_score_page.html', template_arguments)
 
 
 def return_score_submit(request):
