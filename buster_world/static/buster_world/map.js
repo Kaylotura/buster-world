@@ -1,3 +1,8 @@
+/** This handles the creation of the map aspect of the game.
+ *
+ */
+
+
 function initMap() {
 
 
