@@ -8,7 +8,7 @@
  */
 
 
-var game = new Phaser.Game(800, 600, Phaser.AUTO, 'map', { preload: preload, create: create, update: update, render: render }, true);
+var game = new Phaser.Game(800, 600, Phaser.AUTO, 'game', { preload: preload, create: create, update: update, render: render }, true);
 
 function preload() {
 
@@ -337,4 +337,6 @@ function getPrettyTime() {
     var pretty_time = still_working_time / 10
     return pretty_time
 }
+
+
 

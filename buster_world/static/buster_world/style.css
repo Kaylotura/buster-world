@@ -2,12 +2,18 @@
   display: none;
 }
 
-#map {
-  height: 600px;
-  width: 800px;
+  #map {
+  height: 100%;
+  width: 100%;
+  position:absolute;
+  top: 0;
+  left: 0;
+  z-index: 0; /* Set z-index to 0 as it will be on a layer below the contact form */
 }
 
-#map {
-  height: 600px;
-  width: 800px;
+#game {
+  position: relative;
+  z-index: 1; /* The z-index should be higher than Google Maps */
+  margin: 60px auto 0;
+  background: black;
 }
