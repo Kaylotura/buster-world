@@ -27,7 +27,9 @@ There are three pages on Buster World; A Start Page, a Game Page, and a High Sco
 The start page has a link to the High-score Page and a Link to the Game Page, as well as some basic game instructions.
 
 ###Game Page
-At this time the game page is an incomplete mock-up of what the game will actually be. The background image is set to a static-world map, while the foreground is an Invaders style.
+At this time the game page is an incomplete mock-up of what the game will actually be.
+The game and a google map are layered using Z-indexing, and a transparent background for the game.
+The game itself plays like an Invaders style game.
 
 ####Controls
 * Left/Right Arrow Keys move the player left or right accordingly.
