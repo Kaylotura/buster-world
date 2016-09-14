@@ -13,7 +13,7 @@
       <a href="{% url 'start' %}">Home</a>
       <a href="{% url 'high_scores' %}">High Scores</a>
     </nav>
-    <div id="map"></div>
+    <div id='map' name="game"></div>
     <fieldset class="game_over invisible" >
       <form method="post" action="{% url 'score_submit'%}">
       {% csrf_token %}
@@ -28,12 +28,13 @@
   <script src="http://code.jquery.com/jquery-2.2.3.js"></script>
   <link rel="stylesheet" href="{% static 'buster_world/style.css' %}">
   <!---->
+  <!--Loads Phaser and Game.JS-->
+ <script src="//cdn.jsdelivr.net/phaser/2.5.0/phaser.min.js"></script>
+ <script src="{% static 'buster_world/game.js' %}"></script>
+  <!---->
   <!--Loads Google API and Map.js-->
   <script src="https://maps.googleapis.com/maps/api/js?key={{KEY}}"></script>
   <script src="{% static 'buster_world/map.js' %}"></script>
-  <!---->
-  <!--Loads Phaser and Game.JS-->
-
   <!---->
   <!--Loads Icons For Game-->
   <script> var chain_icon = "{% static 'buster_world/sprites/chain.png' %}" </script>

@@ -8,7 +8,7 @@
  */
 
 
-var game = new Phaser.Game(800, 600, Phaser.AUTO, 'buster_world', { preload: preload, create: create, update: update, render: render }, true);
+var game = new Phaser.Game(800, 600, Phaser.AUTO, 'map', { preload: preload, create: create, update: update, render: render }, true);
 
 function preload() {
 
