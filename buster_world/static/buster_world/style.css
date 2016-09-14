@@ -15,5 +15,4 @@
   position: relative;
   z-index: 1; /* The z-index should be higher than Google Maps */
   margin: 60px auto 0;
-  background: black;
 }
