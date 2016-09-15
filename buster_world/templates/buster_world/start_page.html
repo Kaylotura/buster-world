@@ -2,6 +2,7 @@
 <html lang="en">
 {% load staticfiles %}
   <head>
+    <link rel="stylesheet" href="{% static 'buster_world/style.css' %}">
     <meta charset="UTF-8">
     <title>Start Buster!</title>
   </head>
@@ -23,5 +24,4 @@
     </p>
     <a href="{% url 'game'%}">Start!</a>
   </body>
-<link rel="stylesheet" href="{% static 'buster_world/style.css' %}">
 </html>

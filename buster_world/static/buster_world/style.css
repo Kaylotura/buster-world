@@ -2,7 +2,7 @@
   display: none;
 }
 
-  #map {
+#map {
   height: 600px;
   width: 800px;
   position:absolute;
@@ -13,4 +13,9 @@
   position: relative;
   z-index: 1; /* The z-index should be higher than Google Maps */
   margin: 60px auto 0;
+}
+
+.top-ten {
+font-size: 14;
+font-weight: bold;
 }
