@@ -43,7 +43,7 @@ function create() {
     chains = game.add.group();
     chains.enableBody = true;
     chains.physicsBodyType = Phaser.Physics.ARCADE;
-    chains.createMultiple(5, 'chain');
+    chains.createMultiple(1, 'chain');
     chains.setAll('anchor.x', 0.5);
     chains.setAll('anchor.y', 1);
     chains.setAll('outOfBoundsKill', true);
