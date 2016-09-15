@@ -33,17 +33,3 @@ def get_player_stats_by_score(player_stats=PLAYER_SCORES):
     ['link', 'kirby', 'mario']
     """
     return player_stats.order_by('score').reverse()
-
-
-def seperate_by_top_ten(any_list):
-    """Takes in a list as an arguement and returns a dictionary with 'top' as a key, and the first 10 entries in a list
-    as the value, and 'the_rest" as anoter key with a list of the remaining items as the value.
-
-    >>> a = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
-    >>> seperate_by_top_ten(a)
-    {'top': [1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 'the_rest': [11, 12]}
-    """
-    return {
-        'top': any_list[:10],
-        'the_rest': any_list[10:]
-            }
