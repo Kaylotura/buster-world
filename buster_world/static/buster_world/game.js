@@ -2,7 +2,7 @@
  *
  * The use of 'use strict'; seems to break phaser.js, so for the time being I will not be using it.
  *
- * Common recomended syntax withPhaser.js is to split a game into multiple js files. I need to do this.
+ * Commonly recommended syntax with phaser.js is to split a game into multiple js files. I need to do this.
  *
  */
 
@@ -21,19 +21,19 @@ function preload() {
 var player;
 var bubbles;
 var chains;
-var bulletTime = 0;
+var launchTime = 0;
 var cursors;
-var fireButton;
+var hookshotButton;
 var quitButton;
 var score = 0;
 var gameTime = 0;
 var scoreString = '';
 var scoreText;
-var lives;
-var enemyBullet;
-var firingTimer = 0;
+var resolve;
+var enemyOrb;
+var orbTimer = 0;
 var stateText;
-var livingEnemies = [];
+var remainingBubbles = [];
 
 function create() {
 
@@ -50,14 +50,14 @@ function create() {
     chains.setAll('checkWorldBounds', true);
 
     // The enemy's orbs
-    enemyBullets = game.add.group();
-    enemyBullets.enableBody = true;
-    enemyBullets.physicsBodyType = Phaser.Physics.ARCADE;
-    enemyBullets.createMultiple(30, 'orb');
-    enemyBullets.setAll('anchor.x', 0.5);
-    enemyBullets.setAll('anchor.y', 1);
-    enemyBullets.setAll('outOfBoundsKill', true);
-    enemyBullets.setAll('checkWorldBounds', true);
+    enemyOrbs = game.add.group();
+    enemyOrbs.enableBody = true;
+    enemyOrbs.physicsBodyType = Phaser.Physics.ARCADE;
+    enemyOrbs.createMultiple(30, 'orb');
+    enemyOrbs.setAll('anchor.x', 0.5);
+    enemyOrbs.setAll('anchor.y', 1);
+    enemyOrbs.setAll('outOfBoundsKill', true);
+    enemyOrbs.setAll('checkWorldBounds', true);
 
     //  The hero!
     player = game.add.sprite(400, 500, 'hero');
@@ -75,8 +75,8 @@ function create() {
     scoreString = 'Score : ';
     scoreText = game.add.text(10, 10, scoreString + score, { font: '34px Arial', fill: '#fff' });
 
-    //  Lives
-    lives = game.add.group();
+    //  Resolve
+    resolve = game.add.group();
     game.add.text(game.world.width - 130, 10, 'Resolve : ', { font: '34px Arial', fill: '#fff' });
 
     //  Text
@@ -86,15 +86,15 @@ function create() {
 
     for (var i = 0; i < 3; i++)
     {
-        var hero = lives.create(game.world.width - 100 + (30 * i), 60, 'shield');
+        var hero = resolve.create(game.world.width - 100 + (30 * i), 60, 'shield');
         hero.anchor.setTo(0.5, 0.5);
     }
 
     //  And some controls to play the game with
     cursors = game.input.keyboard.createCursorKeys();
-    fireButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+    hookshotButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+    // Quit Button is just for Debugging Purposes
     quitButton = game.input.keyboard.addKey(Phaser.Keyboard.ONE);
-
 }
 
 function createBubbles () {
@@ -142,10 +142,10 @@ function update() {
             player.body.velocity.x = 200;
         }
 
-        //  Firing?
-        if (fireButton.isDown)
+        //  Launching Hookshot?
+        if (hookshotButton.isDown)
         {
-            fireBullet();
+            launchChain();
         }
 
         //  Quiting?
@@ -154,14 +154,14 @@ function update() {
             gameOver();
         }
 
-        if (game.time.now > firingTimer)
+        if (game.time.now > orbTimer)
         {
             enemyFires();
         }
 
         //  Run collision
         game.physics.arcade.overlap(chains, bubbles, collisionHandler, null, this);
-        game.physics.arcade.overlap(enemyBullets, player, enemyHitsPlayer, null, this);
+        game.physics.arcade.overlap(enemyOrbs, player, enemyHitsPlayer, null, this);
 
         // Keep Time
         game.debug.text('Time: ' + this.game.time.totalElapsedSeconds(), 10, 60);
@@ -189,7 +189,7 @@ function collisionHandler (bullet, bubble) {
         score += 1000;
         scoreText.text = scoreString + score;
 
-        enemyBullets.callAll('kill',this);
+        enemyOrbs.callAll('kill',this);
         stateText.text = " You Won, \n Click to restart";
         stateText.visible = true;
 
@@ -203,7 +203,7 @@ function enemyHitsPlayer (player,bullet) {
 
     bullet.kill();
 
-    live = lives.getFirstAlive();
+    live = resolve.getFirstAlive();
 
     if (live)
     {
@@ -211,8 +211,8 @@ function enemyHitsPlayer (player,bullet) {
     }
 
 
-    // When the player dies
-    if (lives.countLiving() < 1)
+    // When the player loses all of their resolve
+    if (resolve.countLiving() < 1)
     {
         gameOver()
     }
@@ -221,38 +221,38 @@ function enemyHitsPlayer (player,bullet) {
 
 function enemyFires () {
 
-    //  Grab the first bullet we can from the pool
-    enemyBullet = enemyBullets.getFirstExists(false);
+    //  Grab the first orb we can from the pool
+    enemyOrb = enemyOrbs.getFirstExists(false);
 
-    livingEnemies.length=0;
+    remainingBubbles.length=0;
 
     bubbles.forEachAlive(function(bubble){
 
         // put every living enemy in an array
-        livingEnemies.push(bubble);
+        remainingBubbles.push(bubble);
     });
 
 
-    if (enemyBullet && livingEnemies.length > 0)
+    if (enemyOrb && remainingBubbles.length > 0)
     {
 
-        var random=game.rnd.integerInRange(0,livingEnemies.length-1);
+        var random=game.rnd.integerInRange(0,remainingBubbles.length-1);
 
         // randomly select one of them
-        var shooter=livingEnemies[random];
-        // And fire the bullet from this enemy
-        enemyBullet.reset(shooter.body.x, shooter.body.y);
+        var shooter=remainingBubbles[random];
+        // And fire the orb from this enemy
+        enemyOrb.reset(shooter.body.x, shooter.body.y);
 
-        game.physics.arcade.moveToObject(enemyBullet,player,120);
-        firingTimer = game.time.now + 2000;
+        game.physics.arcade.moveToObject(enemyOrb,player,120);
+        orbTimer = game.time.now + 2000;
     }
 
 }
 
-function fireBullet () {
+function launchChain () {
 
     //  To avoid them being allowed to fire too fast we set a time limit
-    if (game.time.now > bulletTime)
+    if (game.time.now > launchTime)
     {
         //  Grab the first bullet we can from the pool
         bullet = chains.getFirstExists(false);
@@ -262,7 +262,7 @@ function fireBullet () {
             //  And fire it
             bullet.reset(player.x, player.y + 8);
             bullet.body.velocity.y = -400;
-            bulletTime = game.time.now + 200;
+            launchTime = game.time.now + 200;
         }
     }
 
@@ -280,7 +280,7 @@ function restart () {
     //  A new level starts
 
     //resets the life count
-    lives.callAll('revive');
+    resolve.callAll('revive');
     //  And brings the bubbles back from the dead :)
     bubbles.removeAll();
     createBubbles();
@@ -300,7 +300,7 @@ function restart () {
 function gameOver (){
     var time = getPrettyTime()
     player.kill();
-    enemyBullets.callAll('kill');
+    enemyOrbs.callAll('kill');
     stateText.text='GAME OVER';
     stateText.visible = true;
     unhideField('.game_over');
