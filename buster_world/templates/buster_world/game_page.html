@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 {% load staticfiles %}
 <html lang="en">
-<link rel="stylesheet" href="{% static 'buster_world/style.css' %}">
   <head>
+    <link rel="stylesheet" href="{% static 'buster_world/style.css' %}">
     <meta charset="UTF-8">
     <meta name="viewport" content="initial-scale=1.0">
     <title>Play Buster!</title>
@@ -13,8 +13,8 @@
       <a href="{% url 'start' %}">Home</a>
       <a href="{% url 'high_scores' %}">High Scores</a>
     </nav>
-    <div id='map'></div>
-    <div id='game'></div>
+    <div id="map"></div>
+    <div id="game"></div>
     <fieldset class="game_over invisible" >
       <form method="post" action="{% url 'score_submit'%}">
       {% csrf_token %}

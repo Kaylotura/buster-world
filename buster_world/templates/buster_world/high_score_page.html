@@ -1,6 +1,8 @@
 <!DOCTYPE html>
+{% load staticfiles %}
 <html lang="en">
   <head>
+    <link rel="stylesheet" href="{% static 'buster_world/style.css' %}">
     <meta charset="UTF-8">
     <title>Best Busters!</title>
   </head>
@@ -9,12 +11,9 @@
     <nav>
       <a href="{% url 'start' %}">Home</a>
     </nav>
-
     <ol>
       {% for player in top %}
-      <h3>
-        <li>{{ player.name }}, {{ player.score }}</li>
-      </h3>
+      <li class="top-ten">{{ player.name }}, {{ player.score }}</li>
       {% endfor %}
       {% for player in the_rest %}
       <li> {{ player.name }}, {{ player.score }}</li>
