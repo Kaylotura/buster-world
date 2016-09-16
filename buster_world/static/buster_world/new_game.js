@@ -21,6 +21,7 @@ function preload() {
   game.load.image('player', girl_icon);
   game.load.image('chain', chain_icon);
   game.load.image('bubble', bubble_icon);
+  game.load.image('shield', shield_icon);
 }
 
 var player;
@@ -32,7 +33,7 @@ var hook;
 var chainCount = false;
 var chainGrow
 var score = 0;
-
+var resolve = 3;
 
 /**
  * A Phaser.js specific function that contains all of the information that the
@@ -59,6 +60,10 @@ function create() {
   //  The score
   scoreString = 'Catharsis : ';
   scoreText = game.add.text(10, 10, scoreString + score, { font: '34px Ariel', fill: '#CC3300' });
+
+  //  Player's Resolve
+  resolveString = 'Resolve : ';
+  resolveText = game.add.text(game.world.width - 200, 10, resolveString + resolve, { font: '34px Ariel', fill: '#CC3300' });
 
 
   // Creates a Game-Time Event that Creates Bubbles!
@@ -154,17 +159,23 @@ function update() {
   */
   function bubbleHurtsPlayer (player, ball) {
 
-  //  When a bubble hits the player, they are destroyed!
-  player.kill();
+  //  When a bubble hits the player, one point of resolve is taken away, and the bubble is destroyed.
+  // If the player has 0 resolve, they die!
   ball.kill();
+  resolve -= 1;
+  resolveText.text = resolveString + resolve;
   if (chainCount === true) {
-    chain.kill();
+    hook.kill();
     chainCount = false;
     }
   //  Decreases the score
   score -= 50;
   scoreText.text = scoreString + score;
-   }
+  if (resolve === 0) {
+  player.kill()
+  }
+
+  }
 
 
 
