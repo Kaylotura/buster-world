@@ -27,10 +27,12 @@ var player;
 var cursors;
 var chains;
 var bubbles;
-var s;
+var ball;
 var hook;
-var chainCount = 0;
+var chainCount = false;
 var chainGrow
+var score = 0;
+
 
 /**
  * A Phaser.js specific function that contains all of the information that the
@@ -54,8 +56,13 @@ function create() {
   fireButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR
   );
 
+  //  The score
+  scoreString = 'Catharsis : ';
+  scoreText = game.add.text(10, 10, scoreString + score, { font: '34px Ariel', fill: '#CC3300' });
+
+
   // Creates a Game-Time Event that Creates Bubbles!
-  game.time.events.repeat(Phaser.Timer.SECOND * 0.0002, 10, createBall, this);
+  game.time.events.repeat(Phaser.Timer.SECOND * 2, 10, createBall, this);
 
   /**
    * Populates the game screen with bubbles.
@@ -78,9 +85,8 @@ function update() {
   bubbles.setAll('body.bounce.x', 1);
   bubbles.setAll('body.bounce.y', 1);
   game.physics.arcade.collide(bubbles);
-  game.physics.arcade.collide(bubbles, player);
+  game.physics.arcade.overlap(player, bubbles, bubbleHurtsPlayer, null, this);
   game.physics.arcade.overlap(bubbles, chains, chainPopsBubble, null, this);
-  player.body.immovable = true;
   player.body.velocity.x = 0;
   player.body.velocity.y = 0;
 
@@ -89,21 +95,21 @@ function update() {
   */
   function killChain() {
     hook.kill();
-    chainCount -= 1;
+    chainCount = false;
   }
 
   /**
    * Handles the Chain Launching action.
    */
   function launchHook() {
-    if (chainCount < 1) {
+    if (chainCount == false) {
       hook = chains.create(player.x, player.y, 'chain');
       hook.body.immovable = true;
       game.physics.arcade.enable(hook);
       chainGrow = game.add.tween(hook.scale).to({x: 1, y: -20} , 2000,
          Phaser.Easing.Linear.None, true);
       chainGrow.onComplete.add(killChain, this);
-      chainCount += 1;
+      chainCount = true;
     }
   }
 
@@ -132,11 +138,33 @@ function update() {
  */
   function chainPopsBubble(chain, ball) {
 
-    //  When a chain hits an bubble we kill them both
-    chain.kill();
-    ball.kill();
+  //  When a chain hits an bubble we kill them both
+  chain.kill();
+  chainCount = false;
+  ball.kill();
+
+  //  Increase the score
+  score += 20;
+  scoreText.text = scoreString + score;
    }
 
+
+ /**
+  * Manages sprite collision between the chain and any given bubble.
+  */
+  function bubbleHurtsPlayer (player, ball) {
+
+  //  When a bubble hits the player, they are destroyed!
+  player.kill();
+  ball.kill();
+  if (chainCount === true) {
+    chain.kill();
+    chainCount = false;
+    }
+  //  Decreases the score
+  score -= 50;
+  scoreText.text = scoreString + score;
+   }
 
 
 
@@ -148,6 +176,3 @@ function update() {
  */
 function render() {
 }
-
-
-
