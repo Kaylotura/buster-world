@@ -37,6 +37,7 @@ var chainGrow
 var score = 0;
 var resolve = 3;
 var facing = {'chainDirection': {x: 1, y: -20}, 'chainAngle': 'tallChain', 'chainPopY': -20, 'chainPopX': 0};
+var comboTracker = {'size': 0, 'combo': 0}
 
 /**
  * A Phaser.js specific function that contains all of the information that the
@@ -70,11 +71,16 @@ function create() {
 
   //  Player's Resolve
   resolveString = 'Resolve : ';
-  resolveText = game.add.text(game.world.width - 200, 10, resolveString + resolve, { font: '34px Ariel', fill: '#CC3300' });
+  resolveText = game.add.text(game.world.width -200, 10, resolveString + resolve, { font: '34px Ariel', fill: '#CC3300' });
+
+//  Player's Combo
+  comboString = 'Combo[Size/String] : ';
+  comboText = game.add.text(game.world.width -500, 50, comboString + comboTracker['size']+ comboTracker['combo'],
+    { font: '34px Ariel', fill: '#CC3300' });
 
 
   // Creates a Game-Time Event that Creates Bubbles!
-  game.time.events.repeat(Phaser.Timer.SECOND * 2, 10, createBall, this);
+  game.time.events.repeat(Phaser.Timer.SECOND * 3, 100, createBall, this);
 
   /**
    * Populates the game screen with bubbles.
@@ -82,8 +88,9 @@ function create() {
   function createBall() {
     //  A bouncey ball sprite just to visually see what's going on.
     ball = bubbles.create(game.world.randomX, game.world.randomY, 'bubble');
-    ball.body.velocity.set(game.rnd.integerInRange(-200, 200),
-    game.rnd.integerInRange(-200, 200));
+    ball.body.velocity.set(game.rnd.integerInRange(-200, 200), game.rnd.integerInRange(-200, 200));
+    ball.scale.setTo(game.rnd.pick([2, 2, 2, 2, 1, 1, 1, 0.5, 0.5, .25]));
+    ball.tint = Math.random() * 0xffffff;
   }
 }
 
@@ -108,6 +115,7 @@ function update() {
   function killChain() {
     hook.kill();
     chainCount = false;
+   chainCount = false;
   }
 
   /**
@@ -159,20 +167,39 @@ function update() {
  */
   function chainPopsBubble(ball, chain) {
 
-  //  When a chain hits an bubble we kill them both
+  //  Remove the chain, and set the chainCount to False.
   chain.kill();
   chainCount = false;
-  smallBall1 = bubbles.create(ball.world.x, ball.world.y, 'bubble');
-  smallBall1.scale.setTo(0.5);
-  smallBall1.body.velocity.set(ball.body.velocity.x * 1.5, ball.body.velocity.y * -1.5);
-  smallBall1 = bubbles.create(ball.world.x, ball.world.y, 'bubble');
-  smallBall1.scale.setTo(0.5);
-  smallBall1.body.velocity.set(ball.body.velocity.x * -1.5, ball.body.velocity.y * 1.5);
-  ball.kill();
 
-  //  Increase the score
-  score += 20;
-  scoreText.text = scoreString + score;
+  // make children bubbles if parent bubble wasn't too small
+  if (ball.scale.x > .25) {
+    smallBall1 = bubbles.create(ball.world.x, ball.world.y, 'bubble');
+    smallBall1.scale.setTo(ball.scale.x / 2, ball.scale.y / 2);
+    smallBall1.body.velocity.set(ball.body.velocity.x * 1.5, ball.body.velocity.y * -1.5);
+    smallBall1.tint = (ball.tint);
+    smallBall2 = bubbles.create(ball.world.x, ball.world.y, 'bubble');
+    smallBall2.scale.setTo(ball.scale.x / 2, ball.scale.y / 2);
+    smallBall2.body.velocity.set(ball.body.velocity.x * -1.5, ball.body.velocity.y * 1.5);
+    smallBall1.tint = (ball.tint);
+      }
+
+  // Track Combo
+  if (ball.scale.x === comboTracker['size']) {
+    if (comboTracker['combo'] < 4) {
+        comboTracker['combo'] += 1;
+        }
+    } else {
+   comboTracker['combo'] = 1;
+   comboTracker['size'] = ball.scale.x;
+   }
+
+   comboText.text = comboString + comboTracker['size'] + '||' + comboTracker['combo'];
+
+
+  // Increase the Score
+  score += (1 / ball.scale.x) * comboTracker['combo'] * 100;
+  scoreText.text = scoreString + score
+  ball.kill();
    }
 
 
