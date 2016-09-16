@@ -1,4 +1,4 @@
-/**
+ /**
  * Buster World: The Game.
  * This file uses Phaser 2.6.2 to create a bubble busting game to be rendered
  * over a google map.
@@ -19,7 +19,8 @@
  */
 function preload() {
   game.load.image('player', girl_icon);
-  game.load.image('chain', chain_icon);
+  game.load.image('tallChain', tall_chain_icon);
+  game.load.image('wideChain', wide_chain_icon);
   game.load.image('bubble', bubble_icon);
   game.load.image('shield', shield_icon);
 }
@@ -29,12 +30,13 @@ var cursors;
 var chains;
 var bubbles;
 var ball;
+var smallBall;
 var hook;
 var chainCount = false;
 var chainGrow
 var score = 0;
 var resolve = 3;
-var facing = {'direction': {x: 1, y: -20}, 'angle': 0};
+var facing = {'chainDirection': {x: 1, y: -20}, 'chainAngle': 'tallChain', 'chainPopY': -20, 'chainPopX': 0};
 
 /**
  * A Phaser.js specific function that contains all of the information that the
@@ -113,11 +115,10 @@ function update() {
    */
   function launchHook() {
     if (chainCount == false) {
-      hook = chains.create(player.x, player.y, 'chain');
+      hook = chains.create(player.x, player.y, facing['chainAngle']);
       hook.body.immovable = true;
-      hook.angle = (facing['angle'])
       game.physics.arcade.enable(hook);
-      chainGrow = game.add.tween(hook.scale).to(facing['direction'], 2000, Phaser.Easing.Linear.None, true);
+      chainGrow = game.add.tween(hook.scale).to(facing['chainDirection'], 2000, Phaser.Easing.Linear.None, true);
       chainGrow.onComplete.add(killChain, this);
       chainCount = true;
     }
@@ -144,23 +145,29 @@ function update() {
 
   // Game Controls for Facing
   if (faceUpButton.isDown) {
-    facing = {'direction': {x: 1, y: -20}, 'angle': 0};
+    facing = {'chainDirection': {x: 1, y: -20}, 'chainAngle': 'tallChain', 'chainPopY': -400, 'chainPopX': 0};
   } else if (faceLeftButton.isDown) {
-    facing = {'direction': {x: 1, y: 20}, 'angle': 90};;
+    facing = {'chainDirection': {x: -20, y: 1}, 'chainAngle': 'wideChain', 'chainPopY': 0, 'chainPopX': -400};
   } else if (faceRightButton.isDown) {
-    facing = {'direction': {x: 1, y: -20}, 'angle': 90};
+    facing = {'chainDirection': {x: 20, y: 1}, 'chainAngle': 'wideChain', 'chainPopY': 0, 'chainPopX': 400};
   }else if (faceDownButton.isDown) {
-    facing = {'direction': {x: 1, y: 20}, 'angle': 0};
+    facing = {'chainDirection': {x: 1, y: 20}, 'chainAngle': 'tallChain', 'chainPopY': 400, 'chainPopX': 0};
   }
 
  /**
  * Manages sprite collision between the chain and any given bubble.
  */
-  function chainPopsBubble(chain, ball) {
+  function chainPopsBubble(ball, chain) {
 
   //  When a chain hits an bubble we kill them both
   chain.kill();
   chainCount = false;
+  smallBall1 = bubbles.create(ball.world.x, ball.world.y, 'bubble');
+  smallBall1.scale.setTo(0.5);
+  smallBall1.body.velocity.set(ball.body.velocity.x * 1.5, ball.body.velocity.y * -1.5);
+  smallBall1 = bubbles.create(ball.world.x, ball.world.y, 'bubble');
+  smallBall1.scale.setTo(0.5);
+  smallBall1.body.velocity.set(ball.body.velocity.x * -1.5, ball.body.velocity.y * 1.5);
   ball.kill();
 
   //  Increase the score
@@ -186,13 +193,11 @@ function update() {
   //  Decreases the score
   score -= 50;
   scoreText.text = scoreString + score;
-  if (resolve === 0) {
-  player.kill()
-  }
-
-  }
-
-
+//  death has been comented out for testing.
+//  if (resolve === 0) {
+//  player.kill()
+//  }
+ }
 
 }
 
@@ -201,4 +206,7 @@ function update() {
  * Phaser Js Function, not needed yet, but prepared.
  */
 function render() {
+
+
+
 }
