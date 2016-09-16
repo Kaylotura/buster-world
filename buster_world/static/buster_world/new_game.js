@@ -34,6 +34,7 @@ var chainCount = false;
 var chainGrow
 var score = 0;
 var resolve = 3;
+var facing = {'direction': {x: 1, y: -20}, 'angle': 0};
 
 /**
  * A Phaser.js specific function that contains all of the information that the
@@ -54,8 +55,12 @@ function create() {
 
   // The Game's Controls
   cursors = game.input.keyboard.createCursorKeys();
-  fireButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR
-  );
+  fireButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+  faceUpButton = game.input.keyboard.addKey(Phaser.Keyboard.W);
+  faceLeftButton = game.input.keyboard.addKey(Phaser.Keyboard.A);
+  faceRightButton = game.input.keyboard.addKey(Phaser.Keyboard.D);
+  faceDownButton = game.input.keyboard.addKey(Phaser.Keyboard.S);
+
 
   //  The score
   scoreString = 'Catharsis : ';
@@ -110,9 +115,9 @@ function update() {
     if (chainCount == false) {
       hook = chains.create(player.x, player.y, 'chain');
       hook.body.immovable = true;
+      hook.angle = (facing['angle'])
       game.physics.arcade.enable(hook);
-      chainGrow = game.add.tween(hook.scale).to({x: 1, y: -20} , 2000,
-         Phaser.Easing.Linear.None, true);
+      chainGrow = game.add.tween(hook.scale).to(facing['direction'], 2000, Phaser.Easing.Linear.None, true);
       chainGrow.onComplete.add(killChain, this);
       chainCount = true;
     }
@@ -137,6 +142,16 @@ function update() {
     launchHook();
   }
 
+  // Game Controls for Facing
+  if (faceUpButton.isDown) {
+    facing = {'direction': {x: 1, y: -20}, 'angle': 0};
+  } else if (faceLeftButton.isDown) {
+    facing = {'direction': {x: 1, y: 20}, 'angle': 90};;
+  } else if (faceRightButton.isDown) {
+    facing = {'direction': {x: 1, y: -20}, 'angle': 90};
+  }else if (faceDownButton.isDown) {
+    facing = {'direction': {x: 1, y: 20}, 'angle': 0};
+  }
 
  /**
  * Manages sprite collision between the chain and any given bubble.
