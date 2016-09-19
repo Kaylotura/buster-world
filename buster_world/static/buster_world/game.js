@@ -77,8 +77,6 @@ function setPosition(position) {
 }
 
 
-
-
 /**
  * A Phaser.js specific function that contains all of the information that the
  * game will need to create aparent objects and effects.
@@ -156,8 +154,12 @@ function update() {
   game.physics.arcade.collide(bubbles);
   game.physics.arcade.overlap(player, bubbles, bubbleHurtsPlayer, null, this);
   game.physics.arcade.overlap(bubbles, chains, chainPopsBubble, null, this);
-  player.body.velocity.x = 0;
-  player.body.velocity.y = 0;
+
+  game.add.tween(player).to({x: 45, y: 122}, 2000,
+    Phaser.Easing.Linear.None, true);
+
+  // player.body.velocity.x = 0;
+  // player.body.velocity.y = 0;
 
   /**
   * Removes the chain sprite after it's reached the zennith of its animation.
