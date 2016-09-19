@@ -41,9 +41,6 @@ There are a few small bugs in the game proper, that need to be worked out.
 * When a player runs out of resolve the game is over, and above the game a form displaying Score and Time is rendered with a text-field for player's name.
 * After a player submits their name they are redirected to the High-score Page.
 
-####Bugs
-* Chain does not always complete it's launching animation.
-
 
 ###High Score Page
 This page holds all of the scores and player names associated with the score in descending order.

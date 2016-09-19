@@ -10,8 +10,8 @@
  * methods.
  */
 
- var game = new Phaser.Game(800, 600, Phaser.AUTO, 'game', { preload: preload,
-   create: create, update: update, render: render }, true);
+var game = new Phaser.Game(800, 600, Phaser.AUTO, 'game', { preload: preload,
+  create: create, update: update, render: render }, true);
 
 /**
  * A Phaser.js specific function that contains all of the information that the
@@ -30,14 +30,23 @@ var cursors;
 var chains;
 var bubbles;
 var ball;
-var smallBall;
+var smallBall1;
+var smallBall2;
 var hook;
 var chainCount = false;
-var chainGrow
+var chainGrow;
 var score = 0;
+var scoreText;
+var scoreString;
 var resolve = 3;
-var facing = {'chainDirection': {x: 1, y: -20}, 'chainAngle': 'tallChain', 'chainPopY': -20, 'chainPopX': 0};
-var comboTracker = {'size': 0, 'combo': 0}
+var comboTracker = {'size': 0, 'combo': 0};
+var fireButton;
+var faceUpButton;
+var faceLeftButton;
+var faceRightButton;
+var faceDownButton;
+var facing = {'chainDirection': {x: 1, y: -20}, 'chainAngle': 'tallChain',
+'chainPopY': -20, 'chainPopX': 0};
 
 /**
  * A Phaser.js specific function that contains all of the information that the
@@ -64,27 +73,23 @@ function create() {
   faceRightButton = game.input.keyboard.addKey(Phaser.Keyboard.D);
   faceDownButton = game.input.keyboard.addKey(Phaser.Keyboard.S);
 
-
   //  The score
   scoreString = 'Catharsis : ';
-  scoreText = game.add.text(10, 10, scoreString + score, { font: '34px Ariel', fill: '#CC3300' });
+  scoreText = game.add.text(10, 10, scoreString + score, {font: '34px Ariel',
+  fill: '#CC3300'});
 
-  //  Player's Resolve
-  resolveString = 'Resolve : ';
-  resolveText = game.add.text(game.world.width -200, 10, resolveString + resolve, { font: '34px Ariel', fill: '#CC3300' });
+  // //  Player's Resolve
+  // resolveString = 'Resolve : ';
+  // resolveText = game.add.text(game.world.width -200, 10, resolveString + resolve, { font: '34px Ariel', fill: '#CC3300' });
 
-//  Player's Combo
-  comboString = 'Combo[Size/String] : ';
-  comboText = game.add.text(game.world.width -500, 50, comboString + comboTracker['size']+ comboTracker['combo'],
-    { font: '34px Ariel', fill: '#CC3300' });
+// //  Player's Combo
+//   comboString = 'Combo[Size/String] : ';
+//   comboText = game.add.text(game.world.width -500, 50, comboString + comboTracker['size']+ comboTracker['combo'],
+//     { font: '34px Ariel', fill: '#CC3300' });
 
-
-  // Creates a Game-Time Event that Creates Bubbles!
-  game.time.events.repeat(Phaser.Timer.SECOND * 5, 100, createBall, this);
-
-  /**
-   * Populates the game screen with bubbles.
-   */
+/**
+ * Populates the game screen with bubbles.
+ */
   function createBall() {
     //  A bouncey ball sprite just to visually see what's going on.
     ball = bubbles.create(
@@ -97,6 +102,10 @@ function create() {
     ball.scale.setTo(game.rnd.pick([2, 2, 2, 2, 1, 1, 1, 0.5, 0.5]));
     ball.tint = Math.random() * 0xffffff;
   }
+
+  // Creates a Game-Time Event that Creates Bubbles!
+  game.time.events.repeat(Phaser.Timer.SECOND * 5, 100, createBall, this);
+
 }
 
 /**
@@ -104,7 +113,6 @@ function create() {
  * game will process while its running, in order to update the game live.
  */
 function update() {
-
   bubbles.setAll('body.collideWorldBounds', true);
   bubbles.setAll('body.bounce.x', 1);
   bubbles.setAll('body.bounce.y', 1);
@@ -120,18 +128,18 @@ function update() {
   function killChain() {
     hook.kill();
     chainCount = false;
-   chainCount = false;
   }
 
   /**
    * Handles the Chain Launching action.
    */
   function launchHook() {
-    if (chainCount == false) {
+    if (chainCount === false) {
       hook = chains.create(player.x, player.y, facing['chainAngle']);
       hook.body.immovable = true;
       game.physics.arcade.enable(hook);
-      chainGrow = game.add.tween(hook.scale).to(facing['chainDirection'], 2000, Phaser.Easing.Linear.None, true);
+      chainGrow = game.add.tween(hook.scale).to(facing['chainDirection'],
+        2000, Phaser.Easing.Linear.None, true);
       chainGrow.onComplete.add(killChain, this);
       chainCount = true;
     }
@@ -158,13 +166,17 @@ function update() {
 
   // Game Controls for Facing
   if (faceUpButton.isDown) {
-    facing = {'chainDirection': {x: 1, y: -20}, 'chainAngle': 'tallChain', 'chainPopY': -400, 'chainPopX': 0};
+    facing = {'chainDirection': {x: 1, y: -20}, 'chainAngle': 'tallChain',
+    'chainPopY': -400, 'chainPopX': 0};
   } else if (faceLeftButton.isDown) {
-    facing = {'chainDirection': {x: -20, y: 1}, 'chainAngle': 'wideChain', 'chainPopY': 0, 'chainPopX': -400};
+    facing = {'chainDirection': {x: -20, y: 1}, 'chainAngle': 'wideChain',
+      'chainPopY': 0, 'chainPopX': -400};
   } else if (faceRightButton.isDown) {
-    facing = {'chainDirection': {x: 20, y: 1}, 'chainAngle': 'wideChain', 'chainPopY': 0, 'chainPopX': 400};
+    facing = {'chainDirection': {x: 20, y: 1}, 'chainAngle': 'wideChain',
+      'chainPopY': 0, 'chainPopX': 400};
   }else if (faceDownButton.isDown) {
-    facing = {'chainDirection': {x: 1, y: 20}, 'chainAngle': 'tallChain', 'chainPopY': 400, 'chainPopX': 0};
+    facing = {'chainDirection': {x: 1, y: 20}, 'chainAngle': 'tallChain',
+      'chainPopY': 400, 'chainPopX': 0};
   }
 
  /**
@@ -172,65 +184,66 @@ function update() {
  */
   function chainPopsBubble(ball, chain) {
 
-  //  Remove the chain, and set the chainCount to False.
-  chain.kill();
-  chainCount = false;
+    //  Remove the chain, and set the chainCount to False.
+    chain.kill();
+    chainCount = false;
 
   // make children bubbles if parent bubble wasn't too small
-  if (ball.scale.x > .25) {
-    smallBall1 = bubbles.create(ball.world.x, ball.world.y, 'bubble');
-    smallBall1.scale.setTo(ball.scale.x / 2, ball.scale.y / 2);
-    smallBall1.body.velocity.set(ball.body.velocity.x * 1.5, ball.body.velocity.y * -1.5);
-    smallBall1.tint = (ball.tint);
-    smallBall2 = bubbles.create(ball.world.x, ball.world.y, 'bubble');
-    smallBall2.scale.setTo(ball.scale.x / 2, ball.scale.y / 2);
-    smallBall2.body.velocity.set(ball.body.velocity.x * -1.5, ball.body.velocity.y * 1.5);
-    smallBall1.tint = (ball.tint);
-      }
+    if (ball.scale.x > .25) {
+      smallBall1 = bubbles.create(ball.world.x, ball.world.y, 'bubble');
+      smallBall1.scale.setTo(ball.scale.x / 2, ball.scale.y / 2);
+      smallBall1.body.velocity.set(ball.body.velocity.x * 1.5,
+        ball.body.velocity.y * -1.5);
+      smallBall1.tint = ball.tint;
+      smallBall2 = bubbles.create(ball.world.x, ball.world.y, 'bubble');
+      smallBall2.scale.setTo(ball.scale.x / 2, ball.scale.y / 2);
+      smallBall2.body.velocity.set(ball.body.velocity.x * -1.5,
+        ball.body.velocity.y * 1.5);
+      smallBall1.tint = ball.tint;
+    }
 
-  // Track Combo
-  if (ball.scale.x === comboTracker['size']) {
-    if (comboTracker['combo'] < 4) {
+    // Track Combo
+    if (ball.scale.x === comboTracker['size']) {
+      if (comboTracker['combo'] < 4) {
         comboTracker['combo'] += 1;
-        }
+      }
     } else {
-   comboTracker['combo'] = 1;
-   comboTracker['size'] = ball.scale.x;
-   }
+      comboTracker['combo'] = 1;
+      comboTracker['size'] = ball.scale.x;
+    }
 
-   comboText.text = comboString + comboTracker['size'] + '||' + comboTracker['combo'];
+  // comboText.text = comboString + comboTracker['size'] + '||' + comboTracker['combo'];
 
 
-  // Increase the Score
-  score += (1 / ball.scale.x) * comboTracker['combo'] * 100;
-  scoreText.text = scoreString + score
-  ball.kill();
-   }
+    // Increase the Score
+    score += 1 / ball.scale.x * comboTracker['combo'] * 100;
+    scoreText.text = scoreString + score;
+    ball.kill();
+  }
 
 
  /**
   * Manages sprite collision between the chain and any given bubble.
   */
-  function bubbleHurtsPlayer (player, ball) {
+  function bubbleHurtsPlayer(player, ball) {
 
   //  When a bubble hits the player, one point of resolve is taken away, and the bubble is destroyed.
   // If the player has 0 resolve, they die!
-  ball.kill();
-  resolve -= 1;
-  resolveText.text = resolveString + resolve;
-  if (chainCount === true) {
-    hook.kill();
-    chainCount = false;
+    ball.kill();
+    resolve -= 1;
+    // resolveText.text = resolveString + resolve;
+    if (chainCount === true) {
+      hook.kill();
+      chainCount = false;
     }
-  //  Decreases the score
-  score -= 50;
-  scoreText.text = scoreString + score;
-//  death has been comented out for testing.
-//  if (resolve === 0) {
-//  player.kill()
-//  }
- }
-
+    //  Decreases the score
+    score -= 50;
+    scoreText.text = scoreString + score;
+  //  death has been comented out for testing.
+  //  if (resolve === 0) {
+  //  player.kill()
+  //  }
+  }
 }
 
 
