@@ -16,6 +16,7 @@
 var game = new Phaser.Game(800, 600, Phaser.AUTO, 'game', { preload: preload,
   create: create, update: update, render: render }, true);
 
+
 /**
  * A Phaser.js specific function that contains all of the information that the
  * game will need to parse before it renders.
@@ -28,6 +29,8 @@ function preload() {
   game.load.image('shield', shield_icon);
 }
 
+
+// The list of variables that the game will use
 var player;
 var cursors;
 var chains;
@@ -41,7 +44,9 @@ var chainGrow;
 var score = 0;
 var scoreText;
 var scoreString;
-var resolve = 3;
+var resolve;
+var resolveText;
+var resolveString;
 var comboTracker = {'size': 0, 'combo': 0};
 var fireButton;
 var faceUpButton;
@@ -51,13 +56,14 @@ var faceDownButton;
 var facing = {'chainDirection': {x: 1, y: -20}, 'chainAngle': 'tallChain',
 'chainPopY': -20, 'chainPopX': 0};
 
+
 /**
  * A Phaser.js specific function that contains all of the information that the
  * game will need to create aparent objects and effects.
  */
 function create() {
 
-  // Creates the Player!
+  // Creates the Player
   player = game.add.sprite(400, 300, 'player');
   game.physics.arcade.enable(player);
   player.body.collideWorldBounds = true;
@@ -76,14 +82,20 @@ function create() {
   faceRightButton = game.input.keyboard.addKey(Phaser.Keyboard.D);
   faceDownButton = game.input.keyboard.addKey(Phaser.Keyboard.S);
 
-  //  The score
+  //  The Score
   scoreString = 'Catharsis : ';
   scoreText = game.add.text(10, 10, scoreString + score, {font: '34px Ariel',
   fill: '#CC3300'});
 
-  // //  Player's Resolve
-  // resolveString = 'Resolve : ';
-  // resolveText = game.add.text(game.world.width -200, 10, resolveString + resolve, { font: '34px Ariel', fill: '#CC3300' });
+  //  Player's Resolve
+  resolve = game.add.group();
+  resolveString = 'Resolve';
+  resolveText = game.add.text(game.world.width -150, 10,
+    resolveString, {font: '34px Ariel', fill: '#CC3300'});
+  for (var i = 0; i < 3; i++) {
+    var shield = resolve.create(game.world.width - 142 + 50 * i, 60, 'shield');
+    shield.anchor.setTo(0.5, 0.5);
+  }
 
 // //  Player's Combo
 //   comboString = 'Combo[Size/String] : ';
@@ -96,12 +108,12 @@ function create() {
   function createBall() {
     //  A bouncey ball sprite just to visually see what's going on.
     ball = bubbles.create(
-      player.x + game.rnd.integerInRange(5, 400),
-      player.y + game.rnd.integerInRange(5, 400),
+      player.x + game.rnd.integerInRange(50, 400),
+      player.y + game.rnd.integerInRange(50, 400),
       'bubble'
     );
-    ball.body.velocity.set(game.rnd.integerInRange(-200, 200),
-      game.rnd.integerInRange(-200, 200));
+    ball.body.velocity.set(game.rnd.integerInRange(-60, 60),
+      game.rnd.integerInRange(-60, 60));
     ball.scale.setTo(game.rnd.pick([2, 2, 2, 2, 1, 1, 1, 0.5, 0.5]));
     ball.tint = Math.random() * 0xffffff;
   }
@@ -225,6 +237,41 @@ function update() {
   }
 
 
+  /**
+   * Takes in a class as an argument and removes the invisble class from all elements that have the given input class.
+   */
+  function unhideField(inputclass) {
+    $(inputclass).removeClass('invisible');
+  }
+
+
+  /**
+   * Returns the game time in 100th of seconds.
+   */
+  function getPrettyTime() {
+    var time = this.game.time.totalElapsedSeconds();
+    var workingTime = time * 10;
+    var stillWorkingTime = Math.floor(workingTime);
+    var prettyTime = stillWorkingTime / 10;
+    return prettyTime;
+  }
+
+
+  /**
+   * When the game is lost, or quit, this function is called. It removes the player icon, and displays the "Game Over"
+   * text and uses jquery to unhide and populate the game-over form.
+   */
+  function gameOver() {
+    var time = getPrettyTime();
+    player.kill();
+    bubbles.callAll('kill');
+    $('#player_score').val(score);
+    $('#player_time').val(time);
+    unhideField('.game_over');
+  }
+
+
+
  /**
   * Manages sprite collision between the chain and any given bubble.
   */
@@ -233,8 +280,10 @@ function update() {
   //  When a bubble hits the player, one point of resolve is taken away, and the bubble is destroyed.
   // If the player has 0 resolve, they die!
     ball.kill();
-    resolve -= 1;
-    // resolveText.text = resolveString + resolve;
+    var firstShield = resolve.getFirstAlive();
+    if (firstShield) {
+      firstShield.kill();
+    }
     if (chainCount === true) {
       hook.kill();
       chainCount = false;
@@ -242,10 +291,11 @@ function update() {
     //  Decreases the score
     score -= 50;
     scoreText.text = scoreString + score;
-  //  death has been comented out for testing.
-  //  if (resolve === 0) {
-  //  player.kill()
-  //  }
+
+    // When the player loses all of their resolve
+    if (resolve.countLiving() < 1) {
+      gameOver();
+    }
   }
 }
 
