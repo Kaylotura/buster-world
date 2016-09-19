@@ -56,6 +56,28 @@ var faceDownButton;
 var facing = {'chainDirection': {x: 1, y: -20}, 'chainAngle': 'tallChain',
 'chainPopY': -20, 'chainPopX': 0};
 
+/**
+ * Words go here
+ */
+
+var xLat;
+var yLong;
+
+function getPlayerLocation() {
+  if (navigator.geolocation) {
+      navigator.geolocation.watchPosition(setPosition);
+  } else {
+    x.innerHTML = "Geolocation is not supported by this browser.";
+  }
+}
+
+function setPosition(position) {
+  xLat = position.coords.latitude;
+  yLong = position.coords.longitude;
+}
+
+
+
 
 /**
  * A Phaser.js specific function that contains all of the information that the
@@ -316,3 +338,5 @@ function update() {
  */
 function render() {
 }
+
+$(document).ready(getPlayerLocation);
