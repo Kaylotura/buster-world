@@ -10,6 +10,9 @@
  * methods.
  */
 
+
+// This Initiates the game, using the preload, create, update,
+// and render functions.
 var game = new Phaser.Game(800, 600, Phaser.AUTO, 'game', { preload: preload,
   create: create, update: update, render: render }, true);
 
