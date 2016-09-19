@@ -87,8 +87,14 @@ function create() {
    */
   function createBall() {
     //  A bouncey ball sprite just to visually see what's going on.
-    ball = bubbles.create(game.world.randomX, game.world.randomY, 'bubble');
-    ball.body.velocity.set(game.rnd.integerInRange(-200, 200), game.rnd.integerInRange(-200, 200));
+    ball = bubbles.create(
+      game.world.randomX,
+      game.world.randomY,
+      'bubble'
+    );
+
+    ball.body.velocity.set(game.rnd.integerInRange(-200, 200),
+      game.rnd.integerInRange(-200, 200));
     ball.scale.setTo(game.rnd.pick([2, 2, 2, 2, 1, 1, 1, 0.5, 0.5, .25]));
     ball.tint = Math.random() * 0xffffff;
   }
