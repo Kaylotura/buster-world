@@ -67,29 +67,12 @@ var scoreText;
 var scoreString;
 var resolve;
 var resolveString;
-var comboTracker = {'size': 0, 'combo': 0};
 var fireButton;
+var xPointStart;
+var yPointStart;
+var comboTracker = {'size': 0, 'combo': 0};
 var facing = {'chainDirection': {x: 1, y: -20}, 'chainAngle': 'tallChain',
 'chainPopY': -20, 'chainPopX': 0};
-
-/**
- * Finds the Player's Location.
- */
-function getPlayerLocation() {
-  if (navigator.geolocation) {
-    navigator.geolocation.watchPosition(setPosition);
-  } else {
-    x.innerHTML = 'Geolocation is not supported by this browser.';
-  }
-}
-
-/**
- * Sets the player's position to xLat and yLong.
- */
-function setPosition(position) {
-  var xLat = position.coords.latitude;
-  var yLong = position.coords.longitude;
-}
 
 
 /**
@@ -99,7 +82,7 @@ function setPosition(position) {
 function create() {
 
   // Creates the Player
-  player = game.add.sprite(400, 300, 'player');
+  player = game.add.sprite(390, 230, 'player');
   game.physics.arcade.enable(player);
   player.body.collideWorldBounds = true;
 
@@ -152,6 +135,19 @@ function create() {
   // Creates a Game-Time Event that Creates Bubbles!
   game.time.events.repeat(Phaser.Timer.SECOND * 5, 100, createBall, this);
 
+
+  function setStartPoints(position) {
+    var xPointStart =  position.coords.longitude;
+    var yPointStart =  position.coords.latitude;
+  }
+
+  if (navigator.geolocation) {
+    navigator.geolocation.getPosition(setStartPoints);
+  } else {
+    x.innerHTML = 'Geolocation is not supported by this browser.';
+  }
+
+
 }
 
 /**
@@ -166,7 +162,26 @@ function update() {
   game.physics.arcade.overlap(player, bubbles, bubbleHurtsPlayer, null, this);
   game.physics.arcade.overlap(bubbles, chains, chainPopsBubble, null, this);
 
-  game.physics.arcade.moveToXY(player, 45, 122);
+  /**
+   * Sets the player's position to xLat and yLong.
+   */
+  function movePlayer(position) {
+    var intX =  (800 / 360 * (180 + position.coords.longitude) -
+    xPointStart);
+    var intY =  (600 / 180 * (90 - position.coords.latitude) -
+    yPointStart);
+    game.physics.arcade.moveToXY(player, intX, intY);
+  }
+
+
+
+  if (navigator.geolocation) {
+    navigator.geolocation.watchPosition(movePlayer);
+  } else {
+    x.innerHTML = 'Geolocation is not supported by this browser.';
+  }
+
+
 
   /**
   * Removes the chain sprite after it's reached the zennith of its animation.
@@ -335,4 +350,4 @@ function update() {
 function render() {
 }
 
-$(document).ready(getPlayerLocation);
+// $(document).ready(getPlayerLocation);

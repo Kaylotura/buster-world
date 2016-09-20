@@ -46,6 +46,7 @@ def return_score_submit(request):
     print(request.POST)
     player_name = request.POST['player_name']
     player_score = request.POST['player_score']
-    player_time = request.POST['player_time']
+    player_time = request.POST['pl' \
+                               'ayer_time']
     logic.create_and_save_new_player_stat(player_name, player_score, player_time)
     return render_high_scores(request)
