@@ -49,10 +49,6 @@ var resolveText;
 var resolveString;
 var comboTracker = {'size': 0, 'combo': 0};
 var fireButton;
-var faceUpButton;
-var faceLeftButton;
-var faceRightButton;
-var faceDownButton;
 var facing = {'chainDirection': {x: 1, y: -20}, 'chainAngle': 'tallChain',
 'chainPopY': -20, 'chainPopX': 0};
 
@@ -97,10 +93,6 @@ function create() {
   // The Game's Controls
   cursors = game.input.keyboard.createCursorKeys();
   fireButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
-  faceUpButton = game.input.keyboard.addKey(Phaser.Keyboard.W);
-  faceLeftButton = game.input.keyboard.addKey(Phaser.Keyboard.A);
-  faceRightButton = game.input.keyboard.addKey(Phaser.Keyboard.D);
-  faceDownButton = game.input.keyboard.addKey(Phaser.Keyboard.S);
 
   //  The Score
   scoreString = 'Catharsis : ';
@@ -155,11 +147,7 @@ function update() {
   game.physics.arcade.overlap(player, bubbles, bubbleHurtsPlayer, null, this);
   game.physics.arcade.overlap(bubbles, chains, chainPopsBubble, null, this);
 
-  game.add.tween(player).to({x: 45, y: 122}, 2000,
-    Phaser.Easing.Linear.None, true);
-
-  // player.body.velocity.x = 0;
-  // player.body.velocity.y = 0;
+  game.physics.arcade.moveToXY(player, 45, 122);
 
   /**
   * Removes the chain sprite after it's reached the zennith of its animation.
@@ -184,19 +172,6 @@ function update() {
     }
   }
 
-  //Game Controls for Left/Right
-  if (cursors.left.isDown) {
-    player.body.velocity.x = -250;
-  } else if (cursors.right.isDown) {
-    player.body.velocity.x = 250;
-  }
-
-  //Game Controls for Up/Down
-  if (cursors.up.isDown) {
-    player.body.velocity.y = -250;
-  } else if (cursors.down.isDown) {
-    player.body.velocity.y = 250;
-  }
 
   //Game Spacebar
   if (fireButton.isDown) {
@@ -204,16 +179,16 @@ function update() {
   }
 
   // Game Controls for Facing
-  if (faceUpButton.isDown) {
+  if (cursors.up.isDown) {
     facing = {'chainDirection': {x: 1, y: -20}, 'chainAngle': 'tallChain',
     'chainPopY': -400, 'chainPopX': 0};
-  } else if (faceLeftButton.isDown) {
+  } else if (cursors.left.isDown) {
     facing = {'chainDirection': {x: -20, y: 1}, 'chainAngle': 'wideChain',
       'chainPopY': 0, 'chainPopX': -400};
-  } else if (faceRightButton.isDown) {
+  } else if (cursors.right.isDown) {
     facing = {'chainDirection': {x: 20, y: 1}, 'chainAngle': 'wideChain',
       'chainPopY': 0, 'chainPopX': 400};
-  }else if (faceDownButton.isDown) {
+  }else if (cursors.down.isDown) {
     facing = {'chainDirection': {x: 1, y: 20}, 'chainAngle': 'tallChain',
       'chainPopY': 400, 'chainPopX': 0};
   }
