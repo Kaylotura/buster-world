@@ -11,10 +11,31 @@
  */
 
 
+// 'use strict';
+//
+// /**
+//   * Silences Linter on Library Variables
+//   */
+// if (!window) {
+//   var Phaser;
+//   var preload;
+//   var create;
+//   var update;
+//   var render;
+//   var girlIcon;
+//   var tallChainIcon;
+//   var wideChainIcon;
+//   var bubbleIcon;
+//   var shieldIcon;
+//   var setPosition;
+//   var x;
+// }
+
+
 // This Initiates the game, using the preload, create, update,
 // and render functions.
-var game = new Phaser.Game(800, 600, Phaser.AUTO, 'game', { preload: preload,
-  create: create, update: update, render: render }, true);
+var game = new Phaser.Game(800, 600, Phaser.AUTO, 'game', {preload: preload,
+  create: create, update: update, render: render}, true);
 
 
 /**
@@ -22,11 +43,11 @@ var game = new Phaser.Game(800, 600, Phaser.AUTO, 'game', { preload: preload,
  * game will need to parse before it renders.
  */
 function preload() {
-  game.load.image('player', girl_icon);
-  game.load.image('tallChain', tall_chain_icon);
-  game.load.image('wideChain', wide_chain_icon);
-  game.load.image('bubble', bubble_icon);
-  game.load.image('shield', shield_icon);
+  game.load.image('player', girlIcon);
+  game.load.image('tallChain', tallChainIcon);
+  game.load.image('wideChain', wideChainIcon);
+  game.load.image('bubble', bubbleIcon);
+  game.load.image('shield', shieldIcon);
 }
 
 
@@ -45,7 +66,6 @@ var score = 0;
 var scoreText;
 var scoreString;
 var resolve;
-var resolveText;
 var resolveString;
 var comboTracker = {'size': 0, 'combo': 0};
 var fireButton;
@@ -53,23 +73,22 @@ var facing = {'chainDirection': {x: 1, y: -20}, 'chainAngle': 'tallChain',
 'chainPopY': -20, 'chainPopX': 0};
 
 /**
- * Words go here
+ * Finds the Player's Location.
  */
-
-var xLat;
-var yLong;
-
 function getPlayerLocation() {
   if (navigator.geolocation) {
-      navigator.geolocation.watchPosition(setPosition);
+    navigator.geolocation.watchPosition(setPosition);
   } else {
-    x.innerHTML = "Geolocation is not supported by this browser.";
+    x.innerHTML = 'Geolocation is not supported by this browser.';
   }
 }
 
+/**
+ * Sets the player's position to xLat and yLong.
+ */
 function setPosition(position) {
-  xLat = position.coords.latitude;
-  yLong = position.coords.longitude;
+  var xLat = position.coords.latitude;
+  var yLong = position.coords.longitude;
 }
 
 
@@ -102,7 +121,7 @@ function create() {
   //  Player's Resolve
   resolve = game.add.group();
   resolveString = 'Resolve';
-  resolveText = game.add.text(game.world.width -150, 10,
+  var resolveText = game.add.text(game.world.width - 150, 10,
     resolveString, {font: '34px Ariel', fill: '#CC3300'});
   for (var i = 0; i < 3; i++) {
     var shield = resolve.create(game.world.width - 142 + 50 * i, 60, 'shield');
