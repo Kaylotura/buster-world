@@ -54,15 +54,16 @@ var ball;
 var smallBall1;
 var smallBall2;
 var hook;
-var chainCount = false;
 var chainGrow;
-var score = 0;
 var scoreText;
 var scoreString;
 var resolve;
 var resolveString;
 var fireButton;
 var startPoints;
+var score = 0;
+var gameTimer = 1;
+var chainCount = false;
 var comboTracker = {'size': 0, 'combo': 0};
 var facing = {'chainDirection': {x: 1, y: -20}, 'chainAngle': 'tallChain',
 'chainPopY': -20, 'chainPopX': 0};
@@ -103,9 +104,11 @@ initiateStartPoint();
 function create() {
 
   // Creates the Player
-  player = game.add.sprite(game.width / 2, game.height / 2, 'player');
+  // player = game.add.sprite(game.width / 2, game.height / 2, 'player');
+  player = game.add.sprite(0, 0, 'player');
   game.physics.arcade.enable(player);
   player.body.collideWorldBounds = true;
+
 
   // Creates a Bubbles Group
   bubbles = game.add.physicsGroup(Phaser.Physics.ARCADE);
@@ -171,28 +174,43 @@ function update() {
   game.physics.arcade.overlap(player, bubbles, bubbleHurtsPlayer, null, this);
   game.physics.arcade.overlap(bubbles, chains, chainPopsBubble, null, this);
 
-  // game.add.tween(player).to( { x: , y: game.world.centerY }, 4000, Phaser.Easing.Bounce.Out, true);
-
+  // Initiates player movement
+  if (gameTimer % 2 === 0) {
+    game.physics.arcade.moveToXY(player, player.x,
+     player.y, 1);
+  } else {
+        moveToLocation();
+  }
 
   /**
-   * Sets the player's position to xLat and yLong.
-  //  */
+   * Sets the player's position to xLat and yLong, and then moves the player.
+  */
   function movePlayer(position) {
     var intX =  18 * (800 / 360 * (180 + position.coords.longitude)) -
       18 * (800 / 360 * (180 + startPoints['x'])) + game.width / 2;
     var intY = 18 * (600 / 180 * (90 - position.coords.latitude)) -
       18 * (600 / 180 * (90 - startPoints['y'])) + game.height / 2;
-    game.add.tween(player).to({x: intX, y: intY}, 4000,
-       Phaser.Easing.Linear.None, true);
+    game.physics.arcade.moveToXY(player, intX, intY, 400);
+
+    // game.physics.arcade.moveToXY(player, game.rnd.integerInRange(-200, 200),
+    //  game.rnd.integerInRange(-200, 200), 400);
+
+    // game.add.tween(player).to({x: intX, y: intY}, 4000,
+    //    Phaser.Easing.Linear.None, true);
   }
 
-  if (navigator.geolocation) {
-    navigator.geolocation.watchPosition(movePlayer);
-  } else {
-    x.innerHTML = 'Geolocation is not supported by this browser.';
+  /**
+   * Gets player's location and passes it to Move Player.
+  */
+  function moveToLocation() {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(movePlayer);
+    } else {
+      x.innerHTML = 'Geolocation is not supported by this browser.';
+    }
   }
 
-
+  gameTimer += 1;
 
   /**
   * Removes the chain sprite after it's reached the zennith of its animation.
@@ -316,14 +334,14 @@ function update() {
    * text and uses jquery to unhide and populate the game-over form.
    */
   function gameOver() {
-    var time = getPrettyTime();
-    player.kill();
-    bubbles.callAll('kill');
-    $('#player_score').val(score);
-    $('#player_time').val(time);
-    hideField('#map');
-    hideField('#game');
-    unhideField('.game_over');
+    // var time = getPrettyTime();
+    // player.kill();
+    // bubbles.callAll('kill');
+    // $('#player_score').val(score);
+    // $('#player_time').val(time);
+    // hideField('#map');
+    // hideField('#game');
+    // unhideField('.game_over');
   }
 
 
