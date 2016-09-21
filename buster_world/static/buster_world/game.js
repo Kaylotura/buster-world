@@ -82,7 +82,8 @@ var facing = {'chainDirection': {x: 1, y: -20}, 'chainAngle': 'tallChain',
 function create() {
 
   // Creates the Player
-  player = game.add.sprite(390, 230, 'player');
+//  player = game.add.sprite(390, 230, 'player');
+  player = game.add.sprite(0, 0, 'player');
   game.physics.arcade.enable(player);
   player.body.collideWorldBounds = true;
 
