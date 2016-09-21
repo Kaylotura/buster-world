@@ -3,9 +3,6 @@
  * This file uses Phaser 2.6.2 to create a bubble busting game to be rendered
  * over a google map.
  *
- * Eventually, the idea will be to use Google Map API data to render portions
- * of the game, so that the game and the map relate to one another.
- *
  * Its worth noting that 'use strict; doesn't seem to play nicely with phaser's
  * methods.
  */
@@ -61,6 +58,9 @@ var resolve;
 var resolveString;
 var fireButton;
 var startPoints;
+var debugData;
+var debugText;
+var debugString;
 var score = 0;
 var gameTimer = 1;
 var chainCount = false;
@@ -104,8 +104,8 @@ initiateStartPoint();
 function create() {
 
   // Creates the Player
-  // player = game.add.sprite(game.width / 2, game.height / 2, 'player');
-  player = game.add.sprite(0, 0, 'player');
+  player = game.add.sprite(game.width / 2, game.height / 2, 'player');
+  // player = game.add.sprite(0, 0, 'player');
   game.physics.arcade.enable(player);
   player.body.collideWorldBounds = true;
 
@@ -134,6 +134,15 @@ function create() {
     var shield = resolve.create(game.world.width - 120 + 50 * i, 60, 'shield');
     shield.anchor.setTo(0.5, 0.5);
   }
+
+
+  // Debug: Long/Lat & X/Y
+  debugData = '';
+  debugString = ' Lng/Lat & X/Y : ';
+  debugText = game.add.text(10, 100, debugString + debugData,
+    {font: '10px Ariel', fill: '#CC3300'});
+
+
 
 // //  Player's Combo
 //   comboString = 'Combo[Size/String] : ';
@@ -191,6 +200,9 @@ function update() {
     var intY = 18 * (600 / 180 * (90 - position.coords.latitude)) -
       18 * (600 / 180 * (90 - startPoints['y'])) + game.height / 2;
     game.physics.arcade.moveToXY(player, intX, intY, 400);
+    var debugData = String(position.coords.longitude) + '/' +
+    String(position.coords.latitude) + '&' + String(intX) + String(intY);
+    debugText.text = debugString + debugData;
 
     // game.physics.arcade.moveToXY(player, game.rnd.integerInRange(-200, 200),
     //  game.rnd.integerInRange(-200, 200), 400);
