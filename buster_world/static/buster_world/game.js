@@ -70,9 +70,28 @@ var resolveString;
 var fireButton;
 var xPointStart;
 var yPointStart;
+var startPoints;
 var comboTracker = {'size': 0, 'combo': 0};
 var facing = {'chainDirection': {x: 1, y: -20}, 'chainAngle': 'tallChain',
 'chainPopY': -20, 'chainPopX': 0};
+
+
+function setStartPoints(position) {
+  var xPointStart =  position.coords.longitude;
+  var yPointStart =  position.coords.latitude;
+  startPoints = {'x': xPointStart, 'y': yPointStart};
+  return startPoints;
+}
+
+function initiateStartPoint(){
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(setStartPoints);
+  } else {
+    x.innerHTML = 'Geolocation is not supported by this browser.';
+  }
+}
+
+initiateStartPoint();
 
 
 /**
@@ -82,8 +101,7 @@ var facing = {'chainDirection': {x: 1, y: -20}, 'chainAngle': 'tallChain',
 function create() {
 
   // Creates the Player
-//  player = game.add.sprite(390, 230, 'player');
-  player = game.add.sprite(0, 0, 'player');
+  player = game.add.sprite(390, 230, 'player');
   game.physics.arcade.enable(player);
   player.body.collideWorldBounds = true;
 
@@ -136,20 +154,9 @@ function create() {
   // Creates a Game-Time Event that Creates Bubbles!
   game.time.events.repeat(Phaser.Timer.SECOND * 5, 100, createBall, this);
 
-
-  function setStartPoints(position) {
-    var xPointStart =  position.coords.longitude;
-    var yPointStart =  position.coords.latitude;
-  }
-
-  if (navigator.geolocation) {
-    navigator.geolocation.getPosition(setStartPoints);
-  } else {
-    x.innerHTML = 'Geolocation is not supported by this browser.';
-  }
-
-
 }
+
+
 
 /**
  * A Phaser.js specific function that contains all of the information that the
@@ -163,18 +170,21 @@ function update() {
   game.physics.arcade.overlap(player, bubbles, bubbleHurtsPlayer, null, this);
   game.physics.arcade.overlap(bubbles, chains, chainPopsBubble, null, this);
 
+  // game.add.tween(player).to( { x: , y: game.world.centerY }, 4000, Phaser.Easing.Bounce.Out, true);
+
+
   /**
    * Sets the player's position to xLat and yLong.
-   */
+  //  */
   function movePlayer(position) {
-    var intX =  (800 / 360 * (180 + position.coords.longitude) -
-    xPointStart);
-    var intY =  (600 / 180 * (90 - position.coords.latitude) -
-    yPointStart);
-    game.physics.arcade.moveToXY(player, intX, intY);
+    var intX =  (800 / 360 * (180 + position.coords.longitude)) -
+      (800 / 360 * (180 + startPoints['x'])) + 390;
+    var intY =  (600 / 180 * (90 - position.coords.latitude)) -
+      (600 / 180 * (90 - startPoints['y'])) + 230;
+    game.add.tween(player).to({x: intX, y: intY}, 4000,
+       Phaser.Easing.Linear.None, true);
+    // game.physics.arcade.moveToXY(player, intX, intY);
   }
-
-
 
   if (navigator.geolocation) {
     navigator.geolocation.watchPosition(movePlayer);
