@@ -10,12 +10,8 @@
  * methods.
  */
 
-
+//  //Silences Linter on Library Variables
 // 'use strict';
-//
-// /**
-//   * Silences Linter on Library Variables
-//   */
 // if (!window) {
 //   var Phaser;
 //   var preload;
@@ -27,15 +23,13 @@
 //   var wideChainIcon;
 //   var bubbleIcon;
 //   var shieldIcon;
-//   var setPosition;
 //   var x;
 // }
 
-
 // This Initiates the game, using the preload, create, update,
 // and render functions.
-var game = new Phaser.Game(800, 600, Phaser.AUTO, 'game', {preload: preload,
-  create: create, update: update, render: render}, true);
+var game = new Phaser.Game(320, 480, Phaser.AUTO, 'game',
+{preload: preload, create: create, update: update, render: render}, true);
 
 
 /**
@@ -68,14 +62,17 @@ var scoreString;
 var resolve;
 var resolveString;
 var fireButton;
-var xPointStart;
-var yPointStart;
 var startPoints;
 var comboTracker = {'size': 0, 'combo': 0};
 var facing = {'chainDirection': {x: 1, y: -20}, 'chainAngle': 'tallChain',
 'chainPopY': -20, 'chainPopX': 0};
 
 
+/**
+ * A qucikly crafted initiate starting point of game function.
+ *
+ * Could be handled more elegantly
+ */
 function setStartPoints(position) {
   var xPointStart =  position.coords.longitude;
   var yPointStart =  position.coords.latitude;
@@ -83,7 +80,12 @@ function setStartPoints(position) {
   return startPoints;
 }
 
-function initiateStartPoint(){
+/**
+ * A qucikly crafted initiate starting point of game function.
+ *
+ * Could be handled more elegantly
+ */
+function initiateStartPoint() {
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(setStartPoints);
   } else {
@@ -101,7 +103,7 @@ initiateStartPoint();
 function create() {
 
   // Creates the Player
-  player = game.add.sprite(390, 230, 'player');
+  player = game.add.sprite(game.width / 2, game.height / 2, 'player');
   game.physics.arcade.enable(player);
   player.body.collideWorldBounds = true;
 
@@ -117,16 +119,16 @@ function create() {
 
   //  The Score
   scoreString = 'Catharsis : ';
-  scoreText = game.add.text(10, 10, scoreString + score, {font: '34px Ariel',
+  scoreText = game.add.text(10, 10, scoreString + score, {font: '22px Ariel',
   fill: '#CC3300'});
 
   //  Player's Resolve
   resolve = game.add.group();
   resolveString = 'Resolve';
-  var resolveText = game.add.text(game.world.width - 150, 10,
-    resolveString, {font: '34px Ariel', fill: '#CC3300'});
+  var resolveText = game.add.text(game.world.width - 105, 10,
+    resolveString, {font: '22px Ariel', fill: '#CC3300'});
   for (var i = 0; i < 3; i++) {
-    var shield = resolve.create(game.world.width - 142 + 50 * i, 60, 'shield');
+    var shield = resolve.create(game.world.width - 120 + 50 * i, 60, 'shield');
     shield.anchor.setTo(0.5, 0.5);
   }
 
@@ -153,7 +155,6 @@ function create() {
 
   // Creates a Game-Time Event that Creates Bubbles!
   game.time.events.repeat(Phaser.Timer.SECOND * 5, 100, createBall, this);
-
 }
 
 
@@ -177,13 +178,12 @@ function update() {
    * Sets the player's position to xLat and yLong.
   //  */
   function movePlayer(position) {
-    var intX =  (800 / 360 * (180 + position.coords.longitude)) -
-      (800 / 360 * (180 + startPoints['x'])) + 390;
-    var intY =  (600 / 180 * (90 - position.coords.latitude)) -
-      (600 / 180 * (90 - startPoints['y'])) + 230;
+    var intX =  18 * (800 / 360 * (180 + position.coords.longitude)) -
+      18 * (800 / 360 * (180 + startPoints['x'])) + game.width / 2;
+    var intY = 18 * (600 / 180 * (90 - position.coords.latitude)) -
+      18 * (600 / 180 * (90 - startPoints['y'])) + game.height / 2;
     game.add.tween(player).to({x: intX, y: intY}, 4000,
        Phaser.Easing.Linear.None, true);
-    // game.physics.arcade.moveToXY(player, intX, intY);
   }
 
   if (navigator.geolocation) {

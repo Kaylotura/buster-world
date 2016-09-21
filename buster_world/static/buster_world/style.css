@@ -3,8 +3,8 @@
 }
 
 #map {
-  height: 600px;
-  width: 800px;
+  height: 480px;
+  width: 320px;
   position:absolute;
   z-index: 0; /* Set z-index to 0 as it will be on a layer below the contact form */
 }
@@ -12,7 +12,6 @@
 #game {
   position: relative;
   z-index: 1; /* The z-index should be higher than Google Maps */
-  margin: 60px auto 0;
 }
 
 .top-ten {
