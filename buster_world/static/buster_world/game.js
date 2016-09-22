@@ -3,18 +3,29 @@
  * This file uses Phaser 2.6.2 to create a bubble busting game to be rendered
  * over a google map.
  *
- * Eventually, the idea will be to use Google Map API data to render portions
- * of the game, so that the game and the map relate to one another.
- *
  * Its worth noting that 'use strict; doesn't seem to play nicely with phaser's
  * methods.
  */
 
+//  //Silences Linter on Library Variables
+// 'use strict';
+// if (!window) {
+//   var Phaser;
+//   var preload;
+//   var create;
+//   var update;
+//   var render;
+//   var girlIcon;
+//   var wideChainIcon;
+//   var bubbleIcon;
+//   var shieldIcon;
+//   var x;
+// }
 
 // This Initiates the game, using the preload, create, update,
 // and render functions.
-var game = new Phaser.Game(800, 600, Phaser.AUTO, 'game', { preload: preload,
-  create: create, update: update, render: render }, true);
+var game = new Phaser.Game(320, 480, Phaser.AUTO, 'game',
+{preload: preload, create: create, update: update, render: render}, true);
 
 
 /**
@@ -22,39 +33,61 @@ var game = new Phaser.Game(800, 600, Phaser.AUTO, 'game', { preload: preload,
  * game will need to parse before it renders.
  */
 function preload() {
-  game.load.image('player', girl_icon);
-  game.load.image('tallChain', tall_chain_icon);
-  game.load.image('wideChain', wide_chain_icon);
-  game.load.image('bubble', bubble_icon);
-  game.load.image('shield', shield_icon);
+  game.load.image('player', girlIcon);
+  game.load.image('wideChain', wideChainIcon);
+  game.load.image('bubble', bubbleIcon);
+  game.load.image('shield', shieldIcon);
 }
 
 
 // The list of variables that the game will use
 var player;
-var cursors;
-var chains;
+var hookShot;
 var bubbles;
 var ball;
 var smallBall1;
 var smallBall2;
 var hook;
-var chainCount = false;
-var chainGrow;
-var score = 0;
 var scoreText;
 var scoreString;
 var resolve;
-var resolveText;
 var resolveString;
+var startPoints;
+var debugData;
+var debugText;
+var debugString;
+var score = 0;
+var gameTimer = 1;
+var chainCount = false;
 var comboTracker = {'size': 0, 'combo': 0};
-var fireButton;
-var faceUpButton;
-var faceLeftButton;
-var faceRightButton;
-var faceDownButton;
-var facing = {'chainDirection': {x: 1, y: -20}, 'chainAngle': 'tallChain',
-'chainPopY': -20, 'chainPopX': 0};
+
+
+/**
+ * A qucikly crafted initiate starting point of game function.
+ *
+ * Could be handled more elegantly
+ */
+function setStartPoints(position) {
+  var xPointStart =  position.coords.longitude;
+  var yPointStart =  position.coords.latitude;
+  startPoints = {'x': xPointStart, 'y': yPointStart};
+  return startPoints;
+}
+
+/**
+ * A qucikly crafted initiate starting point of game function.
+ *
+ * Could be handled more elegantly
+ */
+function initiateStartPoint() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(setStartPoints);
+  } else {
+    x.innerHTML = 'Geolocation is not supported by this browser.';
+  }
+}
+
+initiateStartPoint();
 
 
 /**
@@ -64,38 +97,48 @@ var facing = {'chainDirection': {x: 1, y: -20}, 'chainAngle': 'tallChain',
 function create() {
 
   // Creates the Player
-  player = game.add.sprite(400, 300, 'player');
+  player = game.add.sprite(game.width / 2, game.height / 2, 'player');
+  // player = game.add.sprite(0, 0, 'player');
   game.physics.arcade.enable(player);
   player.body.collideWorldBounds = true;
+  player.anchor.set(0.5);
+  player.rotation = game.physics.arcade.angleToPointer(player);
+
 
   // Creates a Bubbles Group
   bubbles = game.add.physicsGroup(Phaser.Physics.ARCADE);
 
-  // Creats a Chains Group
-  chains = game.add.physicsGroup(Phaser.Physics.ARCADE);
 
-  // The Game's Controls
-  cursors = game.input.keyboard.createCursorKeys();
-  fireButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
-  faceUpButton = game.input.keyboard.addKey(Phaser.Keyboard.W);
-  faceLeftButton = game.input.keyboard.addKey(Phaser.Keyboard.A);
-  faceRightButton = game.input.keyboard.addKey(Phaser.Keyboard.D);
-  faceDownButton = game.input.keyboard.addKey(Phaser.Keyboard.S);
+  // Creates a Hookshot "weapon"
+  hookShot = game.add.weapon(1, 'wideChain');
+  hookShot.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
+  hookShot.bulletSpeed = 400;
+  hookShot.fireRate = 100;
+  hookShot.trackSprite(player, 0, 0, true);
 
   //  The Score
   scoreString = 'Catharsis : ';
-  scoreText = game.add.text(10, 10, scoreString + score, {font: '34px Ariel',
+  scoreText = game.add.text(10, 10, scoreString + score, {font: '22px Ariel',
   fill: '#CC3300'});
 
   //  Player's Resolve
   resolve = game.add.group();
   resolveString = 'Resolve';
-  resolveText = game.add.text(game.world.width -150, 10,
-    resolveString, {font: '34px Ariel', fill: '#CC3300'});
+  var resolveText = game.add.text(game.world.width - 105, 10,
+    resolveString, {font: '22px Ariel', fill: '#CC3300'});
   for (var i = 0; i < 3; i++) {
-    var shield = resolve.create(game.world.width - 142 + 50 * i, 60, 'shield');
+    var shield = resolve.create(game.world.width - 120 + 50 * i, 60, 'shield');
     shield.anchor.setTo(0.5, 0.5);
   }
+
+
+  // Debug: Long/Lat & X/Y
+  debugData = '';
+  debugString = ' Lng/Lat & X/Y : ';
+  debugText = game.add.text(10, 100, debugString + debugData,
+    {font: '10px Ariel', fill: '#CC3300'});
+
+
 
 // //  Player's Combo
 //   comboString = 'Combo[Size/String] : ';
@@ -103,7 +146,11 @@ function create() {
 //     { font: '34px Ariel', fill: '#CC3300' });
 
 /**
- * Populates the game screen with bubbles.
+ * This function creates a single instance of a "ball," and individual object
+ * in the Bubbles group. Each ball created is made within 50 and 400 pixils of
+ * the player, has a random velocity between 0 and 60 pixels per frame in any
+ * direction and is set to be between Large, Medium, and Small (but never Tiny)
+ * The ball is also given a random Tint Color.
  */
   function createBall() {
     //  A bouncey ball sprite just to visually see what's going on.
@@ -119,7 +166,7 @@ function create() {
   }
 
   // Creates a Game-Time Event that Creates Bubbles!
-  game.time.events.repeat(Phaser.Timer.SECOND * 5, 100, createBall, this);
+  game.time.events.repeat(Phaser.Timer.SECOND * 5, 1000, createBall, this);
 
 }
 
@@ -133,75 +180,61 @@ function update() {
   bubbles.setAll('body.bounce.y', 1);
   game.physics.arcade.collide(bubbles);
   game.physics.arcade.overlap(player, bubbles, bubbleHurtsPlayer, null, this);
-  game.physics.arcade.overlap(bubbles, chains, chainPopsBubble, null, this);
-  player.body.velocity.x = 0;
-  player.body.velocity.y = 0;
+  game.physics.arcade.overlap(bubbles, hookShot.bullets,
+    chainPopsBubble, null, this);
 
-  /**
-  * Removes the chain sprite after it's reached the zennith of its animation.
-  */
-  function killChain() {
-    hook.kill();
-    chainCount = false;
+  // Initiates player movement
+  if (gameTimer % 2 === 0) {
+    game.physics.arcade.moveToXY(player, player.x,
+     player.y, 1);
+  } else {
+        moveToLocation();
   }
 
   /**
-   * Handles the Chain Launching action.
-   */
-  function launchHook() {
-    if (chainCount === false) {
-      hook = chains.create(player.x, player.y, facing['chainAngle']);
-      hook.body.immovable = true;
-      game.physics.arcade.enable(hook);
-      chainGrow = game.add.tween(hook.scale).to(facing['chainDirection'],
-        2000, Phaser.Easing.Linear.None, true);
-      chainGrow.onComplete.add(killChain, this);
-      chainCount = true;
+   * Sets the player's position to xLat and yLong, and then moves the player.
+  */
+  function movePlayer(position) {
+    var intX =  18 * (800 / 360 * (180 + position.coords.longitude)) -
+      18 * (800 / 360 * (180 + startPoints['x'])) + game.width / 2;
+    var intY = 18 * (600 / 180 * (90 - position.coords.latitude)) -
+      18 * (600 / 180 * (90 - startPoints['y'])) + game.height / 2;
+    game.physics.arcade.moveToXY(player, intX, intY, 400);
+    var debugData = String(position.coords.longitude) + '/' +
+    String(position.coords.latitude) + '&' + String(intX) + String(intY);
+    debugText.text = debugString + debugData;
+
+    // game.physics.arcade.moveToXY(player, game.rnd.integerInRange(-200, 200),
+    //  game.rnd.integerInRange(-200, 200), 400);
+
+    // game.add.tween(player).to({x: intX, y: intY}, 4000,
+    //    Phaser.Easing.Linear.None, true);
+  }
+
+  /**
+   * Gets player's location and passes it to Move Player.
+  */
+  function moveToLocation() {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(movePlayer);
+    } else {
+      x.innerHTML = 'Geolocation is not supported by this browser.';
     }
   }
 
-  //Game Controls for Left/Right
-  if (cursors.left.isDown) {
-    player.body.velocity.x = -250;
-  } else if (cursors.right.isDown) {
-    player.body.velocity.x = 250;
-  }
+  gameTimer += 1;
 
-  //Game Controls for Up/Down
-  if (cursors.up.isDown) {
-    player.body.velocity.y = -250;
-  } else if (cursors.down.isDown) {
-    player.body.velocity.y = 250;
-  }
 
-  //Game Spacebar
-  if (fireButton.isDown) {
-    launchHook();
-  }
-
-  // Game Controls for Facing
-  if (faceUpButton.isDown) {
-    facing = {'chainDirection': {x: 1, y: -20}, 'chainAngle': 'tallChain',
-    'chainPopY': -400, 'chainPopX': 0};
-  } else if (faceLeftButton.isDown) {
-    facing = {'chainDirection': {x: -20, y: 1}, 'chainAngle': 'wideChain',
-      'chainPopY': 0, 'chainPopX': -400};
-  } else if (faceRightButton.isDown) {
-    facing = {'chainDirection': {x: 20, y: 1}, 'chainAngle': 'wideChain',
-      'chainPopY': 0, 'chainPopX': 400};
-  }else if (faceDownButton.isDown) {
-    facing = {'chainDirection': {x: 1, y: 20}, 'chainAngle': 'tallChain',
-      'chainPopY': 400, 'chainPopX': 0};
-  }
+ player.rotation = game.physics.arcade.angleToPointer(player);
+      if (game.input.activePointer.isDown)
+      {
+          hookShot.fire();
+      }
 
  /**
  * Manages sprite collision between the chain and any given bubble.
  */
   function chainPopsBubble(ball, chain) {
-
-    //  Remove the chain, and set the chainCount to False.
-    chain.kill();
-    chainCount = false;
 
   // make children bubbles if parent bubble wasn't too small
     if (ball.scale.x > .25) {
@@ -234,6 +267,7 @@ function update() {
     score += 1 / ball.scale.x * comboTracker['combo'] * 100;
     scoreText.text = scoreString + score;
     ball.kill();
+    // chain.kill();
   }
 
 
@@ -272,14 +306,14 @@ function update() {
    * text and uses jquery to unhide and populate the game-over form.
    */
   function gameOver() {
-    var time = getPrettyTime();
-    player.kill();
-    bubbles.callAll('kill');
-    $('#player_score').val(score);
-    $('#player_time').val(time);
-    hideField('#map');
-    hideField('#game');
-    unhideField('.game_over');
+    // var time = getPrettyTime();
+    // player.kill();
+    // bubbles.callAll('kill');
+    // $('#player_score').val(score);
+    // $('#player_time').val(time);
+    // hideField('#map');
+    // hideField('#game');
+    // unhideField('.game_over');
   }
 
 
@@ -310,9 +344,9 @@ function update() {
   }
 }
 
-
 /**
- * Phaser Js Function, not needed yet, but prepared. Usually used for debugging.
- */
+* Phaser Js Function, required to render the game despite having no arguments,
+* or information passed in.
+*/
 function render() {
 }

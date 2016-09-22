@@ -8,11 +8,12 @@
  * Creates the map
  */
 function initMap() {
-  var map = new google.maps.Map(document.getElementById('map'), {
-    center: {lat: -34.397, lng: 150.644},
-    zoom: 18
+  var backMap = new google.maps.Map(document.getElementById('map'), {
+    center: {lat: -122.67699033021927, lng: 45.502508273306624},
+    zoom: 18,
+    mapTypeControl: false
   });
-  var infoWindow = new google.maps.InfoWindow({map: map});
+  var infoWindow = new google.maps.InfoWindow({backMap: backMap});
 
   // Try HTML5 geolocation.
   if (navigator.geolocation) {
@@ -24,13 +25,13 @@ function initMap() {
 
       infoWindow.setPosition(pos);
       infoWindow.setContent('Location found.');
-      map.setCenter(pos);
+      backMap.setCenter(pos);
     }, function() {
-      handleLocationError(true, infoWindow, map.getCenter());
+      handleLocationError(true, infoWindow, backMap.getCenter());
     });
   } else {
     // Browser doesn't support Geolocation
-    handleLocationError(false, infoWindow, map.getCenter());
+    handleLocationError(false, infoWindow, backMap.getCenter());
   }
 }
 
@@ -43,5 +44,8 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
                         'Error: The Geolocation service failed.' :
                         'Error: Your browser doesn\'t support geolocation.');
 }
+
+
+
 
 $(document).ready(initMap);
