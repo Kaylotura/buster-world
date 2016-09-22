@@ -16,7 +16,6 @@
 //   var update;
 //   var render;
 //   var girlIcon;
-//   var tallChainIcon;
 //   var wideChainIcon;
 //   var bubbleIcon;
 //   var shieldIcon;
@@ -35,7 +34,6 @@ var game = new Phaser.Game(320, 480, Phaser.AUTO, 'game',
  */
 function preload() {
   game.load.image('player', girlIcon);
-  game.load.image('tallChain', tallChainIcon);
   game.load.image('wideChain', wideChainIcon);
   game.load.image('bubble', bubbleIcon);
   game.load.image('shield', shieldIcon);
@@ -44,19 +42,16 @@ function preload() {
 
 // The list of variables that the game will use
 var player;
-var cursors;
-var chains;
+var hookShot;
 var bubbles;
 var ball;
 var smallBall1;
 var smallBall2;
 var hook;
-var chainGrow;
 var scoreText;
 var scoreString;
 var resolve;
 var resolveString;
-var fireButton;
 var startPoints;
 var debugData;
 var debugText;
@@ -65,8 +60,6 @@ var score = 0;
 var gameTimer = 1;
 var chainCount = false;
 var comboTracker = {'size': 0, 'combo': 0};
-var facing = {'chainDirection': {x: 1, y: -20}, 'chainAngle': 'tallChain',
-'chainPopY': -20, 'chainPopX': 0};
 
 
 /**
@@ -108,17 +101,20 @@ function create() {
   // player = game.add.sprite(0, 0, 'player');
   game.physics.arcade.enable(player);
   player.body.collideWorldBounds = true;
+  player.anchor.set(0.5);
+  player.rotation = game.physics.arcade.angleToPointer(player);
 
 
   // Creates a Bubbles Group
   bubbles = game.add.physicsGroup(Phaser.Physics.ARCADE);
 
-  // Creats a Chains Group
-  chains = game.add.physicsGroup(Phaser.Physics.ARCADE);
 
-  // The Game's Controls
-  cursors = game.input.keyboard.createCursorKeys();
-  fireButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+  // Creates a Hookshot "weapon"
+  hookShot = game.add.weapon(1, 'wideChain');
+  hookShot.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
+  hookShot.bulletSpeed = 400;
+  hookShot.fireRate = 100;
+  hookShot.trackSprite(player, 0, 0, true);
 
   //  The Score
   scoreString = 'Catharsis : ';
@@ -174,8 +170,6 @@ function create() {
 
 }
 
-
-
 /**
  * A Phaser.js specific function that contains all of the information that the
  * game will process while its running, in order to update the game live.
@@ -186,7 +180,8 @@ function update() {
   bubbles.setAll('body.bounce.y', 1);
   game.physics.arcade.collide(bubbles);
   game.physics.arcade.overlap(player, bubbles, bubbleHurtsPlayer, null, this);
-  game.physics.arcade.overlap(bubbles, chains, chainPopsBubble, null, this);
+  game.physics.arcade.overlap(bubbles, hookShot.bullets,
+    chainPopsBubble, null, this);
 
   // Initiates player movement
   if (gameTimer % 2 === 0) {
@@ -229,49 +224,12 @@ function update() {
 
   gameTimer += 1;
 
-  /**
-  * Removes the chain sprite after it's reached the zennith of its animation.
-  */
-  function killChain() {
-    hook.kill();
-    chainCount = false;
-  }
 
-  /**
-   * Handles the Chain Launching action.
-   */
-  function launchHook() {
-    if (chainCount === false) {
-      hook = chains.create(player.x, player.y, facing['chainAngle']);
-      hook.body.immovable = true;
-      game.physics.arcade.enable(hook);
-      chainGrow = game.add.tween(hook.scale).to(facing['chainDirection'],
-        2000, Phaser.Easing.Linear.None, true);
-      chainGrow.onComplete.add(killChain, this);
-      chainCount = true;
-    }
-  }
-
-
-  //Game Spacebar
-  if (fireButton.isDown) {
-    launchHook();
-  }
-
-  // Game Controls for Facing
-  if (cursors.up.isDown) {
-    facing = {'chainDirection': {x: 1, y: -20}, 'chainAngle': 'tallChain',
-    'chainPopY': -400, 'chainPopX': 0};
-  } else if (cursors.left.isDown) {
-    facing = {'chainDirection': {x: -20, y: 1}, 'chainAngle': 'wideChain',
-      'chainPopY': 0, 'chainPopX': -400};
-  } else if (cursors.right.isDown) {
-    facing = {'chainDirection': {x: 20, y: 1}, 'chainAngle': 'wideChain',
-      'chainPopY': 0, 'chainPopX': 400};
-  }else if (cursors.down.isDown) {
-    facing = {'chainDirection': {x: 1, y: 20}, 'chainAngle': 'tallChain',
-      'chainPopY': 400, 'chainPopX': 0};
-  }
+ player.rotation = game.physics.arcade.angleToPointer(player);
+      if (game.input.activePointer.isDown)
+      {
+          hookShot.fire();
+      }
 
  /**
  * Manages sprite collision between the chain and any given bubble.
@@ -300,10 +258,6 @@ function update() {
     } else {
       comboTracker['combo'] = 1;
       comboTracker['size'] = ball.scale.x;
-
-      //  Remove the chain, and set the chainCount to False.
-      chain.kill();
-      chainCount = false;
     }
 
   // comboText.text = comboString + comboTracker['size'] + '||' + comboTracker['combo'];
@@ -313,6 +267,7 @@ function update() {
     score += 1 / ball.scale.x * comboTracker['combo'] * 100;
     scoreText.text = scoreString + score;
     ball.kill();
+    // chain.kill();
   }
 
 
