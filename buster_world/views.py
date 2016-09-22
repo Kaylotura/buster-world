@@ -1,4 +1,6 @@
-"""buster-world views"""
+"""Buster-world Views
+This module contains the functions required to render Buster World's HTML and what information should be passed around.
+"""
 
 from django.shortcuts import render
 from . import logic
@@ -18,7 +20,7 @@ def render_game(request):
     return render(request, 'buster_world/game_page.html', template_arguments)
 
 
-def seperate_by_top_ten(any_list):
+def separate_by_top_ten(any_list):
     """Takes in a list as an arguement and returns a dictionary with 'top' as a key, and the first 10 entries in a list
     as the value, and 'the_rest" as anoter key with a list of the remaining items as the value.
 
@@ -35,7 +37,7 @@ def seperate_by_top_ten(any_list):
 def render_high_scores(request):
     """Renders the High Score Page."""
     player_stats = logic.get_player_stats_by_score()
-    template_arguments = seperate_by_top_ten(player_stats)
+    template_arguments = separate_by_top_ten(player_stats)
     return render(request, 'buster_world/high_score_page.html', template_arguments)
 
 
