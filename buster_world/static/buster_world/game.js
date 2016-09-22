@@ -150,7 +150,11 @@ function create() {
 //     { font: '34px Ariel', fill: '#CC3300' });
 
 /**
- * Populates the game screen with bubbles.
+ * This function creates a single instance of a "ball," and individual object
+ * in the Bubbles group. Each ball created is made within 50 and 400 pixils of
+ * the player, has a random velocity between 0 and 60 pixels per frame in any
+ * direction and is set to be between Large, Medium, and Small (but never Tiny)
+ * The ball is also given a random Tint Color.
  */
   function createBall() {
     //  A bouncey ball sprite just to visually see what's going on.
@@ -166,7 +170,8 @@ function create() {
   }
 
   // Creates a Game-Time Event that Creates Bubbles!
-  game.time.events.repeat(Phaser.Timer.SECOND * 5, 100, createBall, this);
+  game.time.events.repeat(Phaser.Timer.SECOND * 5, 1000, createBall, this);
+
 }
 
 
@@ -273,10 +278,6 @@ function update() {
  */
   function chainPopsBubble(ball, chain) {
 
-    //  Remove the chain, and set the chainCount to False.
-    chain.kill();
-    chainCount = false;
-
   // make children bubbles if parent bubble wasn't too small
     if (ball.scale.x > .25) {
       smallBall1 = bubbles.create(ball.world.x, ball.world.y, 'bubble');
@@ -299,6 +300,10 @@ function update() {
     } else {
       comboTracker['combo'] = 1;
       comboTracker['size'] = ball.scale.x;
+
+      //  Remove the chain, and set the chainCount to False.
+      chain.kill();
+      chainCount = false;
     }
 
   // comboText.text = comboString + comboTracker['size'] + '||' + comboTracker['combo'];
@@ -384,11 +389,9 @@ function update() {
   }
 }
 
-
 /**
- * Phaser Js Function, not needed yet, but prepared. Usually used for debugging.
- */
+* Phaser Js Function, required to render the game despite having no arguments,
+* or information passed in.
+*/
 function render() {
 }
-
-// $(document).ready(getPlayerLocation);
