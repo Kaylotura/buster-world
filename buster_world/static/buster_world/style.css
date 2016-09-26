@@ -22,7 +22,9 @@ body {
   display: flex;
   flex-direction: column;
   width: 400px;
-  background:white url(images/gray.png) repeat-x;
+  background:white url(images/gray.jpg) repeat-x;
+  justify-content: center;
+  margin: auto;
 }
 
 h3,
