@@ -103,12 +103,9 @@ function create() {
   game.physics.arcade.enable(player);
   player.body.collideWorldBounds = true;
   player.anchor.set(0.5);
-  player.rotation = game.physics.arcade.angleToPointer(player);
-
 
   // Creates a Bubbles Group
   bubbles = game.add.physicsGroup(Phaser.Physics.ARCADE);
-
 
   // Creates a Hookshot "weapon"
   hookShot = game.add.weapon(1, 'wideChain');
@@ -139,8 +136,6 @@ function create() {
   debugText = game.add.text(10, 100, debugString + debugData,
     {font: '10px Ariel', fill: '#CC3300'});
 
-
-
 // //  Player's Combo
 //   comboString = 'Combo[Size/String] : ';
 //   comboText = game.add.text(game.world.width -500, 50, comboString + comboTracker['size']+ comboTracker['combo'],
@@ -154,7 +149,8 @@ function create() {
  * The ball is also given a random Tint Color.
  */
   function createBall() {
-    //  A bouncey ball sprite just to visually see what's going on.
+    //  This function wants to create balls in random directions, not just
+    // to the lft of player
     ball = bubbles.create(
       player.x + game.rnd.integerInRange(50, 400),
       player.y + game.rnd.integerInRange(50, 400),
