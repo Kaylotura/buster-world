@@ -7,21 +7,20 @@
     <title>Start Buster!</title>
   </head>
   <body>
-    <h2>Buster World!</h2>
+    <h2>
+      <img src="{% static 'buster_world/sprites/logo.png' %}">
+    </h2>
     <nav>
       <a href="{% url 'high_scores' %}">High Scores</a>
     </nav>
-    <p>
-      <h3>How to Play!</h3>
-      <ul>
-        <li>Walk around! This moves your character!</li>
-        <li>Press the Space Button to launch your grapple hook!</li>
-        <li>Pop as many Bubbles as you can before they hit you!</li>
-        <li>Each time a demoralizing bubble hits you, you lose a point of resolve!</li>
-        <li>Play until you run out of resolve!</li>
-      </ul>
-
-    </p>
-    <a href="{% url 'game'%}">Start!</a>
+    <h3>How to Play!</h3>
+    <ul>
+      <li>Walk around! This moves your character!</li>
+      <li>Press on the screen to launch your grappling hook!</li>
+      <li>Pop as many Bubbles as you can before they hit you!</li>
+      <li>Each time a demoralizing bubble hits you, you lose a point of resolve!</li>
+      <li>Play until you run out of resolve!</li>
+    </ul>
+    <a class="button" href="{% url 'game'%}">Play</a>
   </body>
 </html>
