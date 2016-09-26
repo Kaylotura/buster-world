@@ -18,22 +18,11 @@ font-size: 14;
 font-weight: bold;
 }
 
-.button {
-  font: bold 11px Arial;
-  text-decoration: none;
-  background-color: #000000;
-  color: #333333;
-  padding: 2px 6px 2px 6px;
-  border-top: 1px solid #CCCCCC;
-  border-right: 1px solid #FFFFFF;
-  border-bottom: 1px solid #FFFFFF;
-  border-left: 1px solid #CCCCCC;
-}
-
 body {
   display: flex;
   flex-direction: column;
   width: 400px;
+  background:white url(images/gray.png) repeat-x;
 }
 
 h3,
