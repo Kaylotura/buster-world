@@ -56,6 +56,7 @@ var startPoints;
 var debugData;
 var debugText;
 var debugString;
+var quitButton;
 var score = 0;
 var gameTimer = 1;
 var chainCount = false;
@@ -167,6 +168,9 @@ function create() {
 
   // Creates a Game-Time Event that Creates Bubbles!
   game.time.events.repeat(Phaser.Timer.SECOND * 5, 1000, createBall, this);
+
+  // Debug Quit Button
+  quitButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 
 }
 
@@ -306,14 +310,19 @@ function update() {
    * text and uses jquery to unhide and populate the game-over form.
    */
   function gameOver() {
-    // var time = getPrettyTime();
-    // player.kill();
-    // bubbles.callAll('kill');
-    // $('#player_score').val(score);
-    // $('#player_time').val(time);
-    // hideField('#map');
-    // hideField('#game');
-    // unhideField('.game_over');
+    var time = getPrettyTime();
+    player.kill();
+    bubbles.callAll('kill');
+    $('#player_score').val(score);
+    $('#player_time').val(time);
+    hideField('#map');
+    hideField('#game');
+    unhideField('.game_over');
+  }
+
+  //Debug Game Over Quit Button
+  if (quitButton.isDown) {
+    gameOver();
   }
 
 
@@ -333,9 +342,6 @@ function update() {
       hook.kill();
       chainCount = false;
     }
-    //  Decreases the score
-    score -= 50;
-    scoreText.text = scoreString + score;
 
     // When the player loses all of their resolve
     if (resolve.countLiving() < 1) {
