@@ -1,10 +1,5 @@
-.invisible {
-  display: none;
-}
-
 #map {
   height: 480px;
-  width: 320px;
   position:absolute;
   z-index: 0; /* Set z-index to 0 as it will be on a layer below the contact form */
 }
@@ -14,11 +9,31 @@
   z-index: 1; /* The z-index should be higher than Google Maps */
 }
 
+.invisible {
+  display: none;
+}
+
 .top-ten {
 font-size: 14;
 font-weight: bold;
 }
 
 body {
-  display: flex; 
+  display: flex;
+  flex-direction: column;
+  width: 320px;
+}
+
+h2 {
+  align-items: center;
+  justify-content: center;
+}
+
+nav {
+  flex-direction: row;
+  align-items: center;
+}
+
+a {
+  flex: 1;
 }
