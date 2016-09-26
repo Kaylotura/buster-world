@@ -1,7 +1,7 @@
 #Buster World
 A bubble-busting location-based augmented reality game inspired Buster Bros., Pang, and Ingress. Players control a character on a map based on their real-world location, and pop bubbles that bounce around over the map in effort to increase their high-score!
 
-Buster-World is still a work in progress.
+Buster-World is still a work in progress, currently the game is down...
 
 For more information, see the [proposal](/proposal.md).
 
@@ -24,7 +24,7 @@ For more information, see the [proposal](/proposal.md).
 There are three pages on Buster World; A Start Page, a Game Page, and a High Score Page.
 
 ###Start Page
-The start page has a link to the High-score Page and a Link to the Game Page, as well as some basic game instructions.
+The start page has a link to the High-score Page, some basic game instructions, and a large link to the Game Page labeled "Play"
 
 ###Game Page
 At this time the game page is an incomplete mock-up of what the game will actually be.
@@ -42,7 +42,8 @@ There are a few small bugs in the game proper, that need to be worked out.
 ####Bugs
 * Chain fired is unconnected to player icon.
 * Chain does not die on impact with bubble, preventing bubble spawning.
-* Geolocational Movment only works over HTTPS, and needs a secure link.
+* Geo-locational Movement only works over HTTPS, and needs a secure link.
+* Map not showing up...
 
 ###High Score Page
 This page holds all of the scores and player names associated with the score in descending order.

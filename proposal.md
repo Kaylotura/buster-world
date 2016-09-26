@@ -24,7 +24,6 @@ Each Player Stats models has the following properties.
 * Score (Gained throughout the playing of the game)
 * Time (How long the player survived before the game ended) (This will be used for future achievements).
 
-
 ## Game Model
 
 ### Character
@@ -35,8 +34,6 @@ Information that represents the Character
 * Icon (An image that is rendered on the World screen)
 * Time (A timed count of how long the player has been surviving)
 * Location (Coordinates representing where to render the Icon on the World)
-* Facing (The direction a character is facing, which is which direction to launch grapple)
-
 
 ### World
 The visual background and setting of the game.
@@ -64,7 +61,6 @@ A long trailing chain launched from the character that pops bubbles.
 While each character has a running tally of what their score is, when the character loses their final resolve, that score is to be saved within the database, so that it may be compared to other scores, and rendered as part of the Scores Menu and the Game page, this will allow the player to see who has reached the prized high score.
 
 ## Technical Components
-
 Much of the game is going to take place in JavaScript, with the rendering handled with JQuery.
 
 The objects of the game will largely interact through JavaScript structures; this would include Character, Bubbles, and Chains. Most of the game engine and logic will be hosted in JavaScript modules as well, including the random creation of Bubbles; how Bubbles, Characters, and Chains all interact; the limit on using one chain at a time; and ending the game when the player gets to 0 resolve.
