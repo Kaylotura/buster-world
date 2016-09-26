@@ -21,12 +21,12 @@ font-weight: bold;
 .button {
   font: bold 11px Arial;
   text-decoration: none;
-  background-color: #EEEEEE;
+  background-color: #000000;
   color: #333333;
   padding: 2px 6px 2px 6px;
   border-top: 1px solid #CCCCCC;
-  border-right: 1px solid #333333;
-  border-bottom: 1px solid #333333;
+  border-right: 1px solid #FFFFFF;
+  border-bottom: 1px solid #FFFFFF;
   border-left: 1px solid #CCCCCC;
 }
 
@@ -49,10 +49,9 @@ nav {
   align-items: center;
 }
 
-a {
-  flex: 1;
-}
 
 img {
+  display: block;
   max-width: 100%;
+  margin: auto;
 }
