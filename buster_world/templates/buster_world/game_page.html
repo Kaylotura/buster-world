@@ -8,8 +8,9 @@
     <title>Play Buster!</title>
   </head>
   <body>
-    <h2 class="game">Buster World Play!</h2>
-     <nav>
+    <h2 class="game">{% static 'logo.png' %}</h2>
+    <h2 class="game_over invisible">{% static 'game_over.png' %}</h2>
+    <nav>
       <a href="{% url 'start' %}">Home</a>
       <a href="{% url 'high_scores' %}">High Scores</a>
     </nav>
