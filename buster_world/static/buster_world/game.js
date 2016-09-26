@@ -317,6 +317,7 @@ function update() {
     $('#player_time').val(time);
     hideField('#map');
     hideField('#game');
+    hideField('#logo');
     unhideField('.game_over');
   }
 
