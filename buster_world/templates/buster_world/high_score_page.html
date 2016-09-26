@@ -4,22 +4,30 @@
   <head>
     <link rel="stylesheet" href="{% static 'buster_world/style.css' %}">
     <meta charset="UTF-8">
-    <title>Best Busters!</title>
+    <title>High Score!</title>
   </head>
   <body>
     <h2>
-      <img src="{% static 'buster_world/images/logo.png' %}">
+      <img src="{% static 'buster_world/images/high_score.png' %}">
     </h2>
     <nav>
       <a href="{% url 'start' %}">Home</a>
     </nav>
-    <ol>
-      {% for player in top %}
-      <li class="top-ten">{{ player.name }}, {{ player.score }}</li>
-      {% endfor %}
-      {% for player in the_rest %}
-      <li> {{ player.name }}, {{ player.score }}</li>
-      {% endfor %}
-    </ol>
+    <div class="text_box">
+      <h3> The Best </h3>
+      <ol>
+        {% for player in top %}
+        <li class="top-ten">{{ player.name }}: {{ player.score }}</li>
+        {% endfor %}
+      </ol>
+    </div>
+    <div class="text_box">
+      <h3> The Rest </h3>
+      <ul class="the_rest">
+        {% for player in the_rest %}
+        <li> {{ player.name }}: {{ player.score }}</li>
+        {% endfor %}
+      </ul>
+    </div>
   </body>
 </html>

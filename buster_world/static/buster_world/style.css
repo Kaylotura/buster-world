@@ -14,11 +14,21 @@
 }
 
 .top-ten {
-  font-size: 14;
+  font-size: large;
   font-weight: bold;
+  padding: 8px;
 }
 
-.text-box {
+.the_rest {
+  column-count: 2;
+  column-gap: 40px;
+  column-rule: 1px solid black;
+  list-style: none;
+  padding: 10px;
+}
+
+
+.text_box {
   box-shadow: 10px 10px 60px -2px rgba(0,0,0,0.75);
   background-color: rgb(223, 226, 219);
   background-color: rgba(223, 226, 219, 0.75);
