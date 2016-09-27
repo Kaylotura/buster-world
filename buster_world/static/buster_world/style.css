@@ -80,3 +80,14 @@ img {
   max-width: 100%;
   margin: auto;
 }
+
+p {
+  font-size: 60px;
+  text-align: center;
+  margin: 5px;
+}
+
+form {
+  align-items: center;
+  justify-content: center;
+}
