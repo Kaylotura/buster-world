@@ -1,25 +1,24 @@
 #map {
+  width: 320px;
   height: 480px;
-  height: 400px;
   position:absolute;
-<<<<<<< HEAD
-  z-index: 1; /* Set z-index to 0 as it will be on a layer below the contact form */
-=======
-  z-index: 0;
->>>>>>> master
+  z-index: 1;
 }
 
 #game {
-  position: relative;
-<<<<<<< HEAD
-  z-index: 2; /* The z-index should be higher than Google Maps */
+  position:absolute;
+  z-index: 2;
+}
+
+.game_layers {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 480px;
 }
 
 .invisible {
   display: none;
-=======
-  z-index: 1;
->>>>>>> master
 }
 
 .top-ten {
