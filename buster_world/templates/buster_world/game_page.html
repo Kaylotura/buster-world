@@ -5,11 +5,16 @@
     <link rel="stylesheet" href="{% static 'buster_world/style.css' %}">
     <meta charset="UTF-8">
     <meta name="viewport" content="initial-scale=1.0">
-    <title>Play Buster!</title>
+    <title>Play Buster World</title>
   </head>
   <body>
-    <h2 class="game">Buster World Play!</h2>
-     <nav>
+    <h2 id="logo">
+      <img src="{% static 'buster_world/images/logo.png' %}">
+    </h2>
+    <h2 class="game_over invisible">
+      <img src="{% static 'buster_world/images/game_over.png' %}">
+    </h2>
+    <nav>
       <a href="{% url 'start' %}">Home</a>
       <a href="{% url 'high_scores' %}">High Scores</a>
     </nav>

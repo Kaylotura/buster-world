@@ -30,7 +30,7 @@ def separate_by_top_ten(any_list):
     """
     return {
         'top': any_list[:10],
-        'the_rest': any_list[10:]
+        'the_rest': any_list[11:]
             }
 
 

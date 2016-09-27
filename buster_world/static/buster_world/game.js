@@ -68,7 +68,11 @@ var scoreString;
 var resolve;
 var resolveText;
 var resolveString;
-var startingPoint;
+var startPoints;
+var debugData;
+var debugText;
+var debugString;
+var quitButton;
 // var debugData;
 // var debugText;
 // var debugString;
@@ -96,6 +100,7 @@ function getStartingPoint(position) {
 runGeolocationFunction(getStartingPoint);
 
 
+
 /**
  * A Phaser specific function that contains all of the information that the
  * game will need to create aparent objects and effects.
@@ -107,7 +112,7 @@ function create() {
   game.physics.arcade.enable(player);
   player.body.collideWorldBounds = true;
   player.anchor.set(0.5);
-  player.rotation = game.physics.arcade.angleToPointer(player);
+
 
   // Creates a Bubbles Group
   bubbles = game.add.physicsGroup(Phaser.Physics.ARCADE);
@@ -155,6 +160,8 @@ function create() {
  * The ball is also given a random Tint Color.
  */
   function createBall() {
+    //  This function wants to create balls in random directions, not just
+    // to the lft of player
     ball = bubbles.create(
       player.x + game.rnd.integerInRange(50, 400),
       player.y + game.rnd.integerInRange(50, 400),
@@ -169,6 +176,9 @@ function create() {
 
   // Creates a Game-Time Event that Creates Bubbles!
   game.time.events.repeat(Phaser.Timer.SECOND * 5, 1000, createBall, this);
+
+  // Debug Quit Button
+  quitButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 
 }
 
@@ -214,6 +224,7 @@ function update() {
   * When a player runs out of resolve and takes a hit from a bubble, they lose
   * the game, which pulls up the game over form/field.
   */
+
   function gameOver() {
     var time = getPrettyTime();
     player.kill();
@@ -332,6 +343,10 @@ function update() {
   // Counts the fames that have passed
   gameTimer += 1;
 
+  //Debug Game Over Quit Button
+  if (quitButton.isDown) {
+    gameOver();
+  }
 
   //Defines the game physics of bubbles and their bouncing
   bubbles.setAll('body.collideWorldBounds', true);
@@ -340,11 +355,11 @@ function update() {
   game.physics.arcade.collide(bubbles);
 
 
+
   // What happens when the player, bubbles, or the chain interact/collide.
   game.physics.arcade.overlap(player, bubbles, bubbleHurtsPlayer, null, this);
   game.physics.arcade.overlap(bubbles, hookShot.bullets,
     chainPopsBubble, null, this);
-
 
   // When the player loses all of their resolve,  Game Over
   if (resolve.countLiving() < 1) {

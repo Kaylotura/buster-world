@@ -7,39 +7,33 @@ Upon starting up Buster World the player sees a start screen, which will provide
 ## Specific Functionality
 
 ### Start Page
-The start page will have a button that when clicked will reveal a hiden name form. Once the name form is filled out and submited, it will link to the game page. There will also be some basic isntructions over the start button/name form. And below the start button will be a link to the High Score Page.
+The start page will have a button that when clicked will lead to the game page. There will also be some basic instructions over the start button. And below the start button will be a link to the High Score Page.
 
 ### Game Page
-Here the player sees the map, bubbles, and character icon. The player uses this screen to play the game. In the center of the screen is their icon from which they may tap to fire their grapple hooks. In the left hand corner there will be two rotational arrows, one clockwise, the other counterclockwise, used to rotate their central icon so that they may fire at bubbles in any direction. In the bottom right corner of the the page there will be a Menu button that links to the Scores Page. In the top right corner of the page there will be a Resolve Meter  displaying zero to three shields a point of resolve (see below). The game page will also display the bouncing bubbles, buildings, and player's actual location as a top down map (similar to goolge maps or ingress).
+Here the player sees the map, bubbles, and character icon. The player uses this screen to play the game. In the center of the screen is their icon. They may tap anywhere on the screen to fire their grapple hooks in the specified direction. In the top right corner of the page there will be a Resolve Meter  displaying zero to three shields a point of resolve (see below). The game page will also display the bouncing bubbles, buildings, and player's actual location as a top down map (similar to goolge maps or ingress).
 
 ### High Score Page
-Here the player can scroll through all the scores logged in the game for the past 7 days. They will be listed vertically starting with the highest score first and descending order from there. By each score will be the name of the  player (as entered in the Name page) who earned that particular score. At the top of the page there will be a link that leads back to the Start Page.
-
-### Game Over Page
-A page displaying that the game is over, and showing the player's score as well as a Play Again button, that leads to another game from the Game Page.
+Here the player can scroll through all the scores logged in the game. They will be listed vertically starting with the highest score first and descending order from there. By each score will be the name of the  player (as entered in the Game page) who earned that particular score. At the top of the page there will be a link that leads back to the Start Page.
 
 ## Data Model
 
 ### Player Stats
 Each instance of the game being played will be stored as a Player Stats model.
-Each Player Stats moels has the following propreties.
-* Player Name (Entered at the beginning of the game)
+Each Player Stats models has the following properties.
+* Player Name (Entered at the end of the game)
 * Score (Gained throughout the playing of the game)
 * Time (How long the player survived before the game ended) (This will be used for future achievements).
-
 
 ## Game Model
 
 ### Character
 Information that represents the Character
 * Resolve (A number between 0 and 3. Starting at 3, each time struck by a bubble, the character reduces their resolve by 1. At 0 the game is over)
-* Name (A string of 1-20 characters that represents the character in the Scores Menu and Start Page)
+* Name (A string of characters that represents the character in the Scores Menu)
 * Score (An int representing how well the player is doing)
 * Icon (An image that is rendered on the World screen)
 * Time (A timed count of how long the player has been surviving)
 * Location (Coordinates representing where to render the Icon on the World)
-* Facing (The direction a character is facing, which is which direction to launch grapple)
-
 
 ### World
 The visual background and setting of the game.
@@ -67,20 +61,17 @@ A long trailing chain launched from the character that pops bubbles.
 While each character has a running tally of what their score is, when the character loses their final resolve, that score is to be saved within the database, so that it may be compared to other scores, and rendered as part of the Scores Menu and the Game page, this will allow the player to see who has reached the prized high score.
 
 ## Technical Components
-
 Much of the game is going to take place in JavaScript, with the rendering handled with JQuery.
 
 The objects of the game will largely interact through JavaScript structures; this would include Character, Bubbles, and Chains. Most of the game engine and logic will be hosted in JavaScript modules as well, including the random creation of Bubbles; how Bubbles, Characters, and Chains all interact; the limit on using one chain at a time; and ending the game when the player gets to 0 resolve.
 
-Python will store character scores and be used to manipulate the data-base of character scores and the high scores amoung them.
+Python will store character scores and be used to manipulate the data-base of character scores and the high scores among them.
 
-I anticipate much of the HTML and CSS to be relatively minimal, with much of the game being rendered through Canvas and the PhaserJS libraries. I am not yet certain if I will be able to manipulate the Geolocations and GoogleMaps view into the Canvas for this, but I intend to look into work arounds to get this to funtion.
+I anticipate much of the HTML and CSS to be relatively minimal, with much of the game being rendered through Canvas and the PhaserJS libraries. I am not yet certain if I will be able to manipulate the Geolocations and GoogleMaps view into the Canvas for this, but I intend to look into work-arounds to get this to function.
 Players Scores will be stored and searched using Django Models in a database.
 I also expect to be using the PhaserJS library to initiate the interactions between Bubbles, Characters, and Chains.
 
-As for testing, I am interested in using MochaJS, as it seems to have promises as part of its basic packaging.
-
-Potentially useful libraries include [pygame](http://www.pygame.org/hifi.html), [Gulp](http://gulpjs.com/), [melonJS](http://melonjs.org/), [CreateJS](http://createjs.com/), [Sound Manager 2](http://www.schillmania.com/projects/soundmanager2/), [CraftyJS](http://craftyjs.com/), and [Stage.js](http://piqnt.com/stage.js/).
+Potentially useful libraries include [Gulp](http://gulpjs.com/), [melonJS](http://melonjs.org/), [CreateJS](http://createjs.com/), [Sound Manager 2](http://www.schillmania.com/projects/soundmanager2/), [CraftyJS](http://craftyjs.com/), and [Stage.js](http://piqnt.com/stage.js/).
 
 ## Schedule (23 days)
 * Initiate Django Structure - Very Easy - 1 hour
@@ -93,16 +84,16 @@ Potentially useful libraries include [pygame](http://www.pygame.org/hifi.html), 
 * Connect Game to Data - Medium - 2 days
 * *Super minimal game experience (Minimal Game/Structure)*
 * Canvas JS to render backgrounds - Medium - 2 days
-* Get Gelocational Satelite view through canvas on game - Hard - 5 days
+* Get Gelocational Satellite view through canvas on game - Hard - 5 days
 * Build out full game in Phaser - Medium/Hard - 3 days
-* *Minmial game experience (Game takes place on gelocational map)*
+* *Minimal game experience (Game takes place on gelocational map)*
 * Manage to get physical movement to replace game cursers - Hard? - 5 days
 * *Game Complete*
 * Basic HTML & CSS Tidy-Up - Easy - 1/2 day
 * *MVP*
 
 ##Future Goals
-* Player Achievments based on time, maybe bubbles popped, etc.
+* Player Achievements based on time, maybe bubbles popped, etc.
 * Music (Midi Music)
 * Sound Effects
 * Buildings as Objects that chains stick to and Bubbles bounce off of.
