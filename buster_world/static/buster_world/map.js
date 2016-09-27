@@ -1,11 +1,23 @@
-/** This handles the creation of the map aspect of the game.
-*
+/**
+* This handles the creation of the map background aspect of the game.
 */
 
 'use strict';
 
+
 /**
- * Creates the map
+ * Handles a location error
+ */
+function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+  infoWindow.setPosition(pos);
+  infoWindow.setContent(browserHasGeolocation ?
+                        'Error: The Geolocation service failed.' :
+                        'Error: Your browser doesn\'t support geolocation.');
+}
+
+
+/**
+ * Creates the map background.
  */
 function initMap() {
   var backMap = new google.maps.Map(document.getElementById('map'), {
@@ -34,18 +46,6 @@ function initMap() {
     handleLocationError(false, infoWindow, backMap.getCenter());
   }
 }
-
-/**
- * Handles a location error
- */
-function handleLocationError(browserHasGeolocation, infoWindow, pos) {
-  infoWindow.setPosition(pos);
-  infoWindow.setContent(browserHasGeolocation ?
-                        'Error: The Geolocation service failed.' :
-                        'Error: Your browser doesn\'t support geolocation.');
-}
-
-
 
 
 $(document).ready(initMap);
