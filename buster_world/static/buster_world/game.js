@@ -227,6 +227,7 @@ function update() {
     bubbles.callAll('kill');
     $('#player_score').val(score);
     $('#player_time').val(time);
+    hideField('#logo');
     hideField('#map');
     hideField('#game');
     unhideField('.game_over');

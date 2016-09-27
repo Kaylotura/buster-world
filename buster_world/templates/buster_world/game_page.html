@@ -9,14 +9,17 @@
   </head>
   <body>
     <h2 id="logo">
-      <img src="{% static 'buster_world/images/logo.png' %}">
+      <a href="{% url 'start' %}">
+        <img src="{% static 'buster_world/images/logo.png' %}">
+      </a>
     </h2>
     <h2 class="game_over invisible">
-      <img src="{% static 'buster_world/images/game_over.png' %}">
+      <a href="{% url 'start' %}">
+        <img src="{% static 'buster_world/images/game_over.png' %}">
+      </a>
     </h2>
     <nav>
-      <a href="{% url 'start' %}">Home</a>
-      <a href="{% url 'high_scores' %}">High Scores</a>
+      <a href="{% url 'high_scores' %}"> <img src="{% static 'buster_world/images/high_score.png' %}"> </a>
     </nav>
     <fieldset class="game_over invisible" >
       <form method="post" action="{% url 'score_submit'%}">
