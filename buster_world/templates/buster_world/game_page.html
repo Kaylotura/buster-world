@@ -18,8 +18,6 @@
       <a href="{% url 'start' %}">Home</a>
       <a href="{% url 'high_scores' %}">High Scores</a>
     </nav>
-    <div id="map"></div>
-    <div id="game"></div>
     <fieldset class="game_over invisible" >
       <form method="post" action="{% url 'score_submit'%}">
       {% csrf_token %}
@@ -29,6 +27,10 @@
         <input type="submit">
       </form>
     </fieldset>
+    <div class="game_layers">
+      <div id="map"></div>
+      <div id="game"></div>
+    </div>
   </body>
   <!--Loads Jquery and Style.CSS-->
   <script src="https://code.jquery.com/jquery-2.2.3.js"></script>

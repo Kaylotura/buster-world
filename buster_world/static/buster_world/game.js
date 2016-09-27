@@ -7,20 +7,20 @@
  */
 
 
- //Silences Linter on Library Variables
-'use strict';
-if (!window) {
-  var Phaser;
-  var preload;
-  var create;
-  var update;
-  var render;
-  var girlIcon;
-  var wideChainIcon;
-  var bubbleIcon;
-  var shieldIcon;
-  var x;
-}
+//  //Silences Linter on Library Variables
+// 'use strict';
+// if (!window) {
+//   var Phaser;
+//   var preload;
+//   var create;
+//   var update;
+//   var render;
+//   var girlIcon;
+//   var wideChainIcon;
+//   var bubbleIcon;
+//   var shieldIcon;
+//   var x;
+// }
 
 
 /**
@@ -62,16 +62,12 @@ var bubbles;
 var ball;
 var smallBall1;
 var smallBall2;
-var hook;
 var scoreText;
 var scoreString;
 var resolve;
 var resolveText;
 var resolveString;
-var startPoints;
-var debugData;
-var debugText;
-var debugString;
+var startingPoint;
 var quitButton;
 // var debugData;
 // var debugText;
