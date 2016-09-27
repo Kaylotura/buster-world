@@ -9,24 +9,27 @@
   </head>
   <body>
     <h2 id="logo">
-      <img src="{% static 'buster_world/images/logo.png' %}">
+      <a href="{% url 'start' %}">
+        <img src="{% static 'buster_world/images/logo.png' %}">
+      </a>
     </h2>
     <h2 class="game_over invisible">
-      <img src="{% static 'buster_world/images/game_over.png' %}">
+      <a href="{% url 'start' %}">
+        <img src="{% static 'buster_world/images/game_over.png' %}">
+      </a>
     </h2>
     <nav>
-      <a href="{% url 'start' %}">Home</a>
-      <a href="{% url 'high_scores' %}">High Scores</a>
+      <a href="{% url 'high_scores' %}"> <img src="{% static 'buster_world/images/high_score.png' %}"> </a>
     </nav>
-    <fieldset class="game_over invisible" >
+    <div class="text_box game_over invisible" >
       <form method="post" action="{% url 'score_submit'%}">
       {% csrf_token %}
-        <label>Name</label><input type="text" name="player_name"> <br>
-        <label>Score</label><input type="text" id="player_score" name="player_score" readonly>
-        <label>Time</label><input type="text" id="player_time" name="player_time" readonly>
+        <img src="{% static 'buster_world/images/score.png' %}"><p id="player_score"></p>
+        <img src="{% static 'buster_world/images/time.png' %}"><p id="player_time"></p>
+        <img src="{% static 'buster_world/images/name.png' %}"><input type="text" name="player_name" maxlength="20"> <br>
         <input type="submit">
       </form>
-    </fieldset>
+    </div>
     <div class="game_layers">
       <div id="map"></div>
       <div id="game"></div>
@@ -48,7 +51,7 @@
   <script>
     var tallChainIcon = "{% static 'buster_world/sprites/tall_chain.png' %}"
     var wideChainIcon = "{% static 'buster_world/sprites/wide_chain.png' %}"
-    var girlIcon = "{% static 'buster_world/sprites/girl.png' %}"
+    var arrowIcon = "{% static 'buster_world/sprites/arrow.png' %}"
     var shieldIcon = "{% static 'buster_world/sprites/shield.png' %}"
     var bubbleIcon = "{% static 'buster_world/sprites/bubble.png' %}"
   </script>

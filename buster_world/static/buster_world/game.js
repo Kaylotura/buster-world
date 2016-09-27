@@ -15,7 +15,7 @@
 //   var create;
 //   var update;
 //   var render;
-//   var girlIcon;
+//   var arrowIcon;
 //   var wideChainIcon;
 //   var bubbleIcon;
 //   var shieldIcon;
@@ -48,7 +48,7 @@ var game = new Phaser.Game(320, 480, Phaser.AUTO, 'game',
  * game will need to parse before it renders.
  */
 function preload() {
-  game.load.image('player', girlIcon);
+  game.load.image('player', arrowIcon);
   game.load.image('wideChain', wideChainIcon);
   game.load.image('bubble', bubbleIcon);
   game.load.image('shield', shieldIcon);
@@ -225,8 +225,9 @@ function update() {
     var time = getPrettyTime();
     player.kill();
     bubbles.callAll('kill');
-    $('#player_score').val(score);
-    $('#player_time').val(time);
+    $('#player_score').text(score);
+    $('#player_time').text(time);
+    hideField('#logo');
     hideField('#map');
     hideField('#game');
     unhideField('.game_over');
