@@ -23,7 +23,7 @@ function initMap() {
   var backMap = new google.maps.Map(document.getElementById('map'), {
     center: {lat: -122.67699033021927, lng: 45.502508273306624},
     zoom: 18,
-    mapTypeControl: false
+    disableDefaultUI: true
   });
   var infoWindow = new google.maps.InfoWindow({backMap: backMap});
 
