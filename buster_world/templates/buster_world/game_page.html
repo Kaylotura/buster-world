@@ -21,15 +21,15 @@
     <nav>
       <a href="{% url 'high_scores' %}"> <img src="{% static 'buster_world/images/high_score.png' %}"> </a>
     </nav>
-    <fieldset class="game_over invisible" >
+    <div class="text_box game_over invisible" >
       <form method="post" action="{% url 'score_submit'%}">
       {% csrf_token %}
-        <label>Name</label><input type="text" name="player_name"> <br>
-        <label>Score</label><input type="text" id="player_score" name="player_score" readonly>
+        <label>Name</label><input type="text" name="player_name" maxlength="20"> <br>
+        <label>Score</label><input type="text" id="player_score" name="player_score" readonly> <br>
         <label>Time</label><input type="text" id="player_time" name="player_time" readonly>
         <input type="submit">
       </form>
-    </fieldset>
+    </div>
     <div class="game_layers">
       <div id="map"></div>
       <div id="game"></div>
