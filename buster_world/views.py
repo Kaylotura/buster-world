@@ -3,7 +3,9 @@ This module contains the functions required to render Buster World's HTML and wh
 """
 
 from django.shortcuts import render
+from django.http import JsonResponse
 from . import logic
+from . import models
 from . import key
 
 
@@ -33,6 +35,16 @@ def separate_by_top_ten(any_list):
         'the_rest': any_list[11:]
             }
 
+
+def _json_encode_player_stats(player_stats):
+    """A private function that converts the PlayerStats model object to a JSON-encodable dict.
+
+       >>> fairy_tale = models.PlayerStats(name='flames', score=7, time=2)
+       >>> _json_encode_player_stats(fairy_tale)
+       {'name': 'flames', 'score': 7, 'time': 2}
+       """
+
+    return {'name': player_stats.name, 'score': player_stats.score, 'time': player_stats.time}
 
 def render_high_scores(request):
     """Renders the High Score Page."""
