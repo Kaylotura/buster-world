@@ -58,8 +58,8 @@ def return_score_submit(request):
     to add it to the PlayerStats class-model, then redirects the user to the High Score Page.
     """
     print(request.POST)
-    player_name = request.POST['player_name']
-    player_score = request.POST['player_score']
-    player_time = request.POST['player_time']
+    player_name = request.POST['name']
+    player_score = request.POST['score']
+    player_time = request.POST['time']
     logic.create_and_save_new_player_stat(player_name, player_score, player_time)
     return render_high_scores(request)

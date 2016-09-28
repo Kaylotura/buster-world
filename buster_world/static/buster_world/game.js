@@ -234,7 +234,6 @@ function update() {
    * Returns a promise containing the JSON object for submitting PlayerStats.
    */
   function submitPlayerStats() {
-    preventDefault()
     var time = getPrettyTime();
     var jsonEndpointURL = $('body').data('url');
     return Promise.resolve($.ajax({
@@ -252,7 +251,11 @@ function update() {
   /**
    * When the game over form is filled out, the player's score is submitted.
    */
-  $('#game_over').on('submit', submitPlayerStats)
+  $('#game_over').on('submit', function() {
+    event.preventDefault();
+    submitPlayerStats();
+  }
+);
 
 
 
