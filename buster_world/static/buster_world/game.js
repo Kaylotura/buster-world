@@ -22,7 +22,6 @@
 //   var x;
 // }
 
-
 /**
  * A function that tests for geolocation permission. If it cannot use the
  * browser's geolocation, it raises an alert. Otherwise it finds the user's
@@ -35,7 +34,6 @@ function runGeolocationFunction(secondFunction) {
     alert('Geolocation is not supported by this browser.');
   }
 }
-
 
 // This Initiates the Phaser Game Object, using the preload, create, update,
 // and render functions listed below.
@@ -220,7 +218,6 @@ function update() {
   * When a player runs out of resolve and takes a hit from a bubble, they lose
   * the game, which pulls up the game over form/field.
   */
-
   function gameOver() {
     var time = getPrettyTime();
     player.kill();
@@ -232,6 +229,34 @@ function update() {
     hideField('#game');
     unhideField('.game_over');
   }
+
+  /**
+   * Returns a promise containing the JSON object for submitting PlayerStats.
+   */
+  function submitPlayerStats() {
+    var time = getPrettyTime();
+    var jsonEndpointURL = $('body').data('url');
+    return Promise.resolve($.ajax({
+      dataType: 'json',
+      url: jsonEndpointURL,
+      method: 'post',
+      data: {
+        'name': $('#player_name'),
+        'score': score,
+        'time': time,
+      }
+    }));
+  }
+
+  /**
+   * When the game over form is filled out, the player's score is submitted.
+   */
+  $('#game_over').on('submit', function() {
+    event.preventDefault();
+    submitPlayerStats();
+  }
+);
+
 
 
 /**
