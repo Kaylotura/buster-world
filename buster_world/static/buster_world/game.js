@@ -3,29 +3,28 @@
  * This file uses Phaser 2.6.2 to create a bubble busting game to be rendered
  * over a google map.
  *
- * Its worth noting that 'use strict'; intereupts some of the Phaser functions.
+ * Its worth noting that 'use strict'; intereupts some of the Phaser functions,
+ * so it has been omitted.
  */
 
-
-//  //Silences Linter on Library Variables
-// 'use strict';
-// if (!window) {
-//   var Phaser;
-//   var preload;
-//   var create;
-//   var update;
-//   var render;
-//   var arrowIcon;
-//   var wideChainIcon;
-//   var bubbleIcon;
-//   var shieldIcon;
-//   var x;
-// }
+ //Silences Linter on Library Variables
+'use strict';
+if (!window) {
+  var Phaser;
+  var preload;
+  var create;
+  var update;
+  var render;
+  var arrowIcon;
+  var wideChainIcon;
+  var bubbleIcon;
+  var shieldIcon;
+}
 
 /**
  * A function that tests for geolocation permission. If it cannot use the
  * browser's geolocation, it raises an alert. Otherwise it finds the user's
- * location and passes it to any given function.
+ * location and passes it to the function it has been given as an argument.
  */
 function runGeolocationFunction(secondFunction) {
   if (navigator.geolocation) {
@@ -40,7 +39,6 @@ function runGeolocationFunction(secondFunction) {
 var game = new Phaser.Game(320, 480, Phaser.AUTO, 'game',
 {preload: preload, create: create, update: update, render: render}, true);
 
-
 /**
  * A Phaser.js specific function that contains all of the information that the
  * game will need to parse before it renders.
@@ -51,7 +49,6 @@ function preload() {
   game.load.image('bubble', bubbleIcon);
   game.load.image('shield', shieldIcon);
 }
-
 
 // The list of variables that the game will use
 var player;
@@ -68,16 +65,19 @@ var resolveString;
 var startingPoint;
 var time;
 var quitButton;
+var x;
+var y;
+var size;
+var combo;
 // var debugData;
 // var debugText;
 // var debugString;
 var score = 0;
 var gameTimer = 1;
-var comboTracker = {'size': 0, 'combo': 0};
-
+var comboTracker = {size: 0, combo: 0};
 
 // > getStartingPoint({coods: {longitude: 3, lattide: 5}});
-// {'x': 3, 'y':5}
+// {x: 3, y:5}
 /**
  * This function takes in a nested position object that contains logitudinal and
  * latitudal positions, and defines them as part of a new object that is used
@@ -87,13 +87,12 @@ var comboTracker = {'size': 0, 'combo': 0};
 function getStartingPoint(position) {
   var xPointStart =  position.coords.longitude;
   var yPointStart =  position.coords.latitude;
-  startingPoint = {'x': xPointStart, 'y': yPointStart};
+  startingPoint = {x: xPointStart, y: yPointStart};
   return startingPoint;
 }
 
 // This runs the function constructed above.
 runGeolocationFunction(getStartingPoint);
-
 
 /**
  * Takes in an html field class as an argument and removes the invisble class
@@ -103,7 +102,6 @@ function unhideField(inputclass) {
   $(inputclass).removeClass('invisible');
 }
 
-
 /**
  * Takes in a field id as an argument and removes the invisble class from all
  * elements that have the given input class.
@@ -112,9 +110,8 @@ function hideField(inputid) {
   $(inputid).addClass('invisible');
 }
 
-
 /**
- * Returns the game time in 100th of seconds.
+ * Returns the game time rounded to the nearest centisecond.
  */
 function getPrettyTime() {
   var totalTime = this.game.time.totalElapsedSeconds();
@@ -124,10 +121,9 @@ function getPrettyTime() {
   return prettyTime;
 }
 
-
 /**
 * When a player runs out of resolve and takes a hit from a bubble, they lose
-* the game, which pulls up the game over form/field.
+* the game, which pulls up the game over text-box and name form.
 */
 function gameOver() {
   time = getPrettyTime();
@@ -153,8 +149,6 @@ function submitPlayerStats(name) {
     'score': score,
     'time': time,
   };
-  console.dir(jsonData);
-  console.dir($('body').data('url'));
   return Promise.resolve($.ajax({
     dataType: 'json',
     url: actionURL,
@@ -166,7 +160,6 @@ function submitPlayerStats(name) {
 $('#game-over').submit(function(event) {
   var playerName = $('#player-name').val();
   var highScorePage = $('body').data('url');
-  console.dir()
   submitPlayerStats(playerName);
   event.preventDefault();
   window.location = highScorePage;
@@ -184,7 +177,6 @@ function create() {
   game.physics.arcade.enable(player);
   player.body.collideWorldBounds = true;
   player.anchor.set(0.5);
-
 
   // Creates a Bubbles Group
   bubbles = game.add.physicsGroup(Phaser.Physics.ARCADE);
@@ -211,18 +203,11 @@ function create() {
     shield.anchor.setTo(0.5, 0.5);
   }
 
-  // // Creates a Debug String to see Long/Lat/X/Y
+  // // Creates a Debug String to see Long/Lat and X/Y, great for testing.
   // debugData = '';
   // debugString = ' Lng/Lat & X/Y : ';
   // debugText = game.add.text(10, 100, debugString + debugData,
   //   {font: '10px Ariel', fill: '#CC3300'});
-
-
-// // Creates Player's Combo and their Combo String.
-//   comboString = 'Combo[Size/String] : ';
-//   comboText = game.add.text(game.world.width -500, 50, comboString + comboTracker['size']+ comboTracker['combo'],
-//    { font: '34px Ariel', fill: '#CC3300' });
-
 
 /**
  * This function creates a single instance of a "ball," and individual object
@@ -232,8 +217,6 @@ function create() {
  * The ball is also given a random Tint Color.
  */
   function createBall() {
-    //  This function wants to create balls in random directions, not just
-    // to the lft of player
     ball = bubbles.create(
       player.x + game.rnd.integerInRange(50, 400),
       player.y + game.rnd.integerInRange(50, 400),
@@ -245,13 +228,12 @@ function create() {
     ball.tint = Math.random() * 0xffffff;
   }
 
-
-  // Creates a Game-Time Event that Creates Bubbles!
+  // Creates a Game-Time Event that Creates Bubbles! Technically this will
+  // only create 1,000 bubbles in 83.3 minutes.
   game.time.events.repeat(Phaser.Timer.SECOND * 5, 1000, createBall, this);
 
-  // Debug Quit Button
+  // Debug Quit Button, used for testing.
   quitButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
-
 }
 
 /**
@@ -261,20 +243,18 @@ function create() {
  */
 function update() {
 
-/**
+ /**
   * This function takes in a player sprite and ball sprite that have overlapped
   * as a pair of arguments. The ball is popped, and the player loses one of
   * their resolve shields.
   */
   function bubbleHurtsPlayer(player, ball) {
     ball.kill();
-    // hookShot.bullets.kill();
     var firstShield = resolve.getFirstAlive();
     if (firstShield) {
       firstShield.kill();
     }
   }
-
 
  /**
   * This function takes in a nested position object that contains logitudinal
@@ -286,9 +266,9 @@ function update() {
   */
   function movePlayer(position) {
     var intX =  18 * (800 / 360 * (180 + position.coords.longitude)) -
-      18 * (800 / 360 * (180 + startingPoint['x'])) + game.width / 2;
+      18 * (800 / 360 * (180 + startingPoint.x)) + game.width / 2;
     var intY = 18 * (600 / 180 * (90 - position.coords.latitude)) -
-      18 * (600 / 180 * (90 - startingPoint['y'])) + game.height / 2;
+      18 * (600 / 180 * (90 - startingPoint.y)) + game.height / 2;
     game.physics.arcade.moveToXY(player, intX, intY, 400);
 
     // // Updates Debug String with current position/XY relationship
@@ -325,31 +305,26 @@ function update() {
     }
 
     // Track Combo
-    if (ball.scale.x === comboTracker['size']) {
-      if (comboTracker['combo'] < 4) {
-        comboTracker['combo'] += 1;
+    if (ball.scale.x === comboTracker.size) {
+      if (comboTracker.combo < 4) {
+        comboTracker.combo += 1;
       }
     } else {
-      comboTracker['combo'] = 1;
-      comboTracker['size'] = ball.scale.x;
+      comboTracker.combo = 1;
+      comboTracker.size = ball.scale.x;
     }
-  // comboText.text = comboString + comboTracker['size'] + '||' + comboTracker['combo'];
-
 
     // Increase the Score
-    score += 1 / ball.scale.x * comboTracker['combo'] * 100;
+    score += 1 / ball.scale.x * comboTracker.combo * 100;
     scoreText.text = scoreString + score;
     ball.kill();
-    //chain.kill();
   }
-
 
   // Controlls for Game
   player.rotation = game.physics.arcade.angleToPointer(player);
   if (game.input.activePointer.isDown) {
     hookShot.fire();
   }
-
 
   // On even frames the player moves towards their geolocational XY point (
   // as defined by moveToLocation), and on the odd frames the player moves to
@@ -362,7 +337,6 @@ function update() {
   } else {
     runGeolocationFunction(movePlayer);
   }
-
 
   // Counts the fames that have passed
   gameTimer += 1;
@@ -378,8 +352,6 @@ function update() {
   bubbles.setAll('body.bounce.y', 1);
   game.physics.arcade.collide(bubbles);
 
-
-
   // What happens when the player, bubbles, or the chain interact/collide.
   game.physics.arcade.overlap(player, bubbles, bubbleHurtsPlayer, null, this);
   game.physics.arcade.overlap(bubbles, hookShot.bullets,
@@ -389,7 +361,6 @@ function update() {
   if (resolve.countLiving() < 1) {
     gameOver();
   }
-
 }
 
 /**
