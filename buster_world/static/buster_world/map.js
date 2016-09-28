@@ -1,12 +1,12 @@
 /**
-* This handles the creation of the map background aspect of the game.
+* This JavaScript module handles the creation of the map background aspect of
+* the game, by finding the user's location and passing it into a google map.
 */
 
 'use strict';
 
-
 /**
- * Handles a location error
+ * Handles a location error.
  */
 function handleLocationError(browserHasGeolocation, infoWindow, pos) {
   infoWindow.setPosition(pos);
@@ -14,7 +14,6 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
                         'Error: The Geolocation service failed.' :
                         'Error: Your browser doesn\'t support geolocation.');
 }
-
 
 /**
  * Creates the map background.
@@ -26,15 +25,12 @@ function initMap() {
     disableDefaultUI: true
   });
   var infoWindow = new google.maps.InfoWindow({backMap: backMap});
-
-  // Try HTML5 geolocation.
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(function(position) {
       var pos = {
         lat: position.coords.latitude,
         lng: position.coords.longitude
       };
-
       infoWindow.setPosition(pos);
       infoWindow.setContent('Location found.');
       backMap.setCenter(pos);
@@ -42,10 +38,8 @@ function initMap() {
       handleLocationError(true, infoWindow, backMap.getCenter());
     });
   } else {
-    // Browser doesn't support Geolocation
     handleLocationError(false, infoWindow, backMap.getCenter());
   }
 }
-
 
 $(document).ready(initMap);

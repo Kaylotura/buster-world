@@ -13,7 +13,7 @@
     <nav>
       <a href="{% url 'start' %}"> <img src="{% static 'buster_world/images/logo.png' %}"> </a>
     </nav>
-    <div class="text_box">
+    <div class="text-box">
       <h3> The Best </h3>
       <ol>
         {% for player in top %}
@@ -21,9 +21,9 @@
         {% endfor %}
       </ol>
     </div>
-    <div class="text_box">
+    <div class="text-box">
       <h3> The Rest </h3>
-      <ul class="the_rest">
+      <ul class="the-rest">
         {% for player in the_rest %}
         <li> {{ player.name }}: {{ player.score }}</li>
         {% endfor %}
