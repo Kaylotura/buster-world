@@ -1,12 +1,12 @@
 """Buster-world Models
-This module contains the  Player Stats Class Object, which is a Django model for storing Player Name, Score, and Time.
+This module contains the PlayerStats Class Object, which is a Django model for storing a player's name, score, and time.
 """
 
 from django.db import models
 
 
 class PlayerStats(models.Model):
-    """Value type that represents a player's name, score, and time played for any given session of the game."""
+    """Value type that represents a player's name, score, and time for any given session of the game."""
     name = models.TextField()
     score = models.IntegerField()
     time = models.FloatField()
