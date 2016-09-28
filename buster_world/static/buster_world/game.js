@@ -31,7 +31,7 @@ var game = new Phaser.Game(320, 480, Phaser.AUTO, 'game',
  */
 function preload() {
   game.load.image('player', arrowIcon);
-  game.load.image('wideChain', wideChainIcon);
+  game.load.image('chain', chainIcon);
   game.load.image('bubble', bubbleIcon);
   game.load.image('shield', shieldIcon);
 }
@@ -168,7 +168,7 @@ function create() {
   bubbles = game.add.physicsGroup(Phaser.Physics.ARCADE);
 
   // Creates a Hookshot "weapon"
-  hookShot = game.add.weapon(1, 'wideChain');
+  hookShot = game.add.weapon(1, 'chain');
   hookShot.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
   hookShot.bulletSpeed = 400;
   hookShot.fireRate = 100;

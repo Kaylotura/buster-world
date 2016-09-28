@@ -13,7 +13,7 @@
         <img src="{% static 'buster_world/images/logo.png' %}">
       </a>
     </h2>
-    <h2 class="game_over invisible">
+    <h2 class="game-over invisible">
       <a href="{% url 'start' %}">
         <img src="{% static 'buster_world/images/game_over.png' %}">
       </a>
@@ -21,7 +21,7 @@
     <nav>
       <a href="{% url 'high_scores' %}"> <img src="{% static 'buster_world/images/high_score.png' %}"> </a>
     </nav>
-    <div class="text_box game_over invisible" >
+    <div class="text-box game-over invisible" >
       <form id="game-over" action="{% url 'score_submit'%}" method="post">
       {% csrf_token %}
         <img src="{% static 'buster_world/images/score.png' %}"><p id="player_score"></p>
@@ -30,7 +30,7 @@
         <input type="submit">
       </form>
     </div>
-    <div class="game_layers">
+    <div class="game-layers">
       <div id="map"></div>
       <div id="game"></div>
     </div>
@@ -50,8 +50,7 @@
   <!---->
   <!--Loads Icons For Game-->
   <script>
-    var tallChainIcon = "{% static 'buster_world/sprites/tall_chain.png' %}"
-    var wideChainIcon = "{% static 'buster_world/sprites/wide_chain.png' %}"
+    var chainIcon = "{% static 'buster_world/sprites/wide_chain.png' %}"
     var arrowIcon = "{% static 'buster_world/sprites/arrow.png' %}"
     var shieldIcon = "{% static 'buster_world/sprites/shield.png' %}"
     var bubbleIcon = "{% static 'buster_world/sprites/bubble.png' %}"
