@@ -22,7 +22,7 @@ def create_and_save_new_player_stat(name, score, time):
 
 
 def get_player_stats_by_score(player_stats=PLAYER_SCORES):
-    """ Returns all the player_stats ordered by score, begining with the highest and descending from there.
+    """ Returns all the player_stats ordered by score, beginning with the highest and descending from there.
 
     Usually this function will not require an argument, however one has been supplied for testing purposes, it will
     default to all PlayerStats objects.
