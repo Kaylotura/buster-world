@@ -66,6 +66,7 @@ var resolve;
 var resolveText;
 var resolveString;
 var startingPoint;
+var time;
 var quitButton;
 // var debugData;
 // var debugText;
@@ -94,6 +95,83 @@ function getStartingPoint(position) {
 runGeolocationFunction(getStartingPoint);
 
 
+/**
+ * Takes in an html field class as an argument and removes the invisble class
+ * from all elements that have the given input class.
+ */
+function unhideField(inputclass) {
+  $(inputclass).removeClass('invisible');
+}
+
+
+/**
+ * Takes in a field id as an argument and removes the invisble class from all
+ * elements that have the given input class.
+ */
+function hideField(inputid) {
+  $(inputid).addClass('invisible');
+}
+
+
+/**
+ * Returns the game time in 100th of seconds.
+ */
+function getPrettyTime() {
+  var totalTime = this.game.time.totalElapsedSeconds();
+  var workingTime = totalTime * 10;
+  var stillWorkingTime = Math.floor(workingTime);
+  var prettyTime = stillWorkingTime / 10;
+  return prettyTime;
+}
+
+
+/**
+* When a player runs out of resolve and takes a hit from a bubble, they lose
+* the game, which pulls up the game over form/field.
+*/
+function gameOver() {
+  time = getPrettyTime();
+  player.kill();
+  bubbles.callAll('kill');
+  $('#player_score').text(score);
+  $('#player_time').text(time);
+  hideField('#logo');
+  hideField('#map');
+  hideField('#game');
+  unhideField('.game_over');
+}
+
+/**
+ * Returns a promise containing the JSON object for submitting PlayerStats.
+ */
+function submitPlayerStats(name) {
+  var sourceForm = $('#game-over');
+  var actionURL = sourceForm.attr('action');
+  var submitMethod = sourceForm.attr('method');
+  var jsonData = {
+    'name': name,
+    'score': score,
+    'time': time,
+  };
+  console.dir(jsonData);
+  console.dir($('body').data('url'));
+  return Promise.resolve($.ajax({
+    dataType: 'json',
+    url: actionURL,
+    method: submitMethod,
+    data: jsonData
+  }));
+}
+
+$('#game-over').submit(function(event) {
+  var playerName = $('#player-name').val();
+  var highScorePage = $('body').data('url');
+  console.dir()
+  submitPlayerStats(playerName);
+  event.preventDefault();
+  window.location = highScorePage;
+}
+);
 
 /**
  * A Phaser specific function that contains all of the information that the
@@ -182,82 +260,6 @@ function create() {
  * function runs on every frame that the game displays (roughly 60/second).
  */
 function update() {
-
-
-  /**
-   * Takes in an html field class as an argument and removes the invisble class
-   * from all elements that have the given input class.
-   */
-  function unhideField(inputclass) {
-    $(inputclass).removeClass('invisible');
-  }
-
-
-  /**
-   * Takes in a field id as an argument and removes the invisble class from all
-   * elements that have the given input class.
-   */
-  function hideField(inputid) {
-    $(inputid).addClass('invisible');
-  }
-
-
-  /**
-   * Returns the game time in 100th of seconds.
-   */
-  function getPrettyTime() {
-    var time = this.game.time.totalElapsedSeconds();
-    var workingTime = time * 10;
-    var stillWorkingTime = Math.floor(workingTime);
-    var prettyTime = stillWorkingTime / 10;
-    return prettyTime;
-  }
-
-
- /**
-  * When a player runs out of resolve and takes a hit from a bubble, they lose
-  * the game, which pulls up the game over form/field.
-  */
-  function gameOver() {
-    var time = getPrettyTime();
-    player.kill();
-    bubbles.callAll('kill');
-    $('#player_score').text(score);
-    $('#player_time').text(time);
-    hideField('#logo');
-    hideField('#map');
-    hideField('#game');
-    unhideField('.game_over');
-  }
-
-  /**
-   * Returns a promise containing the JSON object for submitting PlayerStats.
-   */
-  function submitPlayerStats() {
-    var time = getPrettyTime();
-    var jsonEndpointURL = $('body').data('url');
-    return Promise.resolve($.ajax({
-      dataType: 'json',
-      url: jsonEndpointURL,
-      method: 'post',
-      data: {
-        'name': $('#player_name'),
-        'score': score,
-        'time': time,
-      }
-    }));
-  }
-
-  /**
-   * When the game over form is filled out, the player's score is submitted.
-   */
-  $('#game_over').on('submit', function() {
-    event.preventDefault();
-    submitPlayerStats();
-  }
-);
-
-
 
 /**
   * This function takes in a player sprite and ball sprite that have overlapped
