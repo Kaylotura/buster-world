@@ -7,20 +7,6 @@
  * so it has been omitted.
  */
 
- //Silences Linter on Library Variables
-'use strict';
-if (!window) {
-  var Phaser;
-  var preload;
-  var create;
-  var update;
-  var render;
-  var arrowIcon;
-  var wideChainIcon;
-  var bubbleIcon;
-  var shieldIcon;
-}
-
 /**
  * A function that tests for geolocation permission. If it cannot use the
  * browser's geolocation, it raises an alert. Otherwise it finds the user's
