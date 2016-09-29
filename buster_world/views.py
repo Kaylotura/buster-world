@@ -1,4 +1,4 @@
-"""Buster-world Views
+"""buster_world Views
 This module contains the functions required to render Buster World's HTML as well as a function that takes in JSON
 input and passes it to logic to create a new PlayerStats django model.
 """
@@ -9,7 +9,7 @@ from . import settings
 
 def render_start(request):
     """Renders the Start Page."""
-    return render(request, 'buster-world/start_page.html')
+    return render(request, 'buster_world/start_page.html')
 
 
 def render_game(request):
@@ -17,7 +17,7 @@ def render_game(request):
     template_arguments = {
         'KEY': settings.GOOGLE_MAPS_KEY
     }
-    return render(request, 'buster-world/game_page.html', template_arguments)
+    return render(request, 'buster_world/game_page.html', template_arguments)
 
 
 def separate_by_top_ten(any_list):
@@ -40,7 +40,7 @@ def render_high_scores(request):
      """
     player_stats = logic.get_player_stats_by_score()
     template_arguments = separate_by_top_ten(player_stats)
-    return render(request, 'buster-world/high_score_page.html', template_arguments)
+    return render(request, 'buster_world/high_score_page.html', template_arguments)
 
 
 def return_score_submit(request):
