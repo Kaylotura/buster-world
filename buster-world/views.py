@@ -10,7 +10,7 @@ from . import key
 
 def render_start(request):
     """Renders the Start Page."""
-    return render(request, 'buster_world/start_page.html')
+    return render(request, 'buster-world/start_page.html')
 
 
 def render_game(request):
@@ -18,7 +18,7 @@ def render_game(request):
     template_arguments = {
         'KEY': key.KEY
     }
-    return render(request, 'buster_world/game_page.html', template_arguments)
+    return render(request, 'buster-world/game_page.html', template_arguments)
 
 
 def separate_by_top_ten(any_list):
@@ -41,7 +41,7 @@ def render_high_scores(request):
      """
     player_stats = logic.get_player_stats_by_score()
     template_arguments = separate_by_top_ten(player_stats)
-    return render(request, 'buster_world/high_score_page.html', template_arguments)
+    return render(request, 'buster-world/high_score_page.html', template_arguments)
 
 
 def return_score_submit(request):

@@ -2,16 +2,16 @@
 <html lang="en">
 {% load staticfiles %}
   <head>
-    <link rel="stylesheet" href="{% static 'buster_world/style.css' %}">
+    <link rel="stylesheet" href="{% static 'buster-world/style.css' %}">
     <meta charset="UTF-8">
     <title>Start Buster!</title>
   </head>
   <body>
     <h2>
-      <img src="{% static 'buster_world/images/logo.png' %}">
+      <img src="{% static 'buster-world/images/logo.png' %}">
     </h2>
     <nav>
-      <a href="{% url 'high_scores' %}"> <img src="{% static 'buster_world/images/high_score.png' %}"> </a>
+      <a href="{% url 'high_scores' %}"> <img src="{% static 'buster-world/images/high_score.png' %}"> </a>
     </nav>
     <div class="text-box">
       <h3>How to Play!</h3>
@@ -24,7 +24,7 @@
       </ul>
     </div>
     <a href="{% url 'game'%}">
-     <img src="{% static 'buster_world/images/play.png' %}">
+     <img src="{% static 'buster-world/images/play.png' %}">
     </a>
   </body>
 </html>
