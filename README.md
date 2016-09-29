@@ -5,12 +5,12 @@ For more information, see the [proposal](/proposal.md).
 
 ##Setup
 * Get a Google-Map API [Key](https://developers.google.com/maps/documentation/javascript/get-api-key)
-* Navigate to your Buster World directory and create a file named  `buster-world/buster-world/key.py`
-* Open `buster-world/buster-world/key.py` and include the following code:
+* Navigate to your Buster World directory and create a file named  `buster_world/buster_world/key.py`
+* Open `buster_world/buster_world/key.py` and include the following code:
 
 `KEY = "YOUR_API_KEY"`
 
-*  In the terminal navigate to the Buster-World Directory and issue the following command lines:
+*  In the terminal navigate to the buster_world Directory and issue the following command lines:
 
 `source venv/bin/activate`
 

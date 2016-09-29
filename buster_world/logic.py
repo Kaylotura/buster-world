@@ -1,5 +1,5 @@
-"""Buster-world Logic
-This module runs two major logical functions for the Buster-World Database, one which creates and saves a new Player
+"""buster_world Logic
+This module runs two major logical functions for the buster_world Database, one which creates and saves a new Player
 Stats Class Object, and another that lists them by high score.
 """
 
