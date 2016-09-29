@@ -5,8 +5,7 @@ input and passes it to logic to create a new PlayerStats django model.
 
 from django.shortcuts import render
 from . import logic
-from . import key
-
+from . import settings
 
 def render_start(request):
     """Renders the Start Page."""
@@ -16,7 +15,7 @@ def render_start(request):
 def render_game(request):
     """Renders the Game Page. This function grabs the google API key from the python module named key.py"""
     template_arguments = {
-        'KEY': key.KEY
+        'KEY': settings.GOOGLE_MAPS_KEY
     }
     return render(request, 'buster-world/game_page.html', template_arguments)
 
