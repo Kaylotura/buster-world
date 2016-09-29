@@ -1,4 +1,4 @@
-"""buster_world Models
+"""busterworld  Models
 This module contains the PlayerStats Class Object, which is a Django model for storing a player's name, score, and time.
 """
 
