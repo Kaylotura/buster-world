@@ -1,1 +1,1 @@
-web: gunicorn busterworld .wsgi --log-file -
+web: gunicorn busterworld.wsgi --log-file -

@@ -1,4 +1,4 @@
-"""busterworld  Views
+"""Buster World  Views
 This module contains the functions required to render Buster World's HTML as well as a function that takes in JSON
 input and passes it to logic to create a new PlayerStats django model.
 """

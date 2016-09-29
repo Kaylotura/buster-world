@@ -1,5 +1,5 @@
 """
-WSGI config for busterworld  project.
+WSGI config for Buster World  project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 
