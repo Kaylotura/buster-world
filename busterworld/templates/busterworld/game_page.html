@@ -2,7 +2,7 @@
 {% load staticfiles %}
 <html lang="en">
   <head>
-    <link rel="stylesheet" href="{% static 'busterworld /style.css' %}">
+    <link rel="stylesheet" href="{% static 'busterworld/style.css' %}">
     <meta charset="UTF-8">
     <meta name="viewport" content="initial-scale=1.0">
     <title>Play Buster World</title>
@@ -10,23 +10,23 @@
   <body data-url="{% url 'high_scores' %}">
     <h2 id="logo">
       <a href="{% url 'start' %}">
-        <img src="{% static 'busterworld /images/logo.png' %}">
+        <img src="{% static 'busterworld/images/logo.png' %}">
       </a>
     </h2>
     <h2 class="game-over invisible">
       <a href="{% url 'start' %}">
-        <img src="{% static 'busterworld /images/game_over.png' %}">
+        <img src="{% static 'busterworld/images/game_over.png' %}">
       </a>
     </h2>
     <nav>
-      <a href="{% url 'high_scores' %}"> <img src="{% static 'busterworld /images/high_score.png' %}"> </a>
+      <a href="{% url 'high_scores' %}"> <img src="{% static 'busterworld/images/high_score.png' %}"> </a>
     </nav>
     <div class="text-box game-over invisible" >
       <form id="game-over" action="{% url 'score_submit'%}" method="post">
       {% csrf_token %}
-        <img src="{% static 'busterworld /images/score.png' %}"><p id="player_score"></p>
-        <img src="{% static 'busterworld /images/time.png' %}"><p id="player_time"></p>
-        <img src="{% static 'busterworld /images/name.png' %}"><input type="text" id="player-name" name="player-name" maxlength="14"> <br>
+        <img src="{% static 'busterworld/images/score.png' %}"><p id="player_score"></p>
+        <img src="{% static 'busterworld/images/time.png' %}"><p id="player_time"></p>
+        <img src="{% static 'busterworld/images/name.png' %}"><input type="text" id="player-name" name="player-name" maxlength="14"> <br>
         <input type="submit">
       </form>
     </div>
@@ -37,22 +37,22 @@
   </body>
   <!--Loads Jquery and Style.CSS-->
   <script src="https://code.jquery.com/jquery-2.2.3.js"></script>
-  <link rel="stylesheet" href="{% static 'busterworld /style.css' %}">
+  <link rel="stylesheet" href="{% static 'busterworld/style.css' %}">
   <!---->
   <!--Loads Google API and Map.js-->
   <script src="https://maps.googleapis.com/maps/api/js?key={{KEY}}"></script>
-  <script src="{% static 'busterworld /map.js' %}"></script>
+  <script src="{% static 'busterworld/map.js' %}"></script>
   <!---->
   <!--Loads Phaser and Game.JS-->
   <script src="//cdn.jsdelivr.net/phaser/2.5.0/phaser.min.js"></script>
-  <script src="{% static 'busterworld /ajax_csrf_setup.js' %}"></script>
-  <script src="{% static 'busterworld /game.js' %}"></script>
+  <script src="{% static 'busterworld/ajax_csrf_setup.js' %}"></script>
+  <script src="{% static 'busterworld/game.js' %}"></script>
   <!---->
   <!--Loads Icons For Game-->
   <script>
-    var chainIcon = "{% static 'busterworld /sprites/wide_chain.png' %}"
-    var arrowIcon = "{% static 'busterworld /sprites/arrow.png' %}"
-    var shieldIcon = "{% static 'busterworld /sprites/shield.png' %}"
-    var bubbleIcon = "{% static 'busterworld /sprites/bubble.png' %}"
+    var chainIcon = "{% static 'busterworld/sprites/wide_chain.png' %}"
+    var arrowIcon = "{% static 'busterworld/sprites/arrow.png' %}"
+    var shieldIcon = "{% static 'busterworld/sprites/shield.png' %}"
+    var bubbleIcon = "{% static 'busterworld/sprites/bubble.png' %}"
   </script>
 </html>
