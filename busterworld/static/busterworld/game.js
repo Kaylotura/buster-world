@@ -120,7 +120,7 @@ function gameOver() {
   hideField('#logo');
   hideField('#map');
   hideField('#game');
-  unhideField('.game_over');
+  unhideField('.game-over');
 }
 
 /**
