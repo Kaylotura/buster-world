@@ -39,7 +39,6 @@ There are a few small bugs in the game proper, that need to be worked out.
 
 ####Bugs
 * Chain fired is unconnected to player icon.
-* Chain does not die on impact with bubble, preventing bubble spawning.
 * Geo-locational Movement only works over HTTPS, and needs a secure link.
 
 ###High Score Page
