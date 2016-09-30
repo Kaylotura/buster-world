@@ -60,6 +60,7 @@ var combo;
 // var debugData;
 // var debugText;
 // var debugString;
+var gameOverState = false
 var score = 0;
 var gameTimer = 1;
 var comboTracker = {size: 0, combo: 0};
@@ -338,11 +339,6 @@ function update() {
   // Counts the fames that have passed
   gameTimer += 1;
 
-  //Debug Game Over Quit Button
-  if (quitButton.isDown) {
-    gameOver();
-  }
-
   //Defines the game physics of bubbles and their bouncing
   bubbles.setAll('body.collideWorldBounds', true);
   bubbles.setAll('body.bounce.x', 1);
@@ -355,7 +351,8 @@ function update() {
     chainPopsBubble, null, this);
 
   // When the player loses all of their resolve,  Game Over
-  if (resolve.countLiving() < 1) {
+  if (resolve.countLiving() < 1 && gameOverState === false) {
+    gameOverState = true;
     gameOver();
   }
 }
