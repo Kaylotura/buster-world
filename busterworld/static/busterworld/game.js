@@ -25,6 +25,7 @@ function runGeolocationFunction(secondFunction) {
 var game = new Phaser.Game(320, 480, Phaser.AUTO, 'game',
 {preload: preload, create: create, update: update, render: render}, true);
 
+
 /**
  * A Phaser.js specific function that contains all of the information that the
  * game will need to parse before it renders.
@@ -60,6 +61,7 @@ var combo;
 // var debugData;
 // var debugText;
 // var debugString;
+var MAP_ZOOM = 32;
 var gameOverState = false
 var score = 0;
 var gameTimer = 1;
@@ -262,9 +264,9 @@ function update() {
   * sprite moves towards it at 400 pixels/second.
   */
   function movePlayer(position) {
-    var intX =  18 * (800 / 360 * (180 + position.coords.longitude)) -
+    var intX =  MAP_ZOOM * (800 / 360 * (180 + position.coords.longitude)) -
       18 * (800 / 360 * (180 + startingPoint.x)) + game.width / 2;
-    var intY = 18 * (600 / 180 * (90 - position.coords.latitude)) -
+    var intY = MAP_ZOOM * (600 / 180 * (90 - position.coords.latitude)) -
       18 * (600 / 180 * (90 - startingPoint.y)) + game.height / 2;
     game.physics.arcade.moveToXY(player, intX, intY, 400);
 
