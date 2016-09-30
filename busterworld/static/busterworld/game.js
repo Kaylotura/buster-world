@@ -277,6 +277,7 @@ function update() {
  * popped.
  */
   function chainPopsBubble(ball, chain) {
+    chain.kill();
     if (ball.scale.x > .25) {
       smallBall1 = bubbles.create(ball.world.x, ball.world.y, 'bubble');
       smallBall1.scale.setTo(ball.scale.x / 2, ball.scale.y / 2);
