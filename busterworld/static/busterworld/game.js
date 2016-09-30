@@ -61,7 +61,7 @@ var combo;
 // var debugData;
 // var debugText;
 // var debugString;
-var MAP_ZOOM = 32;
+var MAP_ZOOM = 18;
 var gameOverState = false
 var score = 0;
 var gameTimer = 1;
