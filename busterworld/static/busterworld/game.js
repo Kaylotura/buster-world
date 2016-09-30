@@ -213,9 +213,12 @@ function create() {
  * The ball is also given a random Tint Color.
  */
   function createBall() {
+    var ballDistance = game.rnd.integerInRange(50, 400);
+    var ballDistanceFlipper = game.rnd.pick(1, -1);
+    var ballDirectionDistance = ballDistance * ballDistanceFlipper;
     ball = bubbles.create(
-      player.x + game.rnd.integerInRange(50, 400),
-      player.y + game.rnd.integerInRange(50, 400),
+      player.x + ballDirectionDistance,
+      player.y + ballDirectionDistance,
       'bubble'
     );
     ball.body.velocity.set(game.rnd.integerInRange(-60, 60),
