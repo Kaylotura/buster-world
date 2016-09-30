@@ -34,6 +34,7 @@ function preload() {
   game.load.image('chain', chainIcon);
   game.load.image('bubble', bubbleIcon);
   game.load.image('shield', shieldIcon);
+  game.load.audio('tunes', music);
 }
 
 // The list of variables that the game will use
@@ -51,6 +52,7 @@ var resolveString;
 var startingPoint;
 var time;
 var quitButton;
+var music;
 var x;
 var y;
 var size;
@@ -195,6 +197,11 @@ function create() {
   // debugText = game.add.text(10, 100, debugString + debugData,
   //   {font: '10px Ariel', fill: '#CC3300'});
 
+  //Creates the Music!
+  music = game.add.audio('tunes');
+  music.loop = true;
+  music.play();
+
 /**
  * This function creates a single instance of a "ball," and individual object
  * in the Bubbles group. Each ball created is made within 50 and 400 pixils of
@@ -236,6 +243,9 @@ function update() {
   */
   function bubbleHurtsPlayer(player, ball) {
     ball.kill();
+    if (hookShot.bullet) {
+      hookShot.bullet.kill();
+    }
     var firstShield = resolve.getFirstAlive();
     if (firstShield) {
       firstShield.kill();
